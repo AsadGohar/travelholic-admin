@@ -1,10 +1,10 @@
 import React from 'react';
-import Dashboard from "./components/dashboard/Dashboard";
+import AdminPanel from "./components/admin-panel/AdminPanel";
 
 function App() {
   return (
     <div>
-      <Dashboard />
+      <AdminPanel />
     </div>
   );
 }
