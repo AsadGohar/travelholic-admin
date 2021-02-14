@@ -20,7 +20,7 @@ const AdminPanel = () => {
                     <div className="col-md-3">
                         <Sidemenu />
                     </div>
-                    <div className="col-md-9">
+                    <div className="col-md-9 pr-5">
                         <Switch>
                             <Route exact path="/" component={Dashboard} />
                         </Switch>
