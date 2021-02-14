@@ -58,7 +58,7 @@ const Sidemenu = () => {
 
                         {/* FORUM MENU */}
                         <li data-toggle="collapse" data-target="#forum" class="collapsed">
-                            <a href="#"><i class="fas fa-bed fa-lg"></i> Forum <span class="arrow"></span></a>
+                            <a href="#"><i class="fa fa-question-circle fa-lg"></i> Forum <span class="arrow"></span></a>
                         </li>
                         <ul class="sub-menu collapse" id="forum">
                             <li><a href="#">View all questions</a></li>
