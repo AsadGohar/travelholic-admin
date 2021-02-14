@@ -13,9 +13,9 @@ const Sidemenu = () => {
 
                     <ul id="menu-content" class="menu-content collapse out">
                         <li>
-                            <NavLink to="/">
+                            <a to="/">
                                 <i class="fa fa-dashboard fa-lg"></i> Dashboard
-                            </NavLink>
+                            </a>
                         </li>
 
                         {/* DESTINATION MENU */}
