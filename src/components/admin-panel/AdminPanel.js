@@ -6,6 +6,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 //IMPORTING ADMIN COMPONENTS HERE
 import Dashboard from "../dashboard/Dashboard";
 import ViewDestinations from "../destinations/ViewDestinations";
+import ViewTransports from "../transports/ViewTransports";
 
 
 const AdminPanel = () => {
@@ -25,6 +26,7 @@ const AdminPanel = () => {
                         <Switch>
                             <Route exact path="/" component={Dashboard} />
                             <Route path="/all-destinations" component={ViewDestinations} />
+                            <Route path="/view-transports" component={ViewTransports} />
                         </Switch>
                     </div>
                 </div>
