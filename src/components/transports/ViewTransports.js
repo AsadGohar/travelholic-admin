@@ -4,8 +4,7 @@ import TransportTable from "./TransportTable";
 import Table from 'react-bootstrap/Table';
 
 
-
-const ViewTransports = (props) => {
+const ViewTransports = () => {
     const [transports, setTransports] = useState([]);
 
     useEffect(() => {
@@ -17,11 +16,11 @@ const ViewTransports = (props) => {
             .catch((error) => {
                 console.log(error);
             })
-    }, []);
+    }, [])
 
     const DataTable = () => {
         return transports.map((res, i) => {
-            return <TransportTable obj={res} key={i} />;
+            return <TransportTable data={res} key={i} />;
         });
     }
 
@@ -32,7 +31,7 @@ const ViewTransports = (props) => {
             <div className="row transports-table">
                 <h5>Transport services:</h5>
 
-                <Table striped bordered hover>
+                <Table stransported bordered hover>
                     <thead className="thead-dark">
                         <tr>
                             <th>Id</th>
@@ -40,15 +39,13 @@ const ViewTransports = (props) => {
                             <th>Fare</th>
                             <th>Created At</th>
                             <th>Updated At</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {DataTable}
+                        {DataTable()}
                     </tbody>
                 </Table>
-
-                {/* <TransportTable /> */}
-
             </div>
         </div>
     );
