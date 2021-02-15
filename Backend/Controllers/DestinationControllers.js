@@ -50,7 +50,7 @@ const getDestinations = async (req, res, next) => {
         );
         return next(error);
     }
-    res.json({destinations: destinations.map(destination => destination.toObject({ getters: true }))});
+    res.send(destinations);
 }
 
 // GET DESTINATION BY ID
