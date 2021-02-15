@@ -5,6 +5,7 @@ const AnswerControllers = require('../Controllers/AnswerControllers')
 
 router.post('/', AnswerControllers.createAnswer)
 router.get('/', AnswerControllers.getAnswers)
+router.get('/admin', AnswerControllers.getAnswersAdmin)
 router.get('/reported', AnswerControllers.getAllReportedAnswers)
 router.delete('/:id',AnswerControllers.deleteAnswerbyId )
 router.put('/:id', AnswerControllers.updateAnswerbyId)

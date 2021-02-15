@@ -3,8 +3,8 @@ import React from 'react'
 function RouteTable() {
   return (
     <div>
-       <table class="table">
-        <thead class="table-dark">
+       <table className="table">
+        <thead className="table-dark">
           <tr>
             <th scope="col">Destination To : </th>
             <th scope="col">Destination From : </th>

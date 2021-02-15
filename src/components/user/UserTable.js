@@ -3,8 +3,8 @@ import React from 'react'
 function UserTable() {
   return (
     <div>
-      <table class="table">
-        <thead class="table-dark">
+      <table className="table">
+        <thead className="table-dark">
           <tr>
             <th scope="col">Username</th>
             <th scope="col">Reported</th>
