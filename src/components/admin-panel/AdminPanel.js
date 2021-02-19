@@ -9,6 +9,7 @@ import ViewDestinations from "../destinations/ViewDestinations";
 import ViewTransports from "../transports/ViewTransports";
 import ViewBookings from "../bookings/ViewBookings";
 import ViewTripReviews from "../reviews/ViewTripReviews";
+import ViewHotels from "../hotels/ViewHotels";
 
 const AdminPanel = () => {
     return (
@@ -30,6 +31,7 @@ const AdminPanel = () => {
                             <Route path="/view-transports" component={ViewTransports} />
                             <Route path="/trip-bookings" component={ViewBookings} />
                             <Route path="/trip-reviews" component={ViewTripReviews} />
+                            <Route path="/view-hotels" component={ViewHotels} />
                         </Switch>
                     </div>
                 </div>
