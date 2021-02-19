@@ -31,7 +31,7 @@ const ViewDestinations = () => {
             <div className="row destinations-table">
                 <h5>Destinations:</h5>
 
-                <Table stransported bordered hover>
+                <Table striped bordered hover>
                     <thead className="thead-dark">
                         <tr>
                             <th>Id</th>

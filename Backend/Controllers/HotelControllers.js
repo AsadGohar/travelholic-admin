@@ -1,4 +1,4 @@
-const Hotel = require('../Hotel/Booking');
+const Hotel = require('../Models/Hotel');
 const HttpError = require('../Models/HttpError');
 
 

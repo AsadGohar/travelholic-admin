@@ -7,7 +7,8 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Dashboard from "../dashboard/Dashboard";
 import ViewDestinations from "../destinations/ViewDestinations";
 import ViewTransports from "../transports/ViewTransports";
-
+import ViewBookings from "../bookings/ViewBookings";
+import ViewTripReviews from "../reviews/ViewTripReviews";
 
 const AdminPanel = () => {
     return (
@@ -27,6 +28,8 @@ const AdminPanel = () => {
                             <Route exact path="/" component={Dashboard} />
                             <Route path="/all-destinations" component={ViewDestinations} />
                             <Route path="/view-transports" component={ViewTransports} />
+                            <Route path="/trip-bookings" component={ViewBookings} />
+                            <Route path="/trip-reviews" component={ViewTripReviews} />
                         </Switch>
                     </div>
                 </div>

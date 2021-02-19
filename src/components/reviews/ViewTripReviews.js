@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import axios from '../axios';
-import TransportTable from "./TransportTable";
+import ReviewTable from "./ReviewTable";
 import Table from 'react-bootstrap/Table';
 
 
-const ViewTransports = () => {
-    const [transports, setTransports] = useState([]);
+const ViewTripReviews = () => {
+    const [reviews, setReviews] = useState([]);
 
     useEffect(() => {
-        axios.get('/transports')
+        axios.get('/reviews')
             .then(res => {
                 console.log(res.data);
-                setTransports(res.data);
+                setReviews(res.data);
             })
             .catch((error) => {
                 console.log(error);
@@ -19,26 +19,25 @@ const ViewTransports = () => {
     }, [])
 
     const DataTable = () => {
-        return transports.map((res, i) => {
-            return <TransportTable data={res} key={i} />;
+        return reviews.map((res, i) => {
+            return <ReviewTable data={res} key={i} />;
         });
     }
 
 
 
     return (
-        <div className="container view-transports-wrap">
-            <div className="row transports-table">
-                <h5>Transport services:</h5>
+        <div className="container view-reviews-wrap">
+            <div className="row reviews-table">
+                <h5>Trip reviews:</h5>
 
                 <Table striped bordered hover>
                     <thead className="thead-dark">
                         <tr>
                             <th>Id</th>
-                            <th>Name</th>
-                            <th>Fare</th>
-                            <th>Created At</th>
-                            <th>Updated At</th>
+                            <th>Review Text</th>
+                            <th>Reported</th>
+                            <th>createdAt</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -51,4 +50,4 @@ const ViewTransports = () => {
     );
 }
 
-export default ViewTransports;
+export default ViewTripReviews;

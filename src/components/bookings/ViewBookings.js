@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import axios from '../axios';
-import TransportTable from "./TransportTable";
+import BookingTable from "./BookingTable";
 import Table from 'react-bootstrap/Table';
 
 
-const ViewTransports = () => {
-    const [transports, setTransports] = useState([]);
+const ViewBookings = () => {
+    const [bookings, setBookings] = useState([]);
 
     useEffect(() => {
-        axios.get('/transports')
+        axios.get('/bookings')
             .then(res => {
                 console.log(res.data);
-                setTransports(res.data);
+                setBookings(res.data);
             })
             .catch((error) => {
                 console.log(error);
@@ -19,26 +19,27 @@ const ViewTransports = () => {
     }, [])
 
     const DataTable = () => {
-        return transports.map((res, i) => {
-            return <TransportTable data={res} key={i} />;
+        return bookings.map((res, i) => {
+            return <BookingTable data={res} key={i} />;
         });
     }
 
 
 
     return (
-        <div className="container view-transports-wrap">
-            <div className="row transports-table">
-                <h5>Transport services:</h5>
+        <div className="container view-bookings-wrap">
+            <div className="row bookings-table">
+                <h5>Trip Bookings:</h5>
 
                 <Table striped bordered hover>
                     <thead className="thead-dark">
                         <tr>
                             <th>Id</th>
                             <th>Name</th>
-                            <th>Fare</th>
-                            <th>Created At</th>
-                            <th>Updated At</th>
+                            <th>City</th>
+                            <th>Address</th>
+                            <th>Seats</th>
+                            <th>createdAt</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -51,4 +52,4 @@ const ViewTransports = () => {
     );
 }
 
-export default ViewTransports;
+export default ViewBookings;

@@ -43,7 +43,7 @@ const getReviews = async (req, res, next) => {
         );
         return next(error);
     }
-    res.json({ reviews: reviews.map(review => review.toObject({ getters: true })) });
+    res.send(reviews);
 }
 
 // GET REVIEW BY ID
