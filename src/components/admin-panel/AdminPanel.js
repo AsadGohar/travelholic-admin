@@ -7,6 +7,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Dashboard from "../dashboard/Dashboard";
 import ViewDestinations from "../destinations/ViewDestinations";
 import ViewTransports from "../transports/ViewTransports";
+import AddTransport from "../transports/AddTransport";
 import ViewBookings from "../bookings/ViewBookings";
 import ViewTripReviews from "../reviews/ViewTripReviews";
 import ViewHotels from "../hotels/ViewHotels";
@@ -24,11 +25,12 @@ const AdminPanel = () => {
                     <div className="col-md-3">
                         <Sidemenu />
                     </div>
-                    <div className="col-md-9 pr-5">
+                    <div className="col-md-9 pr-5 pt-3">
                         <Switch>
                             <Route exact path="/" component={Dashboard} />
                             <Route path="/all-destinations" component={ViewDestinations} />
                             <Route path="/view-transports" component={ViewTransports} />
+                            <Route path="/add-new-transport" component={AddTransport} />
                             <Route path="/trip-bookings" component={ViewBookings} />
                             <Route path="/trip-reviews" component={ViewTripReviews} />
                             <Route path="/view-hotels" component={ViewHotels} />

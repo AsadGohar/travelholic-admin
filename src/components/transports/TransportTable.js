@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import axios from "../axios";
 import Button from 'react-bootstrap/Button';
 
 const TransportTable = (props) => {
     const { _id, name, fare, createdAt, updatedAt } = props.data
 
     const deleteTransport = () => {
-        axios.delete('http://localhost:4000/api/transports/' + props.data._id)
+        axios.delete('/transports/' + props.data._id)
             .then((res) => {
                 console.log('Transport successfully deleted!')
             }).catch((error) => {

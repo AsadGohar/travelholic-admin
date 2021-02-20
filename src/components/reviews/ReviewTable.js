@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import axios from "../axios";
 import Button from 'react-bootstrap/Button';
 
 const ReviewTable = (props) => {
     const { _id, text, reported, createdAt } = props.data
 
     const deleteReview = () => {
-        axios.delete('http://localhost:4000/api/reviews/' + props.data._id)
+        axios.delete('/reviews/' + props.data._id)
             .then((res) => {
                 console.log('Review successfully deleted!')
             }).catch((error) => {

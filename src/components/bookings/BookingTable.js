@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import axios from "../axios";
 import Button from 'react-bootstrap/Button';
 
 const BookingTable = (props) => {
     const { _id, name, city, address, seats, createdAt } = props.data
 
     const deleteBooking = () => {
-        axios.delete('http://localhost:4000/api/bookings/' + props.data._id)
+        axios.delete('/bookings/' + props.data._id)
             .then((res) => {
                 console.log('Booking successfully deleted!')
             }).catch((error) => {
