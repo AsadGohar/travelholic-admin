@@ -1,4 +1,5 @@
 import React from 'react'
+import "./AdminPanel.css"
 import Navbar from "../navbar/Navbar";
 import Sidemenu from "../sidemenu/Sidemenu";
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
@@ -15,7 +16,7 @@ import ViewHotels from "../hotels/ViewHotels";
 const AdminPanel = () => {
     return (
         <BrowserRouter>
-            <div className="AdminPanel-wrap">
+            <div className=" AdminPanel-wrap">
                 <div className="row">
                     <div className="col-md-12">
                         <Navbar />

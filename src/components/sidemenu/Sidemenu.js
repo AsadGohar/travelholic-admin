@@ -4,7 +4,7 @@ import "./Sidemenu.css";
 
 const Sidemenu = () => {
     return (
-        <div className="sidemenu-wrap">
+        <div className="sidemenu-wrap fixed-top">
             <div className="nav-side-menu">
                 <div className="brand">Admin Menu</div>
                 <i className="fa fa-bars fa-2x toggle-btn" id="toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>
