@@ -8,6 +8,9 @@ import Dashboard from "../dashboard/Dashboard";
 import AnswerTable from "../answer/AnswerTable";
 import QuestionTable from "../question/QuestionTable";
 import TripTable from "../trip/TripTable";
+import RouteTable from "../route/RouteTable";
+import AddRouteForm from "../route/AddRouteForm";
+import AddTripForm from "../trip/AddTripForm";
 
 
 const AdminPanel = () => {
@@ -29,6 +32,9 @@ const AdminPanel = () => {
 										<Route exact path="/view-answers" component={AnswerTable} />
 										<Route exact path="/view-questions" component={QuestionTable} />
 										<Route exact path="/view-trips" component={TripTable} />
+										<Route exact path="/view-routes" component={RouteTable} />
+										<Route exact path="/add-new-route" component={AddRouteForm} />
+										<Route exact path="/add-new-trip" component={AddTripForm} />
 								</Switch>
 						</div>
 				</div>

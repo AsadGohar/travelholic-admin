@@ -16,7 +16,7 @@ function QuestionTable() {
   React.useEffect(getQuestions,[])
   return (
     <div className="container mt-4" >
-       <table className="table  table-bordered">
+       <table className="table table-bordered">
         <thead className="table-dark">
           <tr>
             <th className="text-center" scope="col">Username</th>
@@ -27,10 +27,10 @@ function QuestionTable() {
         </thead>
         <tbody>
         {questions.map(question => { // using props in child component and looping
-              return (
-                  <QuestionRow data={question} key={question.id} onDelete = {getQuestions}/>
-              )
-          })}
+          return (
+            <QuestionRow data={question} key={question.id} onDelete = {getQuestions}/>
+          )
+        })}
         </tbody>
       </table>
     </div>
