@@ -27,11 +27,11 @@ app.use('/api/destinations', DestinationRoutes);
 app.use('/api/bookings', BookingRoutes);
 app.use('/api/transports', TransportRoutes);
 app.use('/api/reviews', ReviewRoutes);
-app.use('/api/answer', AnswerRoutes)
-app.use('/api/user', UserRoutes)
-app.use('/api/question', QuestionRoutes)
-app.use('/api/trip', TripRoutes)
-app.use('/api/route', RouteRoutes)
+app.use('/api/answers', AnswerRoutes)
+app.use('/api/users', UserRoutes)
+app.use('/api/questions', QuestionRoutes)
+app.use('/api/trips', TripRoutes)
+app.use('/api/routes', RouteRoutes)
 
 //Error handling on server side
 app.use((req, res, next) => {
