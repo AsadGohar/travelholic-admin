@@ -12,7 +12,7 @@ const createDestination = async (req, res, next) => {
         );
     }
 
-    const { title, title_image, rating, introduction, guidelines, history, is_trip_planner } = req.body;
+    const { title, title_image, rating, introduction, guidelines, history} = req.body;
 
     const createdDestination = new Destination({
         title,
@@ -20,8 +20,7 @@ const createDestination = async (req, res, next) => {
         rating,
         introduction,
         guidelines,
-        history,
-        is_trip_planner
+        history
     });
 
     try {
@@ -87,7 +86,7 @@ const updateDestination = async (req, res, next) => {
         );
     }
     
-    const { title, title_image, rating, introduction, guidelines, history, is_trip_planner } = req.body;
+    const { title, title_image, rating, introduction, guidelines, history } = req.body;
     const destId = req.params.id;
 
     let destination;
@@ -107,8 +106,6 @@ const updateDestination = async (req, res, next) => {
     destination.introduction = introduction;
     destination.guidelines = guidelines;
     destination.history = history;
-    destination.is_trip_planner = is_trip_planner;
-
     try{
         await destination.save();
     }catch (err){

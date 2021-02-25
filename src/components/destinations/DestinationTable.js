@@ -21,9 +21,9 @@ const DestinationTable = (props) => {
             <td>{title}</td>
             <td>{title_image}</td>
             <td>{rating}</td>
-            <td>{introduction}</td>
-            <td>{guidelines}</td>
-            <td>{history}</td>
+            <td style={{columnWidth: 300, wordWrap: 'break-word'}}>{introduction}</td>
+            <td style={{columnWidth: 300, wordWrap: 'break-word'}}>{guidelines}</td>
+            <td style={{columnWidth: 300, wordWrap: 'break-word'}}>{history}</td>
             <td>{is_trip_planner}</td>
             <td>{createdAt}</td>
             <td>{updatedAt}</td>
