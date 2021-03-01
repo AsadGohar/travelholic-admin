@@ -12,13 +12,14 @@ const createDestination = async (req, res, next) => {
         );
     }
 
-    const { title, title_image, rating, introduction, guidelines, history} = req.body;
+    const { title, title_image, introduction, attraction_photos, photos, guidelines, history} = req.body;
 
     const createdDestination = new Destination({
         title,
         title_image,
-        rating,
         introduction,
+        attraction_photos,
+        photos,
         guidelines,
         history
     });
