@@ -5,6 +5,7 @@ import Itinerary from './Itinerary'
 
 function AddTripForm() {
   const [itineraryDays,setItineraryDays] = useState(0)
+  const [itinerary,setItinerary] = useState([])
   const [data,setData] = useState({
     title:'',
     price:'',
@@ -14,9 +15,44 @@ function AddTripForm() {
     excludes:'',
     service_provided:'',
     start_date:'',
-    end_date:'',
-    itinerary:[]
+    end_date:''
   })
+  const list = []
+  const itineraryData = []
+
+  const pushToItineraryDataArray = (x,y)=>{
+    var json = {day:x,description:y}
+    itineraryData.push(json)
+  }
+  const formRender = (days) => {
+    for (let index = 1; index <= days; index++) {
+      list.push(  
+      <div key={index} className="form-group">
+        <label>Day : {index}</label>
+        <input type="text" className="input-x form-control"/>
+      </div>
+    )
+    }
+  }
+  const onSave = (e) =>{
+    e.preventDefault()
+    for (let index = 0; index < itineraryDays; index++) {
+      var inputText = document.getElementsByClassName("input-x form-control")[index].value
+      pushToItineraryDataArray(index,inputText)
+    }
+    //console.log("onSave data" , data)
+    setItinerary(itineraryData);
+    console.log("onSave itinerary data" , itineraryData)
+    console.log("onSave itinerary useState" , itinerary)
+  }
+
+  // const setItinerary = (x)=>{
+  //   console.log('in set iti')
+  //   console.log('x' , x)
+  //   setData({...data,itinerary:x})
+    
+  //   console.log(data)
+  // }
   const increase=(e)=>{
     e.preventDefault()
     setItineraryDays(itineraryDays+1)
@@ -24,56 +60,66 @@ function AddTripForm() {
   const decrease=(e)=>{
     e.preventDefault()
     setItineraryDays(itineraryDays-1)
-
   }
-  
+  const onS=(e)=>{
+    e.preventDefault()
+    console.log(itinerary)
+  }
   return (
     <div>
       <form className="container mt-4 border border-dark pt-2 pb-4">
         <h3>Add Trip</h3>
-        <div class="form-group">
+        <div className="form-group">
           <label>Title</label>
-          <input type="email" class="form-control"/>
+          <input type="text" className="form-control"/>
         </div>
-        <div class="form-group">
+        <div className="form-group">
           <label>Price</label>
-          <input type="number" class="form-control" />
+          <input type="number" className="form-control" />
         </div>
-        <div class="form-group">
+        <div className="form-group">
           <label>Description</label>
-          <input type="number" class="form-control"/>
+          <input type="text" className="form-control"/>
         </div>
-        <div class="form-group">
+        <div className="form-group">
           <label>Rating</label>
-          <input type="number" class="form-control"/>
+          <input type="number" className="form-control"/>
         </div>
-        <div class="form-group">
+        <div className="form-group">
           <label>Attractions</label>
-          <input type="text" class="form-control"/>
+          <input type="text" className="form-control"/>
         </div>
-        <div class="form-group">
+        <div className="form-group">
           <label>Excludes</label>
-          <input type="text" class="form-control"/>
+          <input type="text" className="form-control"/>
         </div>
-        <div class="form-group">
+        <div className="form-group">
           <label>Services Provided</label>
-          <input type="text" class="form-control"/>
+          <input type="text" className="form-control"/>
         </div>
-        <div class="form-group">
+        <div className="form-group">
           <label>Start Date</label>
-          <input type="date" class="form-control"/>
+          <input type="date" className="form-control"/>
         </div>
-        <div class="form-group">
+        <div className="form-group">
           <label>End Date</label>
-          <input type="date" class="form-control"/>
+          <input type="date" className="form-control"/>
         </div>
-        <div class="form-group">
+        <div className="form-group">
           <h5>Itinerary Days : {itineraryDays}</h5>
-          <button onClick={increase} class="mt-4 btn btn-primary mr-2">Increase</button>
-          <button onClick={decrease} class="mt-4 btn btn-primary">Decrease</button>
+          <button onClick={increase} className="mt-4 btn btn-primary mr-2">Increase</button>
+          <button onClick={decrease} className="mt-4 btn btn-primary">Decrease</button>
         </div>
-        <Itinerary days = {itineraryDays} />
-        <button type="submit" class="mt-4 btn btn-primary">Submit</button>
+        {/* <Itinerary set={setItinerary} days = {itineraryDays} /> */}
+        {formRender(itineraryDays)}
+        <div className="container mt-4 border border-dark pt-2 pb-4">
+          <h3>Add Itinerary</h3>
+          <div className="form-group">
+            {list}
+          </div>
+          <button onClick={onSave} className="mt-4 btn btn-warning">Save</button>
+        </div>
+        <button type="submit" onClick={onS} className="mt-4 btn btn-primary">Submit</button>
       </form>
     </div>
   )

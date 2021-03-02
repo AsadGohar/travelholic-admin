@@ -1,7 +1,8 @@
-import React ,{useState} from 'react'
+import React ,{ useState} from 'react'
 
 function Itinerary(props) {
   const days = props.days
+  const set = props.set
   // const [descriptions, setDescriptions] = useState([])
   const list = []
   const data = []
@@ -13,9 +14,9 @@ function Itinerary(props) {
   const formRender = (days) =>{
     for (let index = 1; index <= days; index++) {
       list.push(  
-      <div class="form-group">
+      <div key={index} className="form-group">
         <label>Day : {index}</label>
-        <input type="text" class="input-x form-control"/>
+        <input type="text" className="input-x form-control"/>
       </div>
     )
     }
@@ -25,18 +26,18 @@ function Itinerary(props) {
     for (let index = 0; index < days; index++) {
       var inputText = document.getElementsByClassName("input-x form-control")[index].value
       setJsonData(index,inputText)
-      
     }
-    console.log(data)
+    set(data)
+    console.log("onSave" + data)
   }
   formRender(days)
   return (
     <div className="container mt-4 border border-dark pt-2 pb-4">
       <h3>Add Itinerary</h3>
-      <div class="form-group">
+      <div className="form-group">
         {list}
       </div>
-      <button onClick={onSave} class="mt-4 btn btn-warning">Save</button>
+      <button onClick={onSave} className="mt-4 btn btn-warning">Save</button>
     </div>
   )
 }
