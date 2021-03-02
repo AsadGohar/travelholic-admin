@@ -16,7 +16,7 @@ function TripTable() {
   React.useEffect(getTrips,[])
   return (
     <div className="container mt-4">
-       <table className="table table-bordered">
+       <table className="table  table-bordered">
         <thead className="table-dark">
           <tr>
             <th className="text-center" scope="col">Trip Name</th>
