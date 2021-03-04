@@ -3,7 +3,7 @@ const DestinationControllers = require('../Controllers/DestinationControllers');
 const { check } = require('express-validator');
 const router = express.Router();
 
--
+
     // Create a Destination
     router.post('/',
         [

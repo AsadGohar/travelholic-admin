@@ -48,6 +48,21 @@ const getQuestions = async(req,res,next)=>{
   
   res.send(questions)
 }
+//GET ANSWERS ADMIN
+const getQuestionsAdmin = async (req,res,next) => {
+  QuestionModel.find().populate('user', 'name -_id').exec(function(err,data){
+  if(err){
+    const error = new HttpError(
+      'getting Answers failed, please try again',
+      500
+      );
+      return next(error);
+  }
+  else{
+    res.send(data)
+  }
+  })
+}
 
 //UPDATE A QUESTION BY ID
 const updateQuestionbyId = async(req,res,next)=>{
@@ -104,4 +119,5 @@ const deleteQuestionbyId = async(req,res,next)=>{
 module.exports.updateQuestionbyId  = updateQuestionbyId
 module.exports.createQuestion  = createQuestion
 module.exports.getQuestions  = getQuestions
+module.exports.getQuestionsAdmin  = getQuestionsAdmin
 module.exports.deleteQuestionbyId=deleteQuestionbyId

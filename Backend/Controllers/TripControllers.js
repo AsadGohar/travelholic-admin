@@ -58,6 +58,23 @@ const getTrips = async(req,res,next)=>{
   res.send(trips)
 }
 
+//GET ANSWERS ADMIN
+const getTripsAdmin = async (req,res,next) => {
+TripModel.find().populate('user', 'name -_id').exec(function(err,data){
+  if(err){
+    const error = new HttpError(
+      'getting Answers failed, please try again',
+      500
+      );
+      return next(error);
+  }
+  else{
+    res.send(data)
+  }
+  })
+}
+
+
 //GET TRIP BY ID
 const getTripsbyId = async(req,res,next)=>{
 
@@ -115,5 +132,6 @@ const deleteTripById = async(req,res,next) => {
 //EXPORTING CONTROLLERS
 module.exports.createTrip = createTrip
 module.exports.getTrips = getTrips
+module.exports.getTripsAdmin = getTripsAdmin
 module.exports.getTripsbyId = getTripsbyId
 module.exports.deleteTripById = deleteTripById
