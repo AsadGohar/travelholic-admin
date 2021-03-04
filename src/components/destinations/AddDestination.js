@@ -9,7 +9,8 @@ const AddDestination = () => {
     const [introduction, setIntroduction] = useState('');
     const [guidelines, setGuidelines] = useState('');
     const [history, setHistory] = useState('');
-    const [photos, setPhotos] = useState(['']);
+    const [photos, setPhotos] = useState('');
+    const [photoArray, setPhotoArray] = useState([{path: ""}]);
 
     // Setting functions
     const onChangeTitle = (e) => {
@@ -30,8 +31,14 @@ const AddDestination = () => {
     const onChangePhotos = (e) => {
         setPhotos(e.target.value);
     }
-    const handleAddPhoto = () => {
-        setPhotos(photos => [...photos, ''])
+    // const handleAddPhoto = () => {
+    //     setPhotos(photos => [...photos, ''])
+    // }
+    const savePhoto = () => {
+        setPhotoArray(prevPhotos => [...prevPhotos, {
+            path: photos
+        }])
+        console.log(photoArray)
     }
 
 
@@ -42,6 +49,7 @@ const AddDestination = () => {
             title: title,
             title_image: titleImage,
             introduction: introduction,
+            photos: photoArray,
             guidelines: guidelines,
             history: history
         };
@@ -54,6 +62,8 @@ const AddDestination = () => {
         setIntroduction('');
         setGuidelines('');
         setHistory('');
+        setPhotoArray([{path: ""}])
+        setPhotos('')
     }
 
     return (
@@ -82,16 +92,18 @@ const AddDestination = () => {
                             <input type="text" className="form-control" id="introduction" value={introduction} onChange={onChangeIntro} aria-describedby="destination intro" placeholder="Write short destination introduction (max 150 words)" />
                         </div>
 
-                        {/* INSET PHOTOS */}
+                        {/* INSERT PHOTOS */}
                         <div className="form-group">
                             <label for="photos">Add Destination Photos</label>
-                            {photos.map(photo => (
+                            <input type="text" className="form-control" value={photos} onChange={onChangePhotos} placeholder="images/demo.jpg"></input>
+                            <button onClick={savePhoto}>Save</button>
+
+                            {/* {photos.map(photo => (
                                 <div className="photos-input-div border border-dark p-3">
                                     <input type="text" className="form-control" value={photo} onChange={onChangePhotos} placeholder="images/demo.jpg"></input>
-                                    
                                 </div>
                             ))}
-                            <button type="button" onClick={handleAddPhoto} className="btn btn-success mt-3">Add photo</button>
+                            <button type="button" onClick={handleAddPhoto} className="btn btn-success mt-3">Add photo</button> */}
                         </div>
 
                         {/* SET GUIDELINES */}
