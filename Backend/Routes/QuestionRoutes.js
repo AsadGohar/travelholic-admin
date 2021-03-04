@@ -5,6 +5,7 @@ const QuestionControllers = require('../Controllers/QuestionControllers')
 
 router.post('/', QuestionControllers.createQuestion)
 router.get('/', QuestionControllers.getQuestions)
+router.get('/admin', QuestionControllers.getQuestionsAdmin)
 router.put('/:id', QuestionControllers.updateQuestionbyId)
 router.delete('/:id', QuestionControllers.deleteQuestionbyId)
 

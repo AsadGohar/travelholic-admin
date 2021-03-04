@@ -1,40 +1,35 @@
-import React from 'react'
+import React, { useState } from 'react';
+import axios from 'axios'
+
+import TripRow from "./TripRow";
 
 function TripTable() {
+  const [trips, setTrips] = useState([]);
+  const getTrips = () => {
+    axios.get('http://localhost:4000/api/trip/').then((res)=>{
+      console.log(res.data)
+      setTrips(res.data);
+    }).catch((err)=>{
+      console.log(err)
+    });
+  }
+  React.useEffect(getTrips,[])
   return (
-    <div>
-       <table class="table">
-        <thead class="table-dark">
+    <div className="container mt-4">
+       <table className="table  table-bordered">
+        <thead className="table-dark">
           <tr>
-            <th scope="col">Trip Name</th>
-            <th scope="col">Created At</th>
-            <th scope="col">Updated At</th>
-            <th scope="col">Edit</th>
-            <th scope="col">Delete</th>
+            <th className="text-center" scope="col">Trip Name</th>
+            <th className="text-center" scope="col">Edit</th>
+            <th className="text-center" scope="col">Delete</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <th scope="row">A</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-            <td>Mark</td>
-          </tr>
-          <tr>
-            <th scope="row">B</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-            <td>Mark</td>
-          </tr>
-          <tr>
-            <th scope="row">C</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-            <td>Mark</td>
-          </tr>
+        {trips.map(trip => { // using props in child component and looping
+              return (
+                  <TripRow data={trip} key={trip.id} onDelete = {getTrips}/>
+              )
+          })}
         </tbody>
       </table>
     </div>

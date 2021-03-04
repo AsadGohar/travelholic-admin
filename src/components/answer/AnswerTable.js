@@ -1,52 +1,34 @@
 import React, { useState } from 'react';
+import axios from 'axios'
 
 import AnswerRow from "./AnswerRow";
 
 function AnswerTable() {
-  const [answers, setAnswers] = useState([
-    {
-      id:1,
-      username:'Asad',
-      answer_text: 'This is first list',
-      reported:'true',
-      created:'15-19-07',
-      updated:'15-19-07'
-    },
-    {
-      id:2,
-      username:'Shah',
-      answer_text: 'This is first list',
-      reported:'false',
-      created:'15-19-07',
-      updated:'15-19-07'
-    },
-    {
-      id: 3,
-      username:'Safa',
-      answer_text: 'This is first list',
-      reported:'false',
-      created:'15-19-07',
-      updated:'15-19-07'
-    },
-  ]);
+  const [answers, setAnswers] = useState([]);
+  const getAnswers = () => {
+    axios.get('http://localhost:4000/api/answer/admin').then((res)=>{
+      console.log(res.data)
+      setAnswers(res.data);
+    }).catch((err)=>{
+      console.log(err)
+    });
+  }
+  React.useEffect(getAnswers,[setAnswers])
   return (
-    <div>
-      <table class="table">
-        <thead class="table-dark">
+    <div className="container mt-4" >
+      <table className="table table-bordered">
+        <thead className="table-dark">
           <tr>
-            <th scope="col">Username</th>
-            <th scope="col">Answer Text</th>
-            <th scope="col">Reported</th>
-            <th scope="col">Created At</th>
-            <th scope="col">Updated At</th>
-            <th scope="col">Edit</th>
-            <th scope="col">Delete</th>
+            <th  className="text-center" scope="col">Username</th>
+            <th className="text-center" scope="col">Answer Text</th>
+            <th className="text-center" scope="col">Reported</th>
+            <th className="text-center" scope="col">Delete</th>
           </tr>
         </thead>
         <tbody>
           {answers.map(answer => { // using props in child component and looping
               return (
-                  <AnswerRow data={answer} id={answer.id}/>
+                  <AnswerRow data={answer} key={answer.id} onDelete = {getAnswers}/>
               )
           })}
         </tbody>

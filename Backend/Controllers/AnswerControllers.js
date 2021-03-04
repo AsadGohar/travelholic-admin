@@ -70,6 +70,23 @@ const deleteAnswerbyId =  async (req,res,next) => {
   }
   res.send(answer)
 }
+
+//GET ANSWERS ADMIN
+const getAnswersAdmin = async (req,res,next) => {
+  AnswerModel.find().populate('user', 'name -_id').exec(function(err,data){
+  if(err){
+    const error = new HttpError(
+      'getting Answers failed, please try again',
+      500
+      );
+      return next(error);
+  }
+  else{
+    res.send(data)
+  }
+  })
+}
+
 //GET ALL REPORTED ANSWERS
 const getAllReportedAnswers = async(req,res,next)=> {
 
@@ -123,6 +140,7 @@ const updateAnswerbyId = async(req,res,next)=>{
 //EXPORTING CONTROLLERS
 module.exports.createAnswer  = createAnswer;
 module.exports.getAnswers  = getAnswers;
+module.exports.getAnswersAdmin  = getAnswersAdmin;
 module.exports.deleteAnswerbyId  = deleteAnswerbyId;
 module.exports.getAllReportedAnswers  = getAllReportedAnswers;
 module.exports.updateAnswerbyId  = updateAnswerbyId;

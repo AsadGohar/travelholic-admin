@@ -1,44 +1,34 @@
-import React from 'react'
+import React, { useState } from 'react';
+import axios from 'axios'
+
+import RouteRow from "./RouteRow";
 
 function RouteTable() {
+  const [routes, setRoutes] = useState([]);
+  const getRoutes = () => {
+    axios.get('http://localhost:4000/api/route/admin').then((res)=>{
+      setRoutes(res.data);
+    }).catch((err)=>{
+      console.log(err)
+    });
+  }
+  React.useEffect(getRoutes,[])
   return (
-    <div>
-       <table class="table">
-        <thead class="table-dark">
+    <div className="container mt-4">
+      <table className="table table-bordered">
+        <thead className="table-dark">
           <tr>
-            <th scope="col">Destination To : </th>
-            <th scope="col">Destination From : </th>
-            <th scope="col">Created At</th>
-            <th scope="col">Updated At</th>
-            <th scope="col">Edit</th>
-            <th scope="col">Delete</th>
+            <th className="text-center" scope="col">Destination To : </th>
+            <th className="text-center" scope="col">Destination From : </th>
+            <th className="text-center" scope="col">Delete</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <th scope="row">Lahore</th>
-            <td>Islamabad</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-            <td>Mark</td>
-            <td>Otto</td>
-          </tr>
-          <tr>
-            <th scope="row">Lahore</th>
-            <td>Islamabad</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-            <td>Mark</td>
-            <td>@mdo</td>
-          </tr>
-          <tr>
-            <th scope="row">Lahore</th>
-            <td>Islamabad</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-          </tr>
+          {routes.map(route => { // using props in child component and looping
+              return (
+                <RouteRow data={route} key={route.id} onDelete = {getRoutes}/>
+              )
+          })}
         </tbody>
       </table>
     </div>

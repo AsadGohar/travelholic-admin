@@ -1,44 +1,36 @@
-import React from 'react'
+import React,{useState} from 'react'
+import axios from 'axios'
+
+import QuestionRow from './QuestionRow'
 
 function QuestionTable() {
+  const [questions, setQuestions] = useState([]);
+  const getQuestions = () => {
+    axios.get('http://localhost:4000/api/question/admin').then((res)=>{
+      console.log(res.data)
+      setQuestions(res.data);
+    }).catch((err)=>{
+      console.log(err)
+    });
+  }
+  React.useEffect(getQuestions,[])
   return (
-    <div>
-       <table class="table">
-        <thead class="table-dark">
+    <div className="container mt-4" >
+       <table className="table table-bordered">
+        <thead className="table-dark">
           <tr>
-            <th scope="col">Username</th>
-            <th scope="col">Question Text</th>
-            <th scope="col">Reported</th>
-            <th scope="col">Created At</th>
-            <th scope="col">Updated At</th>
-            <th scope="col">Delete</th>
+            <th className="text-center" scope="col">Username</th>
+            <th className="text-center" scope="col">Question Statment</th>
+            <th className="text-center" scope="col">Reported</th>
+            <th className="text-center" scope="col">Delete</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <th scope="row">Asad</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-            <td>Mark</td>
-            <td>Otto</td>
-          </tr>
-          <tr>
-            <th scope="row">Shah</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-            <td>Mark</td>
-            <td>Otto</td>
-          </tr>
-          <tr>
-            <th scope="row">Safa</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-            <td>Mark</td>
-            <td>Otto</td>
-          </tr>
+        {questions.map(question => { // using props in child component and looping
+          return (
+            <QuestionRow data={question} key={question.id} onDelete = {getQuestions}/>
+          )
+        })}
         </tbody>
       </table>
     </div>

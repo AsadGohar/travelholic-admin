@@ -10,7 +10,7 @@ const Navbar = () => {
                 </div>
                 <div className="col-xm-7"></div>
                 <div className="col-xm-2">
-                    <span class="logout-link">
+                    <span className="logout-link">
                         <a href="#" id="logout">Logout</a>
                     </span>
                 </div>
