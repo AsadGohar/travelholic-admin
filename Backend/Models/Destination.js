@@ -11,7 +11,9 @@ const DestinationSchema = new Schema({
         title: { type: String },
         path: { type: String }
     }],
-    photos: [{ type: String }],
+    photos: [{
+        path: { type: String }
+    }],
     guidelines: { type: String, required: true },
     history: { type: String, required: true }, 
 }, { timestamps: true });

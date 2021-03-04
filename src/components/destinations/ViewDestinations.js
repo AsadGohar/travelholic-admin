@@ -37,11 +37,12 @@ const ViewDestinations = () => {
                             <th>Id</th>
                             <th>Title</th>
                             <th>Title Image</th>
-                            <th>Rating</th>
+                            {/* <th>Rating</th> */}
                             <th>Introduction</th>
+                            <th>Attractions</th>
+                            <th>Photos</th>
                             <th>Guidelines</th>
                             <th>History</th>
-                            <th>Is trip Planner?</th>
                             <th>Created At</th>
                             <th>Updated At</th>
                             <th>Action</th>

@@ -87,7 +87,7 @@ const updateDestination = async (req, res, next) => {
         );
     }
     
-    const { title, title_image, rating, introduction, guidelines, history } = req.body;
+    const { title, title_image,introduction, attraction_photos, photos, guidelines, history } = req.body;
     const destId = req.params.id;
 
     let destination;
@@ -103,8 +103,9 @@ const updateDestination = async (req, res, next) => {
 
     destination.title = title;
     destination.title_image = title_image;
-    destination.rating = rating;
     destination.introduction = introduction;
+    destination.attraction_photos = attraction_photos;
+    destination.photos = photos;
     destination.guidelines = guidelines;
     destination.history = history;
     try{
