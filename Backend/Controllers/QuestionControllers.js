@@ -4,6 +4,7 @@ const HttpError = require('../Models/HttpError');
 //ADD NEW QUESTION
 const createQuestion = async (req,res,next)=> {
 
+  console.log(req.user)
   const {user,statement,description,reported}=req.body
   let question = QuestionModel()
   question.user=user

@@ -10,9 +10,9 @@ const createAnswer = async(req,res,next)=>{
   answer.text=text
   answer.question=question
   answer.reported=reported
-  await answer.save()
-
+  
   try {
+    await answer.save()
   } 
   catch (err) {
     const error = new HttpError(

@@ -1,13 +1,14 @@
 const mongoose = require ('mongoose');
 const bcrypt = require ('bcryptjs')
 const uniqueValidator = require('mongoose-unique-validator');
+const jwt = require('jsonwebtoken')
 
 const UserSchema = mongoose.Schema({
     name: { type: String , required:true},
-    email: {type:String , required: true, lowercase: true,unique: true},
+    email: {type:String , required:[true,'Unique Email Required'] ,lowercase: true,unique: true},
     mobile_num: { type: String },
     street_address: {type: String},
-    password: { type: String , required:true},
+    password: { type: String , required:true,select:false},
     dob : {type:Date},
     gender: { type: String },
     city: {type: String},
@@ -28,5 +29,12 @@ UserSchema.pre('save', async function (next){
     }
 })
 
+UserSchema.methods.getToken = function (){
+ return jwt.sign({id:this._id},process.env.JWT_SECRET,{
+     expiresIn:process.env.JWT_EXPIRE
+ });
+}
+
 const UserModel = mongoose.model('User', UserSchema);
 module.exports = UserModel;
+
