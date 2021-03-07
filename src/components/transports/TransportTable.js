@@ -23,7 +23,7 @@ const TransportTable = (props) => {
             <td>{fare}</td>
             <td>{createdAt}</td>
             <td>{updatedAt}</td>
-            <td>
+            <td style={{columnWidth: 200}}>
                 <Link className="edit-link mr-2 ml-3" to={"/editTransport/" + props.data._id}>
                     Edit
                     </Link>

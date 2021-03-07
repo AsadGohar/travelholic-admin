@@ -1,15 +1,16 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import axios from "../axios";
 import Button from 'react-bootstrap/Button';
 
 const DestinationTable = (props) => {
     const { _id, title, title_image, rating, introduction, attraction_photos, photos, guidelines, history, createdAt, updatedAt } = props.data
-
+    const onDelete = props.onDelete;
     const deleteTransport = () => {
         axios.delete('/destinations/' + props.data._id)
             .then((res) => {
                 console.log('Destination successfully deleted!')
+                onDelete();
             }).catch((error) => {
                 console.log(error)
             })
@@ -45,7 +46,7 @@ const DestinationTable = (props) => {
                 <Link className="edit-link mr-2 ml-3" to={"/edit-destination/" + props.data._id}>
                     Edit
                 </Link>
-                <Button className="" onClick={deleteTransport} size="sm" variant="danger">Delete</Button>
+                <Button className="" onClick={e => {deleteTransport()}} size="sm" variant="danger">Delete</Button>
             </td>
         </tr>
     );

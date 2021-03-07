@@ -8,6 +8,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Dashboard from "../dashboard/Dashboard";
 import ViewDestinations from "../destinations/ViewDestinations";
 import AddDestination from "../destinations/AddDestination";
+import EditDestination from "../destinations/EditDestination";
 import ViewTransports from "../transports/ViewTransports";
 import AddTransport from "../transports/AddTransport";
 import ViewBookings from "../bookings/ViewBookings";
@@ -33,6 +34,7 @@ const AdminPanel = () => {
                             <Route path="/all-destinations" component={ViewDestinations} />
                             <Route path="/add-new-destination" component={AddDestination} />
                             <Route path="/view-transports" component={ViewTransports} />
+                            <Route path="/edit-destination/:id" component={EditDestination}/>
                             <Route path="/add-new-transport" component={AddTransport} />
                             <Route path="/trip-bookings" component={ViewBookings} />
                             <Route path="/trip-reviews" component={ViewTripReviews} />

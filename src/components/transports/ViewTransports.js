@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from '../axios';
 import TransportTable from "./TransportTable";
 import Table from 'react-bootstrap/Table';
+import "../TableStyle.css";
 
 
 const ViewTransports = () => {
@@ -35,7 +36,7 @@ const ViewTransports = () => {
                     <thead className="thead-dark">
                         <tr>
                             <th>Id</th>
-                            <th>Name</th>
+                            <th className="tableHeader-2">Name</th>
                             <th>Fare</th>
                             <th>Created At</th>
                             <th>Updated At</th>

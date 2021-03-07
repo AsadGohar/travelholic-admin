@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from '../axios';
 import HotelTable from "./HotelTable";
 import Table from 'react-bootstrap/Table';
+import "../TableStyle.css"
 
 
 const ViewHotels = () => {
@@ -35,10 +36,10 @@ const ViewHotels = () => {
                     <thead className="thead-dark">
                         <tr>
                             <th>Id</th>
-                            <th>Hotel Name</th>
-                            <th>Luxury Rent</th>
-                            <th>Budget Rent</th>
-                            <th>Contact Number</th>
+                            <th className="tableHeader-2">Hotel Name</th>
+                            <th className="tableHeader-3">Luxury Rent</th>
+                            <th className="tableHeader-3">Budget Rent</th>
+                            <th className="tableHeader-3">Contact Number</th>
                             <th>Action</th>
                         </tr>
                     </thead>

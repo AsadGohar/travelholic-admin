@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from "../axios";
 import { produce } from "immer";
 
-const AddDestination = () => {
+
+const EditDestination = (props) => {
 
     // Setting up states
     const [title, setTitle] = useState('');
@@ -10,8 +11,25 @@ const AddDestination = () => {
     const [introduction, setIntroduction] = useState('');
     const [guidelines, setGuidelines] = useState('');
     const [history, setHistory] = useState('');
-    const [attractions, setAttractions] = useState([{title: "", path: ""}])
+    const [attractions, setAttractions] = useState([{ title: "", path: "" }])
     const [photos, setPhotos] = useState([{ path: "" }]);
+
+    // Setting state to current destination details
+    useEffect(() => {
+        axios.get("/destinations/" + props.match.params.id)
+            .then(res => {
+                setTitle(res.data.title);
+                setTitleImage(res.data.title_image);
+                setIntroduction(res.data.introduction);
+                setGuidelines(res.data.guidelines);
+                setHistory(res.data.history);
+                setAttractions(res.data.attraction_photos);
+                setPhotos(res.data.photos);
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+    }, [])
 
     // Setting functions
     const onChangeTitle = (e) => {
@@ -32,7 +50,7 @@ const AddDestination = () => {
 
     // Functions for destination attractions
     const handleAddAttraction = () => {
-        setAttractions(currentAttractions => [...currentAttractions, {title: "", path: ""}]);
+        setAttractions(currentAttractions => [...currentAttractions, { title: "", path: "" }]);
         console.log(attractions);
     }
     // const handleRemoveAttraction = () => {
@@ -65,47 +83,43 @@ const AddDestination = () => {
             history: history
         };
 
-        axios.post('/destinations', destinationObject)
+        axios.put('/destinations/' + props.match.params.id , destinationObject)
             .then(res => console.log(res.data));
 
-        setTitle('');
-        setTitleImage('');
-        setIntroduction('');
-        setGuidelines('');
-        setHistory('');
-        setAttractions([{title: "", path: ""}]);
-        setPhotos([{ path: "" }]);
+            alert("Destination updated!");
 
-        alert("Destination added!");
+            // Redirecting to view Page
+            props.history.push('/all-destinations')
+            
     }
 
     return (
         <div className="container add-destination-wrap">
             <div className="row">
-                <h5 className="Display-1">Add new destination:</h5>
+                <h5 className="Display-1">Edit destination:</h5>
             </div>
             <div className="row add-destination-form-div mt-3">
                 <div className="col-md-7">
                     <form onSubmit={submitDestination}>
-                        {/* SET DESTINATION NAME */}
+                        {/* EDIT DESTINATION NAME */}
                         <div className="form-group">
                             <label for="destination-title">Destination name</label>
                             <input type="text" className="form-control" id="destination-title" value={title} onChange={onChangeTitle} aria-describedby="destination title" placeholder="destination title" />
                         </div>
 
-                        {/* SET TITLE IMAGE */}
+                        {/* EDIT TITLE IMAGE */}
                         <div className="form-group">
                             <label for="title-image">Title Image</label><br />
                             <input type="text" className="form-control" id="title-image" value={titleImage} onChange={onChangeTitleImage} aria-describedby="destination image" placeholder="Write image path e.g images/abc.jpg" />
                         </div>
 
-                        {/* SET INTRO */}
+                        {/* EDIT INTRO */}
                         <div className="form-group">
                             <label for="introduction">Introduction</label>
                             <input type="text" className="form-control" id="introduction" value={introduction} onChange={onChangeIntro} aria-describedby="destination intro" placeholder="Write short destination introduction (max 150 words)" />
                         </div>
 
-                        {/* INSERT ATTRACTION PHOTOS */}
+                        {/* EDIT ATTRACTION PHOTOS */}
                         <div className="form-group">
                             <label for="photos">Add attractions photos</label>
                             <div className="border border-dark">
@@ -117,7 +131,7 @@ const AddDestination = () => {
                                                 v[index].title = title;
                                             }));
                                         }} placeholder="Attraction name"></input>
-                                        
+
                                         <input type="text" className="form-control mt-1" value={attraction.path} onChange={e => {
                                             const path = e.target.value;
                                             setAttractions(currentAttractions => produce(currentAttractions, v => {
@@ -131,7 +145,7 @@ const AddDestination = () => {
                             </div>
                         </div>
 
-                        {/* INSERT PHOTOS */}
+                        {/* EDIT PHOTOS */}
                         <div className="form-group">
                             <label for="photos">Add destination photos</label>
                             <div className="border border-dark">
@@ -150,18 +164,18 @@ const AddDestination = () => {
                             </div>
                         </div>
 
-                        {/* SET GUIDELINES */}
+                        {/* EDIT GUIDELINES */}
                         <div className="form-group">
                             <label for="guidelines">Guidelines</label>
                             <input type="text" className="form-control" id="guidelines" value={guidelines} onChange={onChangeGuidelines} aria-describedby="destination guidelines" placeholder="Write guidelines for destinations" />
                         </div>
 
-                        {/* SET HISTORY */}
+                        {/* EDIT HISTORY */}
                         <div className="form-group">
                             <label for="history">History</label>
                             <input type="text" className="form-control" id="history" value={history} onChange={onChangeHistory} aria-describedby="destination history" placeholder="Write history for destinations" />
                         </div>
-                        <button type="submit" className="btn btn-dark mb-5">Add destination</button>
+                        <button type="submit" className="btn btn-dark mb-5">Update</button>
                     </form>
                 </div>
             </div>
@@ -169,4 +183,4 @@ const AddDestination = () => {
     );
 }
 
-export default AddDestination;
+export default EditDestination;

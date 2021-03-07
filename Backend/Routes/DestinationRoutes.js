@@ -22,7 +22,7 @@ router.get('/:id', DestinationControllers.getDestinationById);
 router.put('/:id',
     [
         check('title').not().isEmpty().isLength({ max: 40 }),
-        check('introduction').not().isEmpty().isLength({ min: 100, max: 600 })
+        check('introduction').not().isEmpty().isLength({ min: 10, max: 600 })
     ],
     DestinationControllers.updateDestination);
 

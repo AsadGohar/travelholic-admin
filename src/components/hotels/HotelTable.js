@@ -22,7 +22,7 @@ const HotelTable = (props) => {
             <td>{luxury_rent}</td>
             <td>{budget_rent}</td>
             <td>{contact_number}</td>
-            <td>
+            <td style={{columnWidth: 200}}>
                 <Link className="edit-link mr-2 ml-3" to={"/edit-hotel/" + props.data._id}>
                     Edit
                 </Link>
