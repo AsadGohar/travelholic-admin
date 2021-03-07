@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from "../axios";
+import { produce } from "immer";
 
 const AddDestination = () => {
 
@@ -9,8 +10,8 @@ const AddDestination = () => {
     const [introduction, setIntroduction] = useState('');
     const [guidelines, setGuidelines] = useState('');
     const [history, setHistory] = useState('');
-    const [photos, setPhotos] = useState('');
-    const [photoArray, setPhotoArray] = useState([{path: ""}]);
+    const [attractions, setAttractions] = useState([{title: "", path: ""}])
+    const [photos, setPhotos] = useState([{ path: "" }]);
 
     // Setting functions
     const onChangeTitle = (e) => {
@@ -28,18 +29,27 @@ const AddDestination = () => {
     const onChangeHistory = (e) => {
         setHistory(e.target.value);
     }
-    const onChangePhotos = (e) => {
-        setPhotos(e.target.value);
+
+    // Functions for destination attractions
+    const handleAddAttraction = () => {
+        setAttractions(currentAttractions => [...currentAttractions, {title: "", path: ""}]);
+        console.log(attractions);
     }
-    // const handleAddPhoto = () => {
-    //     setPhotos(photos => [...photos, ''])
+    // const handleRemoveAttraction = () => {
+    //     setAttractions(currentAttractions =>
+    //         currentAttractions.filter(a => a.index !== attractions.index));
     // }
-    const savePhoto = () => {
-        setPhotoArray(prevPhotos => [...prevPhotos, {
-            path: photos
-        }])
-        console.log(photoArray)
+
+    // Functions for destination photos
+    const handleAddPhoto = () => {
+        setPhotos(currentPhotos => [...currentPhotos, { path: "" }]);
+        // console.log(photos)
     }
+    // const handleRemovePhoto = () => {
+    //     setPhotos(currentPhotos =>
+    //         currentPhotos.filter(x => x.index !== photos.index)
+    //     );
+    // }
 
 
     const submitDestination = (e) => {
@@ -49,7 +59,8 @@ const AddDestination = () => {
             title: title,
             title_image: titleImage,
             introduction: introduction,
-            photos: photoArray,
+            attraction_photos: attractions,
+            photos: photos,
             guidelines: guidelines,
             history: history
         };
@@ -62,8 +73,8 @@ const AddDestination = () => {
         setIntroduction('');
         setGuidelines('');
         setHistory('');
-        setPhotoArray([{path: ""}])
-        setPhotos('')
+        setAttractions([{title: "", path: ""}]);
+        setPhotos([{ path: "" }]);
     }
 
     return (
@@ -92,18 +103,49 @@ const AddDestination = () => {
                             <input type="text" className="form-control" id="introduction" value={introduction} onChange={onChangeIntro} aria-describedby="destination intro" placeholder="Write short destination introduction (max 150 words)" />
                         </div>
 
+                        {/* INSERT ATTRACTION PHOTOS */}
+                        <div className="form-group">
+                            <label for="photos">Add attractions photos</label>
+                            <div className="border border-dark">
+                                {attractions.map((attraction, index) => (
+                                    <div className="attractions-input-div p-3">
+                                        <input type="text" className="form-control" value={attraction.title} onChange={e => {
+                                            const title = e.target.value;
+                                            setAttractions(currentAttractions => produce(currentAttractions, v => {
+                                                v[index].title = title;
+                                            }));
+                                        }} placeholder="Attraction name"></input>
+                                        
+                                        <input type="text" className="form-control mt-1" value={attraction.path} onChange={e => {
+                                            const path = e.target.value;
+                                            setAttractions(currentAttractions => produce(currentAttractions, v => {
+                                                v[index].path = path;
+                                            }));
+                                        }} placeholder="images/demo.jpg"></input>
+                                    </div>
+                                ))}
+                                <button type="button" onClick={handleAddAttraction} className="btn btn-success mt-1 mb-3 ml-3">Add another attraction</button>
+                                {/* <button className="btn btn-danger mt-1 mb-3 ml-3">Clear  <i onClick={handleRemoveAttraction} className="fa fa-trash" aria-hidden="true" /></button> */}
+                            </div>
+                        </div>
+
                         {/* INSERT PHOTOS */}
                         <div className="form-group">
-                            <label for="photos">Add Destination Photos</label>
-                            <input type="text" className="form-control" value={photos} onChange={onChangePhotos} placeholder="images/demo.jpg"></input>
-                            <button onClick={savePhoto}>Save</button>
-
-                            {/* {photos.map(photo => (
-                                <div className="photos-input-div border border-dark p-3">
-                                    <input type="text" className="form-control" value={photo} onChange={onChangePhotos} placeholder="images/demo.jpg"></input>
-                                </div>
-                            ))}
-                            <button type="button" onClick={handleAddPhoto} className="btn btn-success mt-3">Add photo</button> */}
+                            <label for="photos">Add destination photos</label>
+                            <div className="border border-dark">
+                                {photos.map((photo, index) => (
+                                    <div className="photos-input-div p-3">
+                                        <input type="text" className="form-control" value={photo.path} onChange={e => {
+                                            const path = e.target.value;
+                                            setPhotos(currentPhotos => produce(currentPhotos, v => {
+                                                v[index].path = path;
+                                            }));
+                                        }} placeholder="images/demo.jpg"></input>
+                                    </div>
+                                ))}
+                                <button type="button" onClick={handleAddPhoto} className="btn btn-success mt-1 mb-3 ml-3">Add another photo</button>
+                                {/* <button className="btn btn-danger mt-1 mb-3 ml-3">Clear  <i onClick={handleRemovePhoto} className="fa fa-trash" aria-hidden="true" /></button> */}
+                            </div>
                         </div>
 
                         {/* SET GUIDELINES */}
@@ -117,7 +159,7 @@ const AddDestination = () => {
                             <label for="history">History</label>
                             <input type="text" className="form-control" id="history" value={history} onChange={onChangeHistory} aria-describedby="destination history" placeholder="Write history for destinations" />
                         </div>
-                        <button type="submit" className="btn btn-dark">Add destination</button>
+                        <button type="submit" className="btn btn-dark mb-5">Add destination</button>
                     </form>
                 </div>
             </div>
