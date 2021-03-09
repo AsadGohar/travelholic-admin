@@ -45,7 +45,7 @@ const getBookings = async (req, res, next) => {
         );
         return next(error);
     }
-    res.json({bookings: bookings.map(booking => booking.toObject({ getters: true }))});
+    res.send(bookings);
 }
 
 // DELETE BOOKING

@@ -17,6 +17,7 @@ const UserRoutes = require('./Routes/UserRoutes');
 const QuestionRoutes = require('./Routes/QuestionRoutes');
 const TripRoutes = require('./Routes/TripRoutes');
 const RouteRoutes = require('./Routes/RouteRoutes');
+const HotelRoutes = require('./Routes/HotelRoutes');
 
 const app = express();
 app.use(express.json());
@@ -32,6 +33,8 @@ app.use('/api/users', UserRoutes)
 app.use('/api/questions', QuestionRoutes)
 app.use('/api/trips', TripRoutes)
 app.use('/api/routes', RouteRoutes)
+app.use('/api/hotels', HotelRoutes)
+
 
 //Error handling on server side
 app.use((req, res, next) => {
