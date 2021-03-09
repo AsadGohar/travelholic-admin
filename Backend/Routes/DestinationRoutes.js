@@ -26,6 +26,9 @@ router.put('/:id',
     ],
     DestinationControllers.updateDestination);
 
+//Rate Destination API
+router.patch('/:id', DestinationControllers.rateDestination); 
+
 //Delete a Destination
 router.delete('/:id', DestinationControllers.deleteDestination);
 

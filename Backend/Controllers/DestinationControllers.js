@@ -12,7 +12,7 @@ const createDestination = async (req, res, next) => {
         );
     }
 
-    const { title, title_image, introduction, attraction_photos, photos, guidelines, history} = req.body;
+    const { title, title_image, introduction, attraction_photos, photos, guidelines, history } = req.body;
 
     const createdDestination = new Destination({
         title,
@@ -86,8 +86,8 @@ const updateDestination = async (req, res, next) => {
             new HttpError('Invalid input. Check your data', 422)
         );
     }
-    
-    const { title, title_image,introduction, attraction_photos, photos, guidelines, history } = req.body;
+
+    const { title, title_image, introduction, attraction_photos, photos, guidelines, history } = req.body;
     const destId = req.params.id;
 
     let destination;
@@ -108,14 +108,44 @@ const updateDestination = async (req, res, next) => {
     destination.photos = photos;
     destination.guidelines = guidelines;
     destination.history = history;
-    try{
+    try {
         await destination.save();
-    }catch (err){
+    } catch (err) {
         const error = new HttpError(
             'Something went wrong, could not update place.',
             500
-          );
-          return next(error);
+        );
+        return next(error);
+    }
+    res.json(destination);
+}
+
+// RATE DESTINATION API (UPDATE/PATCH)
+const rateDestination = async (req, res, next) => {
+    const { rating } = req.body;
+    const destId = req.params.id;
+
+    let destination;
+    try {
+        destination = await Destination.findById(destId);
+    } catch (err) {
+        const error = new HttpError(
+            'Unknown error occured while updating destination, please try again.',
+            500
+        );
+        return next(error);
+    }
+    
+    destination.rating = rating;
+
+    try {
+        await destination.save();
+    } catch (err) {
+        const error = new HttpError(
+            'Something went wrong, could not update place.',
+            500
+        );
+        return next(error);
     }
     res.json(destination);
 }
@@ -154,3 +184,4 @@ exports.getDestinations = getDestinations;
 exports.getDestinationById = getDestinationById;
 exports.updateDestination = updateDestination;
 exports.deleteDestination = deleteDestination;
+exports.rateDestination = rateDestination;
