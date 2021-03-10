@@ -39,7 +39,7 @@ const getBookings = async (req, res, next) => {
         const error = new HttpError('Unknown error occured while getting bookings, please try again.',500);
         return next(error);
     }
-    res.json({bookings: bookings.map(booking => booking.toObject({ getters: true }))});
+    res.send(bookings);
 }
 
 // DELETE BOOKING

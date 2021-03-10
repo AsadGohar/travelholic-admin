@@ -12,6 +12,8 @@
     font-weight: 200;
     background-color: #114B5F;
     position: fixed;
+    top: 55px;
+    z-index: 1;
     /* top: 50px; */
     width: 320px;
     height: 100%;

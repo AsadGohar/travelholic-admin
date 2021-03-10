@@ -4,7 +4,7 @@ import "./Sidemenu.css";
 
 const Sidemenu = () => {
     return (
-        <div className="sidemenu-wrap">
+        <div className="sidemenu-wrap fixed-top">
             <div className="nav-side-menu">
                 <div className="brand">Admin Menu</div>
                 <i className="fa fa-bars fa-2x toggle-btn" id="toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>
@@ -26,16 +26,16 @@ const Sidemenu = () => {
                             <Link to="/all-destinations" className="sidemenu-link"><li>View Destinations</li></Link>
                             <Link to="/add-new-destination" className="sidemenu-link"><li>Add new Destination</li></Link>
                         </ul>
-                        
+
                         {/* TRIPS MENU */}
                         <li data-toggle="collapse" data-target="#trips" className="collapsed">
                             <i className="fa fa-car fa-lg"></i> Trips <span className="arrow"></span>
                         </li>
                         <ul className="sub-menu collapse" id="trips">
-                        <Link to="/view-trips" className="sidemenu-link"><li>View all Trips</li></Link>
-                        <Link to="/add-new-trip" className="sidemenu-link"><li>Add new Trip</li></Link>
-                        <Link to="/trip-bookings" className="sidemenu-link"><li>Bookings</li></Link>
-                        <Link to="/trip-reviews" className="sidemenu-link"><li>Trip Reviews</li></Link>
+                            <Link to="/view-trips" className="sidemenu-link"><li>View all Trips</li></Link>
+                            <Link to="/add-new-trip" className="sidemenu-link"><li>Add new Trip</li></Link>
+                            <Link to="/trip-bookings" className="sidemenu-link"><li>Bookings</li></Link>
+                            <Link to="/trip-reviews" className="sidemenu-link"><li>Trip Reviews</li></Link>
                         </ul>
 
                         {/* TRANSPORTS MENU */}
@@ -43,8 +43,8 @@ const Sidemenu = () => {
                             <i className="fa fa-bus fa-lg"></i> Transport Services <span className="arrow"></span>
                         </li>
                         <ul className="sub-menu collapse" id="transports">
-                        <Link to="/view-transports" className="sidemenu-link"><li>View transport services</li></Link>
-                        <Link to="/add-new-transport" className="sidemenu-link"><li>Add new transport service</li></Link>
+                            <Link to="/view-transports" className="sidemenu-link"><li>View transport services</li></Link>
+                            <Link to="/add-new-transport" className="sidemenu-link"><li>Add new transport service</li></Link>
                         </ul>
 
                         {/* ROUTES MENU */}
@@ -52,8 +52,8 @@ const Sidemenu = () => {
                             <i className="fa fa-road fa-lg"></i> Routes <span className="arrow"></span>
                         </li>
                         <ul className="sub-menu collapse" id="routes">
-                        <Link to="/view-routes" className="sidemenu-link"><li>View available Routes</li></Link>
-                        <Link to="/add-new-route" className="sidemenu-link"><li>Add new Route</li></Link>
+                            <Link to="/view-routes" className="sidemenu-link"><li>View available Routes</li></Link>
+                            <Link to="/add-new-route" className="sidemenu-link"><li>Add new Route</li></Link>
                         </ul>
 
                         {/* HOTELS MENU */}
@@ -61,8 +61,8 @@ const Sidemenu = () => {
                             <i className="fas fa-bed fa-lg"></i> Hotels <span className="arrow"></span>
                         </li>
                         <ul className="sub-menu collapse" id="hotels">
-                        <Link to="/view-hotels" className="sidemenu-link"><li>View all Hotels</li></Link>
-                        <Link to="/add-new-hotel" className="sidemenu-link"><li>Add new Hotel</li></Link>
+                            <Link to="/view-hotels" className="sidemenu-link"><li>View all Hotels</li></Link>
+                            <Link to="/add-new-hotel" className="sidemenu-link"><li>Add new Hotel</li></Link>
                         </ul>
 
                         {/* FORUM MENU */}
@@ -70,8 +70,8 @@ const Sidemenu = () => {
                             <i className="fa fa-question-circle fa-lg"></i> Forum <span className="arrow"></span>
                         </li>
                         <ul className="sub-menu collapse" id="forum">
-                        <Link to="/view-questions" className="sidemenu-link"><li>View all questions</li></Link>
-                        <Link to="/view-answers" className="sidemenu-link"><li>View all answers</li></Link>
+                            <Link to="/view-questions" className="sidemenu-link"><li>View all questions</li></Link>
+                            <Link to="/view-answers" className="sidemenu-link"><li>View all answers</li></Link>
                         </ul>
 
 
@@ -90,96 +90,3 @@ const Sidemenu = () => {
 }
 
 export default Sidemenu;
-
-
-
-
-
-
-
-
-
-
-// import React from 'react'
-// import { Link, NavLink } from 'react-router-dom';
-// import "./Sidemenu.css";
-
-// const Sidemenu = () => {
-//     return (
-//         <div className="sidemenu-wrap">
-//             <div className="nav-side-menu">
-//                 <div className="brand">Admin Menu</div>
-//                 <i className="fa fa-bars fa-2x toggle-btn" id="toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>
-
-//                 <div className="menu-list">
-
-//                     <ul id="menu-content" className="menu-content collapse out">
-//                         <Link to="/" className="sidemenu-link">
-//                             <li>
-//                                 <i className="fa fa-dashboard fa-lg"></i> Dashboard
-//                             </li>
-//                         </Link>
-
-//                         {/* DESTINATION MENU */}
-//                         <li data-toggle="collapse" data-target="#destinations" className="collapsed">
-//                             <i className="fa fa-plane fa-lg"></i> Destinations <span className="arrow"></span>
-//                         </li>
-//                         <ul className="sub-menu collapse" id="destinations">
-//                             <li><NavLink to="/all-destinations">View Destinations</NavLink></li>
-//                             <li><NavLink to="/add-new-destinations">Add new Destination</NavLink></li>
-//                         </ul>
-
-//                         {/* TRIPS MENU */}
-//                         <li data-toggle="collapse" data-target="#trips" className="collapsed">
-//                             <i className="fa fa-car fa-lg"></i> Trips <span className="arrow"></span>
-//                         </li>
-//                         <ul className="sub-menu collapse" id="trips">
-//                             <li>View all Trips</li>
-//                             <li>Add new Trip</li>
-//                             <li>Bookings</li>
-//                             <li>Reviews</li>
-//                         </ul>
-
-//                         {/* TRANSPORTS MENU */}
-//                         <li data-toggle="collapse" data-target="#transports" className="collapsed">
-//                             <i className="fa fa-bus fa-lg"></i> Transport Services <span className="arrow"></span>
-//                         </li>
-//                         <ul className="sub-menu collapse" id="transports">
-//                             <li>View transport services</li>
-//                             <li>Add new transport service</li>
-//                         </ul>
-
-//                         {/* HOTELS MENU */}
-//                         <li data-toggle="collapse" data-target="#hotels" className="collapsed">
-//                             <i className="fas fa-bed fa-lg"></i> Hotels <span className="arrow"></span>
-//                         </li>
-//                         <ul className="sub-menu collapse" id="hotels">
-//                             <li>View all Hotels</li>
-//                             <li>Add new hotel</li>
-//                         </ul>
-
-//                         {/* FORUM MENU */}
-//                         <li data-toggle="collapse" data-target="#forum" className="collapsed">
-//                             <i className="fa fa-question-circle fa-lg"></i> Forum <span className="arrow"></span>
-//                         </li>
-//                         <ul className="sub-menu collapse" id="forum">
-//                             <li>View all questions</li>
-//                             <li>View all answers</li>
-//                         </ul>
-
-
-//                         {/* USERS */}
-//                         <Link to="/" className="sidemenu-link">
-//                             <li>
-//                                     <i className="fa fa-user fa-lg"></i> Users
-//                             </li>
-//                         </Link>
-
-//                     </ul>
-//                 </div>
-//             </div>
-//         </div>
-//     );
-// }
-
-// export default Sidemenu;

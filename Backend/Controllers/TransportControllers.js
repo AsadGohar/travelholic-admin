@@ -38,7 +38,7 @@ const getTransports = async (req, res, next) => {
         const error = new HttpError('Finding transports failed, please try again.',500);
         return next(error);
     }
-    res.json({ transports: transports.map(transport => transport.toObject({ getters: true })) });
+    res.send(transports);
 }
 
 // GET A SPECIFIC TRANSPORT COMPANY BY ID

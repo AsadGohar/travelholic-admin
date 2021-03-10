@@ -37,7 +37,7 @@ const getReviews = async (req, res, next) => {
         const error = new HttpError('Unknown error occured while getting reviews, please try again.',500);
         return next(error);
     }
-    res.json({ reviews: reviews.map(review => review.toObject({ getters: true })) });
+    res.send(reviews);
 }
 
 // GET REVIEW BY ID
