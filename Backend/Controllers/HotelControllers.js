@@ -11,6 +11,10 @@ const createHotel = async (req, res, next) => {
         );
     }
 
+
+
+// CREATE HOTEL INFORMATION
+
     const { title, luxury_rent, budget_rent, contact_number } = req.body
     const createdHotel = new Hotel({
         title,
@@ -22,10 +26,7 @@ const createHotel = async (req, res, next) => {
     try {
         await createdHotel.save();
     } catch (err) {
-        const error = new HttpError(
-            'Creating Hotel failed, please try again.',
-            500
-        );
+        const error = new HttpError('Creating Hotel failed, please try again.',500);
         return next(error);
     }
 
@@ -38,10 +39,7 @@ const getHotels = async (req, res, next) => {
     try {
         Hotels = await Hotel.find();
     } catch (err) {
-        const error = new HttpError(
-            'Finding Hotels failed, please try again.',
-            500
-        );
+        const error = new HttpError('Finding Hotels failed, please try again.',500);
         return next(error);
     }
     res.send(Hotels);
@@ -88,10 +86,8 @@ const updateHotel = async (req, res, next) => {
     try {
         hotel = await Hotel.findById(hotelId);
     } catch (err) {
-        const error = new HttpError(
-            'Unknown error occured while updating Hotel, please try again.',
-            500
-        );
+
+        const error = new HttpError('Unknown error occured while updating Hotel, please try again.',500);
         return next(error);
     }
 
@@ -102,11 +98,9 @@ const updateHotel = async (req, res, next) => {
 
     try {
         await hotel.save();
+
     } catch (err) {
-        const error = new HttpError(
-            'Something went wrong, could not update Hotel.',
-            500
-        );
+        const error = new HttpError('Something went wrong, could not update Hotel.', 500);
         return next(error);
     }
     res.json(hotel);
@@ -119,20 +113,14 @@ const deleteHotel = async (req, res, next) => {
     try {
         hotel = await Hotel.findById(hotelId);
     } catch (err) {
-        const error = new HttpError(
-            'Something went wrong, could not find Hotel for deletion.',
-            500
-        );
+        const error = new HttpError('Something went wrong, could not find Hotel for deletion.',500);
         return next(error);
     }
 
     try {
         await hotel.remove();
     } catch (err) {
-        const error = new HttpError(
-            'Unknown error occured while deleting Hotel, please try again.',
-            500
-        );
+        const error = new HttpError('Unknown error occured while deleting Hotel, please try again.',500);
         return next(error);
     }
     res.status(200).json({ message: 'Hotel has been deleted' });

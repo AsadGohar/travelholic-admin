@@ -23,11 +23,8 @@ const createTrip = async (req,res,next) =>{
   try {
     await trip.save()
   } catch (err) {
-    const error = new HttpError(
-    'creating Trip failed, please try again',
-      500
-  );
-  return next(error);
+    const error = new HttpError('creating Trip failed, please try again',500);
+    return next(error);
   }
   res.status(201).send(trip);
 }
@@ -40,18 +37,12 @@ const getTrips = async(req,res,next)=>{
      trips = await TripModel.find()
   } 
   catch (err) {
-    const error = new HttpError(
-      'finding Trips failed, please try again',
-      500
-    );
+    const error = new HttpError('finding Trips failed, please try again',500);
     return next(error);
   }
 
   if (!trips) {
-    const error = new HttpError(
-        'could not find trips',
-        404
-    );
+    const error = new HttpError('could not find trips',404);
     return next(error);
   }
   
@@ -60,17 +51,14 @@ const getTrips = async(req,res,next)=>{
 
 //GET ANSWERS ADMIN
 const getTripsAdmin = async (req,res,next) => {
-TripModel.find().populate('user', 'name -_id').exec(function(err,data){
-  if(err){
-    const error = new HttpError(
-      'getting Answers failed, please try again',
-      500
-      );
+  TripModel.find().populate('user', 'name -_id').exec(function(err,data){
+    if (err) {
+      const error = new HttpError('getting Answers failed, please try again',500);
       return next(error);
-  }
-  else{
-    res.send(data)
-  }
+    }
+    else {
+      res.send(data)
+    }
   })
 }
 
@@ -84,18 +72,12 @@ const getTripsbyId = async(req,res,next)=>{
      trip = await TripModel.findById(id)
   } 
   catch (err) {
-    const error = new HttpError(
-      'finding Trip failed, please try again',
-      500
-    );
+    const error = new HttpError('finding Trip failed, please try again',500);
     return next(error);
   }
 
   if (!trip) {
-    const error = new HttpError(
-        'could not find a trip by that id',
-        404
-    );
+    const error = new HttpError('could not find a trip by that id',404);
     return next(error);
   }
   
@@ -111,18 +93,12 @@ const deleteTripById = async(req,res,next) => {
      trip = await TripModel.findByIdAndDelete(id)
   } 
   catch (err) {
-    const error = new HttpError(
-      'deleting Trip failed, please try again',
-      500
-    );
+    const error = new HttpError('deleting Trip failed, please try again',500);
     return next(error);
   }
 
   if (!trip) {
-    const error = new HttpError(
-        'could not find a trip by that id',
-        404
-    );
+    const error = new HttpError('could not find a trip by that id',404);
     return next(error);
   }
   

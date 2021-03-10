@@ -24,10 +24,7 @@ const createBooking = async (req, res, next) => {
     try {
         await createdBooking.save();
     } catch (err) {
-        const error = new HttpError(
-            'Creating booking failed, please try again.',
-            500
-        );
+        const error = new HttpError('Creating booking failed, please try again.',500);
         return next(error);
     }
     res.status(201).json({ booking: createdBooking });
@@ -39,10 +36,7 @@ const getBookings = async (req, res, next) => {
     try {
         bookings = await Booking.find();
     } catch (err) {
-        const error = new HttpError(
-            'Unknown error occured while getting bookings, please try again.',
-            500
-        );
+        const error = new HttpError('Unknown error occured while getting bookings, please try again.',500);
         return next(error);
     }
     res.send(bookings);
@@ -55,20 +49,14 @@ const deleteBooking = async (req, res, next) => {
     try {
         booking = await Booking.findById(bookingId);
     } catch (err) {
-        const error = new HttpError(
-            'Unknown error occured while deleting booking, please try again.',
-            500
-        );
+        const error = new HttpError('Unknown error occured while deleting booking, please try again.',500);
         return next(error);
     }
 
     try {
         await booking.remove();
     } catch (err) {
-        const error = new HttpError(
-            'Unknown error occured while deleting booking, please try again.',
-            500
-        );
+        const error = new HttpError('Unknown error occured while deleting booking, please try again.',500 );
         return next(error);
     }
 

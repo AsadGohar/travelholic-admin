@@ -27,10 +27,7 @@ const createDestination = async (req, res, next) => {
     try {
         await createdDestination.save();
     } catch (err) {
-        const error = new HttpError(
-            'Creating destination failed, please try again.',
-            500
-        );
+        const error = new HttpError('Creating destination failed, please try again.',500);
         return next(error);
     }
 
@@ -44,10 +41,7 @@ const getDestinations = async (req, res, next) => {
     try {
         destinations = await Destination.find();
     } catch (err) {
-        const error = new HttpError(
-            'Unknown error occured while getting destinations, please try again.',
-            500
-        );
+        const error = new HttpError('Unknown error occured while getting destinations, please try again.',500);
         return next(error);
     }
     res.send(destinations);
@@ -60,18 +54,12 @@ const getDestinationById = async (req, res, next) => {
     try {
         destination = await Destination.findById(destId);
     } catch (err) {
-        const error = new HttpError(
-            'Unknown error occured while getting destination, please try again.',
-            500
-        );
+        const error = new HttpError('Unknown error occured while getting destination, please try again.',500);
         return next(error);
     }
 
     if (!destination) {
-        const error = new HttpError(
-            'Could not find a destination for the provided id.',
-            404
-        );
+        const error = new HttpError('Could not find a destination for the provided id.',404);
         return next(error);
     }
 
@@ -94,10 +82,7 @@ const updateDestination = async (req, res, next) => {
     try {
         destination = await Destination.findById(destId);
     } catch (err) {
-        const error = new HttpError(
-            'Unknown error occured while updating destination, please try again.',
-            500
-        );
+        const error = new HttpError('Unknown error occured while updating destination, please try again.',500);
         return next(error);
     }
 
@@ -140,11 +125,13 @@ const rateDestination = async (req, res, next) => {
 
     try {
         await destination.save();
+
     } catch (err) {
         const error = new HttpError(
             'Something went wrong, could not update place.',
             500
         );
+
         return next(error);
     }
     res.json(destination);
@@ -157,20 +144,14 @@ const deleteDestination = async (req, res, next) => {
     try {
         destination = await Destination.findById(destId);
     } catch (err) {
-        const error = new HttpError(
-            'Unknown error occured while deleting destination, please try again.',
-            500
-        );
+        const error = new HttpError('Unknown error occured while deleting destination, please try again.',500);
         return next(error);
     }
 
     try {
         await destination.remove();
     } catch (err) {
-        const error = new HttpError(
-            'Unknown error occured while deleting destination, please try again.',
-            500
-        );
+        const error = new HttpError('Unknown error occured while deleting destination, please try again.',500);
         return next(error);
     }
 
