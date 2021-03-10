@@ -15,10 +15,7 @@ const createQuestion = async (req,res,next)=> {
   try {
     await question.save()
   } catch (err) {
-    const error = new HttpError(
-    'creating Question failed, please try again',
-    500
-  );
+    const error = new HttpError('creating Question failed, please try again',500);
   return next(error);
   }
   res.status(201).send({ question: question });
@@ -32,18 +29,13 @@ const getQuestions = async(req,res,next)=>{
      questions = await QuestionModel.find()
   } 
   catch (err) {
-    const error = new HttpError(
-    'finding Questions failed, please try again',
-    500
+    const error = new HttpError('finding Questions failed, please try again',500
   );
     return next(error);
   }
 
   if (!questions) {
-    const error = new HttpError(
-      'could not find Questions',
-      404
-    );
+    const error = new HttpError('could not find Questions',404);
     return next(error);
   }
   
@@ -53,11 +45,8 @@ const getQuestions = async(req,res,next)=>{
 const getQuestionsAdmin = async (req,res,next) => {
   QuestionModel.find().populate('user', 'name -_id').exec(function(err,data){
   if(err){
-    const error = new HttpError(
-      'getting Answers failed, please try again',
-      500
-      );
-      return next(error);
+    const error = new HttpError('getting Answers failed, please try again',500);
+    return next(error);
   }
   else{
     res.send(data)
@@ -75,18 +64,12 @@ const updateQuestionbyId = async(req,res,next)=>{
     question = await QuestionModel.findByIdAndUpdate(id,{statement:statement})
   } 
   catch (err) {
-    const error = new HttpError(
-    'Unknown error occured while updating question, please try again.',
-    500
-  );
+    const error = new HttpError('Unknown error occured while updating question, please try again.',500);
     return next(error);
   }
   if (!question) {
-    const error = new HttpError(
-      'could not find a Question for the provided id.',
-      404
-    );
-      return next(error);
+    const error = new HttpError('could not find a Question for the provided id.',404);
+    return next(error);
   }
   res.send(question)
 }
@@ -100,18 +83,12 @@ const deleteQuestionbyId = async(req,res,next)=>{
     question = await QuestionModel.findByIdAndDelete(id)
   } 
   catch (err) {
-    const error = new HttpError(
-    'unknown error occured while deleting Question, please try again',
-    500
-    );
+    const error = new HttpError('unknown error occured while deleting Question, please try again',500);
     return next(error)
   }
   if (!question) {
-    const error = new HttpError(
-    'could not find a Question for the provided id.',
-    404
-    );
-      return next(error);
+    const error = new HttpError('could not find a Question for the provided id.',404);
+    return next(error);
   }
   res.send(question)
 }

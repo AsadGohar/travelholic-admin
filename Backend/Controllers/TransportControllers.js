@@ -22,9 +22,7 @@ const createTransport = async (req, res, next) => {
         await createdTransport.save();
     } catch (err) {
         const error = new HttpError(
-            'Creating Transport failed, please try again.',
-            500
-        );
+'Creating Transport failed, please try again.',500);
         return next(error);
     }
 
@@ -37,10 +35,7 @@ const getTransports = async (req, res, next) => {
     try {
         transports = await Transport.find();
     } catch (err) {
-        const error = new HttpError(
-            'Finding transports failed, please try again.',
-            500
-        );
+        const error = new HttpError('Finding transports failed, please try again.',500);
         return next(error);
     }
     res.json({ transports: transports.map(transport => transport.toObject({ getters: true })) });
@@ -53,18 +48,12 @@ const getTransportById = async (req, res, next) => {
     try {
         transport = await Transport.findById(transportId);
     } catch (err) {
-        const error = new HttpError(
-            'Finding required transport failed, please try again.',
-            500
-        );
+        const error = new HttpError('Finding required transport failed, please try again.',500);
         return next(error);
     }
 
     if (!transport) {
-        const error = new HttpError(
-            'Could not find a transport for the provided id.',
-            404
-        );
+        const error = new HttpError('Could not find a transport for the provided id.',404);
         return next(error);
     }
 
@@ -87,10 +76,7 @@ const updateTransport = async (req, res, next) => {
     try {
         transport = await Transport.findById(transportId);
     } catch (err) {
-        const error = new HttpError(
-            'Unknown error occured while updating transport, please try again.',
-            500
-        );
+        const error = new HttpError('Unknown error occured while updating transport, please try again.',500);
         return next(error);
     }
 
@@ -100,10 +86,7 @@ const updateTransport = async (req, res, next) => {
     try {
         await transport.save();
     } catch (err) {
-        const error = new HttpError(
-            'Something went wrong, could not update transport.',
-            500
-        );
+        const error = new HttpError('Something went wrong, could not update transport.',500);
         return next(error);
     }
     res.json(transport);
@@ -116,20 +99,14 @@ const deleteTransport = async (req, res, next) => {
     try {
         transport = await Transport.findById(transportId);
     } catch (err) {
-        const error = new HttpError(
-            'Something went wrong, could not find transport for deletion.',
-            500
-        );
+        const error = new HttpError('Something went wrong, could not find transport for deletion.',500);
         return next(error);
     }
 
     try {
         await transport.remove();
     } catch (err) {
-        const error = new HttpError(
-            'Unknown error occured while deleting transport, please try again.',
-            500
-        );
+        const error = new HttpError('Unknown error occured while deleting transport, please try again.',500);
         return next(error);
     }
     res.status(200).json({ message: 'Transport has been deleted' });

@@ -15,10 +15,7 @@ const createAnswer = async(req,res,next)=>{
     await answer.save()
   } 
   catch (err) {
-    const error = new HttpError(
-    'creating Answer failed',
-    500
-    );
+    const error = new HttpError('creating Answer failed',500);
     return next(error);
   }
   res.send(answer)
@@ -31,17 +28,11 @@ const getAnswers = async (req,res,next) => {
     answers = await AnswerModel.find()
   } 
   catch (err) {
-    const error = new HttpError(
-    'getting Answers failed, please try again',
-    500
-    );
+    const error = new HttpError('getting Answers failed, please try again',500);
     return next(error);
   }
   if (!answers) {
-    const error = new HttpError(
-    'could not find Answers',
-    404
-    );
+    const error = new HttpError('could not find Answers',404);
     return next(error);
   }
   res.send(answers)
@@ -55,17 +46,11 @@ const deleteAnswerbyId =  async (req,res,next) => {
     answer = await AnswerModel.findByIdAndDelete(id)
   } 
   catch (err) {
-    const error = new HttpError(
-    'deleting Answer failed, please try again',
-    500
-    );
+    const error = new HttpError('deleting Answer failed, please try again',500);
     return next(error);
   }
   if (!answer) {
-    const error = new HttpError(
-    'could not find an Answer for the provided id.',
-    404
-    );
+    const error = new HttpError('could not find an Answer for the provided id.',404);
     return next(error);
   }
   res.send(answer)
@@ -75,11 +60,8 @@ const deleteAnswerbyId =  async (req,res,next) => {
 const getAnswersAdmin = async (req,res,next) => {
   AnswerModel.find().populate('user', 'name -_id').exec(function(err,data){
   if(err){
-    const error = new HttpError(
-      'getting Answers failed, please try again',
-      500
-      );
-      return next(error);
+    const error = new HttpError('getting Answers failed, please try again',500);
+    return next(error);
   }
   else{
     res.send(data)
@@ -95,17 +77,11 @@ const getAllReportedAnswers = async(req,res,next)=> {
     reportedAnswers =  await AnswerModel.find({reported:true})
   } 
   catch (err) {
-    const error = new HttpError(
-    'finding Answers failed, please try again',
-    500
-    );
+    const error = new HttpError('finding Answers failed, please try again',500);
     return next(error) 
   }
   if (!reportedAnswers) {
-    const error = new HttpError(
-      'Could not find any reported answers',
-      404
-    );
+    const error = new HttpError('Could not find any reported answers',404);
     return next(error);
   }
   res.send(reportedAnswers)
@@ -120,17 +96,11 @@ const updateAnswerbyId = async(req,res,next)=>{
     answer = await AnswerModel.findOneAndUpdate(id,{text:text})
   } 
   catch (err) {
-    const error = new HttpError(
-    'deleting Answer failed, please try again',
-    500
-    );
+    const error = new HttpError('deleting Answer failed, please try again',500);
     return next(error) 
   }
   if (!answer) {
-    const error = new HttpError(
-    'could not find an Answer for the provided id.',
-    404
-    );
+    const error = new HttpError('could not find an Answer for the provided id.',404);
     return next(error);
   }
   res.send(answer)

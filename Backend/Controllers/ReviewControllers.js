@@ -21,10 +21,7 @@ const createReview = async (req, res, next) => {
     try {
         await createdReview.save();
     } catch (err) {
-        const error = new HttpError(
-            'Creating review failed, please try again.',
-            500
-        );
+        const error = new HttpError('Creating review failed, please try again.',500);
         return next(error);
     }
 
@@ -37,10 +34,7 @@ const getReviews = async (req, res, next) => {
     try {
         reviews = await Review.find();
     } catch (err) {
-        const error = new HttpError(
-            'Unknown error occured while getting reviews, please try again.',
-            500
-        );
+        const error = new HttpError('Unknown error occured while getting reviews, please try again.',500);
         return next(error);
     }
     res.json({ reviews: reviews.map(review => review.toObject({ getters: true })) });
@@ -53,18 +47,12 @@ const getReviewById = async (req, res, next) => {
     try {
         review = await Review.findById(reviewId);
     } catch (err) {
-        const error = new HttpError(
-            'Unknown error occured while getting review, please try again.',
-            500
-        );
+        const error = new HttpError('Unknown error occured while getting review, please try again.', 500);
         return next(error);
     }
 
     if (!review) {
-        const error = new HttpError(
-            'Could not find a review for the provided id.',
-            404
-        );
+        const error = new HttpError('Could not find a review for the provided id.',404);
         return next(error);
     }
 
@@ -78,20 +66,14 @@ const deleteReview = async (req, res, next) => {
     try {
         review = await Review.findById(reviewId);
     } catch (err) {
-        const error = new HttpError(
-            'Unknown error occured while deleting review, please try again.',
-            500
-        );
+        const error = new HttpError('Unknown error occured while deleting review, please try again.',500);
         return next(error);
     }
 
     try {
         await review.remove();
     } catch (err) {
-        const error = new HttpError(
-            'Unknown error occured while deleting review, please try again.',
-            500
-        );
+        const error = new HttpError('Unknown error occured while deleting review, please try again.',500);
         return next(error);
     }
 

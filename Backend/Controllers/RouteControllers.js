@@ -13,10 +13,7 @@ const createRoute = async(req,res,next)=>{
   try {
   } 
   catch (err) {
-    const error = new HttpError(
-    'creating route failed',
-    500
-    );
+    const error = new HttpError('creating route failed',500);
     return next(error);
   }
   res.send(route)
@@ -30,18 +27,12 @@ const getRoutes = async(req,res,next)=>{
      routes = await RouteModel.find()
   } 
   catch (err) {
-    const error = new HttpError(
-    'finding Questions failed, please try again',
-    500
-  );
+    const error = new HttpError('finding Questions failed, please try again',500);
     return next(error);
   }
 
   if (!routes) {
-    const error = new HttpError(
-      'could not find Questions',
-      404
-    );
+    const error = new HttpError('could not find Questions',404);
     return next(error);
   }
   
@@ -56,17 +47,11 @@ const deleteRouteById =  async (req,res,next) => {
     route = await RouteModel.findByIdAndDelete(id)
   } 
   catch (err) {
-    const error = new HttpError(
-    'deleting Answer failed, please try again',
-    500
-    );
+    const error = new HttpError('deleting Answer failed, please try again',500);
     return next(error);
   }
   if (!route) {
-    const error = new HttpError(
-    'could not find an Answer for the provided id.',
-    404
-    );
+    const error = new HttpError('could not find an Answer for the provided id.',404);
     return next(error);
   }
   res.send(route)
@@ -76,11 +61,8 @@ const deleteRouteById =  async (req,res,next) => {
 const getRoutesAdmin = async (req,res,next) => {
   RouteModel.find().populate('destination_to destination_from', 'title -_id').exec(function(err,data){
   if(err){
-    const error = new HttpError(
-      'getting Routes failed, please try again',
-      500
-      );
-      return next(error);
+    const error = new HttpError('getting Routes failed, please try again',500);
+    return next(error);
   }
   else{
     res.send(data)

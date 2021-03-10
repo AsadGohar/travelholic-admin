@@ -13,10 +13,11 @@ const UserSchema = mongoose.Schema({
     gender: { type: String },
     city: {type: String},
     reported: {type:Boolean,default:false},
-    display_image_url:{type:String},
+    display_image_name:{type:String,default:'default.jpg'},
 },{timestamps: true});
 
 UserSchema.plugin(uniqueValidator)
+
 
 UserSchema.pre('save', async function (next){
     try{
