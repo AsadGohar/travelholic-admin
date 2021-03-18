@@ -7,7 +7,7 @@ function RouteRow(props) {
   const onDelete = props.onDelete;
 
   const deleteAnswer = ()=>{
-    axios.delete(`hhttp://localhost:4000/api/route/${_id}`).then((res)=>{
+    axios.delete(`http://localhost:4000/api/routes/${_id}`).then((res)=>{
       console.log(res.data)
       onDelete()
     }).catch((err)=>{

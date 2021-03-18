@@ -6,7 +6,7 @@ import AnswerRow from "./AnswerRow";
 function AnswerTable() {
   const [answers, setAnswers] = useState([]);
   const getAnswers = () => {
-    axios.get('http://localhost:4000/api/answer/admin').then((res)=>{
+    axios.get('http://localhost:4000/api/answers/admin').then((res)=>{
       console.log(res.data)
       setAnswers(res.data);
     }).catch((err)=>{
@@ -22,13 +22,13 @@ function AnswerTable() {
             <th  className="text-center" scope="col">Username</th>
             <th className="text-center" scope="col">Answer Text</th>
             <th className="text-center" scope="col">Reported</th>
-            <th className="text-center" scope="col">Delete</th>
+            <th className="text-center" scope="col">Action</th>
           </tr>
         </thead>
         <tbody>
           {answers.map(answer => { // using props in child component and looping
               return (
-                  <AnswerRow data={answer} key={answer.id} onDelete = {getAnswers}/>
+                  <AnswerRow data={answer} key={answer._id} onDelete = {getAnswers}/>
               )
           })}
         </tbody>

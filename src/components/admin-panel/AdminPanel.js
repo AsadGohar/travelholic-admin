@@ -14,6 +14,14 @@ import AddTransport from "../transports/AddTransport";
 import ViewBookings from "../bookings/ViewBookings";
 import ViewTripReviews from "../reviews/ViewTripReviews";
 import ViewHotels from "../hotels/ViewHotels";
+import AnswerTable from "../answer/AnswerTable";
+import QuestionTable from "../question/QuestionTable";
+import TripTable from "../trip/TripTable";
+import RouteTable from "../route/RouteTable";
+import AddRouteForm from "../route/AddRouteForm";
+import AddTripForm from "../trip/AddTripForm";
+import UserTable from "../user/UserTable";
+
 
 const AdminPanel = () => {
     return (
@@ -39,6 +47,14 @@ const AdminPanel = () => {
                             <Route path="/trip-bookings" component={ViewBookings} />
                             <Route path="/trip-reviews" component={ViewTripReviews} />
                             <Route path="/view-hotels" component={ViewHotels} />
+                            <Route exact path="/" component={Dashboard} />
+                            <Route exact path="/view-answers" component={AnswerTable} />
+                            <Route exact path="/view-questions" component={QuestionTable} />
+                            <Route exact path="/view-trips" component={TripTable} />
+                            <Route exact path="/view-routes" component={RouteTable} />
+                            <Route exact path="/add-new-route" component={AddRouteForm} />
+                            <Route exact path="/add-new-trip" component={AddTripForm} />
+                            <Route exact path="/registered-users" component={UserTable} />
                         </Switch>
                     </div>
                 </div>

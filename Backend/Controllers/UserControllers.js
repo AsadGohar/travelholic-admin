@@ -207,6 +207,23 @@ const uploadProfilePic = async (req,res,next) =>{
   res.send(user)
 }
 
+const getAllUsersAdmin = async (req,res,next)=>{
+  var users
+  try {
+    users = await UserModel.find()
+ } 
+ catch (err) {
+   const error = new HttpError('finding Questions failed, please try again',500);
+   return next(error);
+ }
+
+ if (!users) {
+   const error = new HttpError('could not find Questions',404);
+   return next(error);
+ }
+ res.send(users)
+}
+
 const validation = (values) =>{
   let joiSchema = Joi.object().keys({
     'name' : Joi.string().required(),
@@ -225,4 +242,5 @@ module.exports.updatePassword =updatePassword
 module.exports.updateUserById =updateUserById
 module.exports.deleteUserById =deleteUserById
 module.exports.uploadProfilePic  =uploadProfilePic 
+module.exports.getAllUsersAdmin  =getAllUsersAdmin 
 

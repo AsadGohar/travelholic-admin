@@ -7,7 +7,7 @@ function QuestionRow(props) {
   const onDelete = props.onDelete;
 
   const deleteQuestion = ()=>{
-    axios.delete(`http://localhost:4000/api/question/${_id}`).then((res)=>{
+    axios.delete(`http://localhost:4000/api/questions/${_id}`).then((res)=>{
       console.log(res.data)
       onDelete()
     }).catch((err)=>{

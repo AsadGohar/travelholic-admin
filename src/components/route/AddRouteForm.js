@@ -7,40 +7,45 @@ function AddRouteForm() {
   const [destinations, setDestinations] = useState([]);
   const getDestinations = () => {
     axios.get('http://localhost:4000/api/destinations/').then((res)=>{
-      setDestinations(res.data.destinations);
+      setDestinations(res.data);
+      console.log(destinations)
     }).catch((err)=>{
       console.log(err)
     });
   }
-  var getId = (val) =>{
+  React.useEffect(getDestinations,[])
+  const getId = (val) =>{
+    console.log('val is',val)
     var id;
     destinations.forEach((destination)=>{
-      if(destination.title===val)
+      if (destination.title===val)
       {
-        id=destination.id;
+        id=destination._id;
       }
     })
     return id;
   }
   const selectTo = (e)=>{
     var to = getId(e.target.value)
+    console.log("to is ",to)
     setTo(to);
   }
   const selectFrom = (e)=>{
+    
     var from = getId(e.target.value)
+    console.log("from is ",from)
     setFrom(from);
   }
-  React.useEffect(getDestinations,[])
+  
   const addRoute = (e) => {
     e.preventDefault();
-    
-    if(to===from){
+    console.log(to,from)
+    if (to===from) {
       
       alert("To and From values cannot be same")
     }
-    else{
-
-      axios.post('http://localhost:4000/api/route/',{to,from})
+    else {
+      axios.post('http://localhost:4000/api/routes/',{to,from})
       .then(res=>{
         alert('Route Added')
         console.log(res.data)

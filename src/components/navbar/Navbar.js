@@ -9,7 +9,7 @@ const Navbar = () => {
                     <img src={"images/logo-png.png"} className="logo-img" />
                 </div>
                 <div className="float-right">
-                    <span class="logout-link">
+                    <span className="logout-link">
                         <a href="#" id="logout">Logout</a>
                     </span>
                 </div>

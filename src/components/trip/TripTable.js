@@ -6,7 +6,7 @@ import TripRow from "./TripRow";
 function TripTable() {
   const [trips, setTrips] = useState([]);
   const getTrips = () => {
-    axios.get('http://localhost:4000/api/trip/').then((res)=>{
+    axios.get('http://localhost:4000/api/trips/').then((res)=>{
       console.log(res.data)
       setTrips(res.data);
     }).catch((err)=>{
@@ -27,7 +27,7 @@ function TripTable() {
         <tbody>
         {trips.map(trip => { // using props in child component and looping
               return (
-                  <TripRow data={trip} key={trip.id} onDelete = {getTrips}/>
+                  <TripRow data={trip} key={trip._id} onDelete = {getTrips}/>
               )
           })}
         </tbody>

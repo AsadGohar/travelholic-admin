@@ -6,7 +6,7 @@ import RouteRow from "./RouteRow";
 function RouteTable() {
   const [routes, setRoutes] = useState([]);
   const getRoutes = () => {
-    axios.get('http://localhost:4000/api/route/admin').then((res)=>{
+    axios.get('http://localhost:4000/api/routes/admin').then((res)=>{
       setRoutes(res.data);
     }).catch((err)=>{
       console.log(err)
