@@ -33,7 +33,8 @@ exports.uploadUserPhoto = upload.single('photo')
 
 //CREATE A USER
 const createUser = async(req,res,next)=>{
-  const {name,password,email,number} = req.body
+  const {name,password,email,mobile_num} = req.body
+  console.log(name,password,email,mobile_num)
   let {error} = validation(req.body)
   if(error){
     const err = new HttpError(error.details[0].message,500);
@@ -52,7 +53,7 @@ const createUser = async(req,res,next)=>{
       user.name=name
       user.email=email
       user.password=password
-      user.mobile_num=number
+      user.mobile_num=mobile_num
       token = user.getToken()
       await user.save()
     }
