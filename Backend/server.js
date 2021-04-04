@@ -19,7 +19,7 @@ const QuestionRoutes = require('./Routes/QuestionRoutes');
 const TripRoutes = require('./Routes/TripRoutes');
 const RouteRoutes = require('./Routes/RouteRoutes');
 const HotelRoutes = require('./Routes/HotelRoutes');
-const ViewRoutes = require('./Routes/ViewRoutes');
+
 
 const app = express();
 app.use(express.json());
