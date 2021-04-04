@@ -12,6 +12,9 @@ router.post('/',
 ],
 BookingControllers.createBooking);
 
+// get a Booking by ID
+router.get('/:id', BookingControllers.getBookingById);
+
 //Get all Bookings
 router.get('/', BookingControllers.getBookings);
 
