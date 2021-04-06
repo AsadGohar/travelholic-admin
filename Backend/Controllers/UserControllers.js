@@ -1,18 +1,19 @@
 const UserModel = require('../Models/User');
 const HttpError = require('../Models/HttpError');
 const multer = require('multer')
+const sharp = require('sharp')
 const fs = require("fs")
 const Joi = require('joi');
 
 //IMAGE HANDLING
 const multerStorage = multer.diskStorage({
-  destination:(req,file,cb)=>{
-    cb(null,'public/images/users')
-  },
-  filename:(req,file,cb)=>{
-    const ext = file.mimetype.split('/')[1];
-    cb(null,`user-${req.body.id}-${Date.now()}.${ext}`)
-  }
+  // destination:(req,file,cb)=>{
+  //   cb(null,'public/images/users')
+  // },
+  // filename:(req,file,cb)=>{
+  //   const ext = file.mimetype.split('/')[1];
+  //   cb(null,`user-${req.body.id}-${Date.now()}.${ext}`)
+  // }
 })
 
 const multerFilter = (req,file,cb)=>{
@@ -177,13 +178,16 @@ const deleteUserById = async(req,res,next) =>{
 const uploadProfilePic = async (req,res,next) =>{
 
   const{id}= req.body
-  let user,name,tempPath
-  name =req.file.filename
-  console.log(name)
+  let user,tempPath
+  // buffer = req.file.buffer
+  req.file.filename = `user-${id}-${Date.now()}.jpeg`;
+//  let file=req.file
+  // console.log(file)
+  await sharp(req.file.path).resize({width:905,height:905}).toFile(`./public/images/users/${req.file.filename}`)
   try {
     user = await UserModel.findById(id).select('+password')
     tempPath = 'public\\images\\users\\'+ user.display_image_name
-    console.log('tempapth',tempPath)
+    // console.log('tempapth',tempPath)
     user.display_image_name=req.file.filename
     user.save()
   } catch (err) {
