@@ -6,6 +6,10 @@ const BookingSchema = mongoose.Schema({
    //    required: true,
    //    ref: 'User'
    // },
+   title: {
+      type: String,
+      required: true
+   },
    name: {
       type: String,
       required: true
@@ -23,7 +27,7 @@ const BookingSchema = mongoose.Schema({
       required: true
    },
    phoneNo: {
-      type: Number,
+      type: String,
       required: true
    },
    seats: {
@@ -32,16 +36,22 @@ const BookingSchema = mongoose.Schema({
    },
    paymentMethod: {
       type: String,
+   },
+   totalPrice: {
+      type: Number,
       required: true
    },
    isPaid: {
       type: Boolean,
-      required: true,
       default: false
    },
    paidAt: {
       type: Date,
-   }
+   },
+   booking_confirmed: {
+      type: Boolean,
+      default: false
+   },
 }, { timestamps: true });
 
 const BookingModel = mongoose.model('Booking', BookingSchema);
