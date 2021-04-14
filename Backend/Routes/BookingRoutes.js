@@ -21,4 +21,7 @@ router.get('/', BookingControllers.getBookings);
 //Delete a Booking
 router.delete('/:id', BookingControllers.deleteBooking);
 
+// Confirm Booking
+router.put('/:id/confirm', BookingControllers.confirmBooking)
+
 module.exports = router;

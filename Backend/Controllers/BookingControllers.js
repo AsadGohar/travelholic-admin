@@ -90,9 +90,35 @@ const deleteBooking = async (req, res, next) => {
     res.status(200).json({ message: 'booking has been deleted' });
 }
 
+// CONFIRM Booking
+const confirmBooking = async (req, res, next) => {
+    const bookingId = req.params.id;
+    let booking;
+    try {
+        booking = await Booking.findById(bookingId);
+    } catch (err) {
+        const error = new HttpError('Unknown error occured while deleting booking, please try again.', 500);
+        return next(error);
+    }
+
+    try {
+        booking.booking_confirmed = true
+
+        const updatedBooking = await booking.save()
+
+    } catch (err) {
+        const error = new HttpError('Unknown error occured while deleting booking, please try again.', 500);
+        return next(error);
+    }
+
+    res.json(booking);
+}
+
+
 
 // EXPORTING ALL CONTROllERS HERE
 exports.createBooking = createBooking;
 exports.getBookings = getBookings;
 exports.deleteBooking = deleteBooking;
 exports.getBookingById = getBookingById;
+exports.confirmBooking = confirmBooking;

@@ -18,11 +18,11 @@ const ViewBookings = () => {
             .catch((error) => {
                 console.log(error);
             })
-    }, [])
+    }, [getBookings])
 
     const DataTable = () => {
         return bookings.map((res, i) => {
-            return <BookingTable data={res} key={i} onDelete={getBookings} />;
+            return <BookingTable data={res} key={i} onUpdate={getBookings} />;
         });
     }
 
