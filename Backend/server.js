@@ -41,6 +41,10 @@ app.use('/api/routes', RouteRoutes)
 app.use('/api/hotels', HotelRoutes)
 
 
+app.get('/api/config/paypal', (req, res) => res.send(process.env.PAYPAL_CLIENT_ID) )
+
+
+
 //Error handling on server side
 app.use((req, res, next) => {
     const error = new HttpError('Could not find this route.', 404);

@@ -1,6 +1,7 @@
 const Booking = require('../Models/Booking');
 const { validationResult } = require('express-validator');
 const HttpError = require('../Models/HttpError');
+const asyncHandler = require('express-async-handler')
 
 // CREATE A NEW BOOKING
 const createBooking = async (req, res, next) => {
@@ -14,6 +15,7 @@ const createBooking = async (req, res, next) => {
     const { title, name, email, city, address, phoneNo, seats, paymentMethod, totalPrice, isPaid, paidAt, booking_confirmed } = req.body;
 
     const createdBooking = new Booking({
+        user: req.user._id,
         title,
         name,
         email,
@@ -104,14 +106,68 @@ const confirmBooking = async (req, res, next) => {
     try {
         booking.booking_confirmed = true
 
-        const updatedBooking = await booking.save()
+    } catch (err) {
+        const error = new HttpError('Unknown error occured while deleting booking, please try again.', 500);
+        return next(error);
+    }
+    const updatedBooking = await booking.save()
 
+    res.json(updatedBooking);
+}
+
+// UPDATE BOOKING TO PAID
+const updateBookingToPaid = async (req, res, next) => {
+    const bookingId = req.params.id;
+    let booking;
+    try {
+        booking = await Booking.findById(bookingId);
     } catch (err) {
         const error = new HttpError('Unknown error occured while deleting booking, please try again.', 500);
         return next(error);
     }
 
-    res.json(booking);
+    try {
+        booking.isPaid = true
+        booking.paidAt = Date.now()
+        booking.paymentResult = {
+            id: req.body.id,
+            status: req.body.status,
+            update_time: req.body.update_time,
+            email_address: req.body.payer.email_address,
+          }
+
+
+    } catch (err) {
+        const error = new HttpError('Unknown error occured while updating booking, please try again.', 500);
+        return next(error);
+    }
+    const updatedBooking = await booking.save()
+
+
+    res.json(updatedBooking);
+}
+
+// Update Payment Method
+const updatePaymentMethod = async (req, res, next) => {
+    const bookingId = req.params.id;
+    let booking;
+    try {
+        booking = await Booking.findById(bookingId);
+    } catch (err) {
+        const error = new HttpError('Unknown error occured while deleting booking, please try again.', 500);
+        return next(error);
+    }
+
+    try {
+        booking.paymentMethod = req.body.paymentMethod
+
+    } catch (err) {
+        const error = new HttpError('Unknown error occured while deleting booking, please try again.', 500);
+        return next(error);
+    }
+    const updatedBooking = await booking.save()
+
+    res.json(updatedBooking);
 }
 
 
@@ -122,3 +178,6 @@ exports.getBookings = getBookings;
 exports.deleteBooking = deleteBooking;
 exports.getBookingById = getBookingById;
 exports.confirmBooking = confirmBooking;
+exports.updateBookingToPaid = updateBookingToPaid;
+exports.updatePaymentMethod = updatePaymentMethod;
+

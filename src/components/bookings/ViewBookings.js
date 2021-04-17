@@ -37,6 +37,7 @@ const ViewBookings = () => {
                     <thead className="thead-dark">
                         <tr>
                             <th>Id</th>
+                            <th>User Id</th>
                             <th className="tableHeader-2">Title</th>
                             <th>Name</th>
                             <th className="tableHeader-2">Email</th>

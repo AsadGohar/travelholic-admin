@@ -4,7 +4,7 @@ import axios from "../axios";
 import Button from 'react-bootstrap/Button';
 
 const BookingTable = (props) => {
-    const { _id, title, name, email, city, address, phoneNo, seats, paymentMethod, totalPrice, isPaid, booking_confirmed, createdAt } = props.data
+    const { _id, user, title, name, email, city, address, phoneNo, seats, paymentMethod, totalPrice, isPaid, booking_confirmed, createdAt } = props.data
     const onUpdate = props.getBookings
 
     const deleteBooking = () => {
@@ -30,6 +30,7 @@ const BookingTable = (props) => {
     return (
         <tr>
             <td>{_id}</td>
+            <td>{user}</td>
             <td style={{ fontWeight: 'bold' }}>{title}</td>
             <td>{name}</td>
             <td>{email}</td>
