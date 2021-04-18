@@ -106,9 +106,51 @@ const deleteTripById = async (req, res, next) => {
   res.send(trip)
 }
 
+
+// CREATE A CUSTOMER REVIEW
+const createTripReview = async (req, res) => {
+  const { rating, comment } = req.body
+
+  const trip = await TripModel.findById(req.params.id)
+
+  if (trip) {
+    const alreadyReviewed = trip.reviews.find(
+      (r) => r.user.toString() === req.user._id.toString()
+    )
+
+    if (alreadyReviewed) {
+      res.status(400)
+      throw new Error('This Trip is already reviewed')
+    }
+
+    const review = {
+      name: req.user.name,
+      rating: Number(rating),
+      comment,
+      user: req.user._id,
+    }
+
+    trip.reviews.push(review)
+
+    trip.numReviews = trip.reviews.length
+
+    trip.rating =
+      trip.reviews.reduce((acc, item) => item.rating + acc, 0) /
+      trip.reviews.length
+
+    await trip.save()
+    res.status(201).json({ message: 'Review added' })
+  } else {
+    res.status(404)
+    throw new Error('Trip not found')
+  }
+}
+
+
 //EXPORTING CONTROLLERS
 module.exports.createTrip = createTrip
 module.exports.getTrips = getTrips
 module.exports.getTripsAdmin = getTripsAdmin
 module.exports.getTripbyId = getTripbyId
 module.exports.deleteTripById = deleteTripById
+module.exports.createTripReview = createTripReview
