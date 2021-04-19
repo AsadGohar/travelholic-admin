@@ -90,7 +90,16 @@ const logIn = async(req,res,next)=>{
   }
   
   token = user.getToken()
-  res.send(token)
+  // res.send(token)
+
+
+
+  res.json({
+    _id: user._id,
+    name: user.name,
+    email: user.email,
+    token: token
+})
 }
 
 //GETTING USER BY ID

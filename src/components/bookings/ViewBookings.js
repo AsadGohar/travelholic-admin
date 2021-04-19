@@ -2,12 +2,14 @@ import React, { useEffect, useState } from 'react';
 import axios from '../axios';
 import BookingTable from "./BookingTable";
 import Table from 'react-bootstrap/Table';
+import "../TableStyle.css"
 
 
 const ViewBookings = () => {
     const [bookings, setBookings] = useState([]);
 
-    useEffect(() => {
+    let getBookings;
+    useEffect(getBookings = () => {
         axios.get('/bookings')
             .then(res => {
                 console.log(res.data);
@@ -16,11 +18,11 @@ const ViewBookings = () => {
             .catch((error) => {
                 console.log(error);
             })
-    }, [])
+    }, [getBookings])
 
     const DataTable = () => {
         return bookings.map((res, i) => {
-            return <BookingTable data={res} key={i} />;
+            return <BookingTable data={res} key={i} onUpdate={getBookings} />;
         });
     }
 
@@ -35,11 +37,20 @@ const ViewBookings = () => {
                     <thead className="thead-dark">
                         <tr>
                             <th>Id</th>
+                            <th>User Id</th>
+                            <th className="tableHeader-2">Title</th>
                             <th>Name</th>
+                            <th className="tableHeader-2">Email</th>
                             <th>City</th>
-                            <th>Address</th>
+                            <th className="tableHeader-2">Address</th>
+                            <th>Phone No</th>
                             <th>Seats</th>
-                            <th>createdAt</th>
+                            <th>Total Price</th>
+                            <th>Payment Method</th>
+                            <th>Is Paid?</th>
+                            <th>Booking Confirmed?</th>    
+                            <th>Confirm Booking</th>                            
+                            <th className="tableHeader-4">Booking Date</th>
                             <th>Action</th>
                         </tr>
                     </thead>

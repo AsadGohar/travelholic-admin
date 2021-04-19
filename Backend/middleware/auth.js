@@ -5,7 +5,7 @@ const HttpError = require('../Models/HttpError');
 const auth = async (req,res,next) =>{
   let token
   if(req.headers.authorization)
-  token =req.headers.authorization;
+  token = req.headers.authorization.split(' ')[1]
   if(!token){
     const error = new HttpError('Not Authorized',500);
     return next(error);

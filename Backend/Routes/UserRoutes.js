@@ -13,6 +13,10 @@ router.delete('/:id', UserController.deleteUserById)
 router.post('/login', UserController.logIn)
 
 module.exports = router;
+
+
+
+
 // const UserModel = require('../Models/UserModel');
 // const express = require ('express');
 
