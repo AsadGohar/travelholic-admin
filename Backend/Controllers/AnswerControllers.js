@@ -37,7 +37,22 @@ const getAnswers = async (req,res,next) => {
   }
   res.send(answers)
 }
-
+//GETTING ALL ANSWERS BY QUESTION ID
+const getAnswersByQuestionId = async (req,res,next) => {
+  let answers
+  try {
+    answers = await AnswerModel.find({ question: req.params.id }).populate('user', 'name display_image_name _id').exec()
+  } 
+  catch (err) {
+    const error = new HttpError('getting Answers failed, please try again',500);
+    return next(error);
+  }
+  if (!answers) {
+    const error = new HttpError('could not find Answers',404);
+    return next(error);
+  }
+  res.send(answers)
+}
 //DELETE ANSWER BY ID
 const deleteAnswerbyId =  async (req,res,next) => {
   let id = req.params.id
@@ -110,6 +125,7 @@ const updateAnswerbyId = async(req,res,next)=>{
 //EXPORTING CONTROLLERS
 module.exports.createAnswer  = createAnswer;
 module.exports.getAnswers  = getAnswers;
+module.exports.getAnswersByQuestionId  = getAnswersByQuestionId
 module.exports.getAnswersAdmin  = getAnswersAdmin;
 module.exports.deleteAnswerbyId  = deleteAnswerbyId;
 module.exports.getAllReportedAnswers  = getAllReportedAnswers;
