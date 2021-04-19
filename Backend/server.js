@@ -12,7 +12,6 @@ const cors = require('cors')
 const DestinationRoutes = require('./Routes/DestinationRoutes');
 const BookingRoutes = require('./Routes/BookingRoutes');
 const TransportRoutes = require('./Routes/TransportRoutes');
-const ReviewRoutes = require('./Routes/ReviewRoutes');
 const AnswerRoutes = require('./Routes/AnswerRoutes');
 const UserRoutes = require('./Routes/UserRoutes');
 const QuestionRoutes = require('./Routes/QuestionRoutes');
@@ -26,14 +25,14 @@ app.use(express.json());
 app.use(cors());
 
 app.use('/public/images/users',express.static(path.join('public','images','users')))
-// app.use(express.static('public'))
 
+// app.use(express.static('public'))
 // app.use(express.static(__dirname + '/public'));
+
 //Use the routes here
 app.use('/api/destinations', DestinationRoutes);
 app.use('/api/bookings', BookingRoutes);
 app.use('/api/transports', TransportRoutes);
-app.use('/api/reviews', ReviewRoutes);
 app.use('/api/answers', AnswerRoutes)
 app.use('/api/users', UserRoutes)
 app.use('/api/questions', QuestionRoutes)
@@ -41,6 +40,7 @@ app.use('/api/trips', TripRoutes)
 app.use('/api/routes', RouteRoutes)
 app.use('/api/hotels', HotelRoutes)
 
+// PAYPAL API
 app.get('/api/config/paypal', (req, res) => res.send(process.env.PAYPAL_CLIENT_ID) )
 
 //Error handling on server side
