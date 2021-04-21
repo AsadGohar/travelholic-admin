@@ -152,8 +152,7 @@ const addViewToQuestionbyId = async (req,res,next)=>{
   else{
     question = await QuestionModel.findById(id).populate('user', 'name display_image_name -_id');
     res.send(question)
-  
-}
+  }
   
 }
 

@@ -5,10 +5,19 @@ const router = express.Router();
 
 
 // Create a Transport
-router.post('/', check('fare').isLength({min: 2, max: 5}), TransportControllers.createTransport);
+router.post('/', TransportControllers.createTransport);
+
+// Add Route to Transport
+router.post('/route/:id', TransportControllers.addRoutetoTransport);
 
 //Get all Transports
 router.get('/', TransportControllers.getTransports);
+
+//Get Does Route Exist Value
+router.get('/exist', TransportControllers.doesRouteExist);
+
+//Get Transport By Destinations
+router.get('/destinations', TransportControllers.getTransportByDestinations);
 
 //Get Transport by ID
 router.get('/:id', TransportControllers.getTransportById);
