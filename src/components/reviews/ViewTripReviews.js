@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from '../axios';
+import axios from '../support-components/axios';
 import ReviewTable from "./ReviewTable";
 import Table from 'react-bootstrap/Table';
 

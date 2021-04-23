@@ -1,12 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import axios from "../axios";
+import axios, { imagePath } from "../support-components/axios";
 import Button from 'react-bootstrap/Button';
 
 const DestinationTable = (props) => {
     const { _id, title, title_image, rating, introduction, attraction_photos, photos, guidelines, history, createdAt, updatedAt } = props.data
     const onDelete = props.onDelete;
-    const deleteTransport = () => {
+    const deleteDestination = () => {
         axios.delete('/destinations/' + props.data._id)
             .then((res) => {
                 console.log('Destination successfully deleted!')
@@ -17,15 +17,25 @@ const DestinationTable = (props) => {
     }
 
     const attractions = attraction_photos.map(attraction => (
-        <div key={attraction._id}>
-            <p><b>Title:</b> {attraction.title}</p>
-            <p>Path: {attraction.path}</p>
+        <div className="row mt-1" key={attraction._id}>
+            <div className="col-3">
+            <a href={`${imagePath}/${attraction.path}`} target="_blank"><img src={`${imagePath}/${attraction.path}`} width='50px' /></a>
+            </div>
+            <div className="col-9">
+            <p style={{ fontSize: '13px' }}>{attraction.path}</p>
+            </div>
+            <p className="ml-3" style={{fontWeight:'500'}}>{attraction.title}</p>
         </div>
     ))
 
     const photosList = photos.map(photo => (
-        <div key={photo._id}>
-            <p><b>Path:</b> {photo.path}</p>
+        <div className="row mt-1" key={photo._id}>
+            <div className="col-3">
+                <a href={`${imagePath}/${photo.path}`} target="_blank"><img src={`${imagePath}/${photo.path}`} width='50px' /></a>
+            </div>
+            <div className="col-9">
+                <p style={{ fontSize: '13px' }}>{photo.path}</p>
+            </div>
         </div>
     ))
 
@@ -33,8 +43,8 @@ const DestinationTable = (props) => {
         <tr>
             <td>{_id}</td>
             <td>{title}</td>
-            <td>Path: {title_image}</td>
-            {/* <td>{rating}</td> */}
+            <td>{title_image}</td>
+            <td>{rating.toFixed(2)}</td>
             <td>{introduction}</td>
             <td>{attractions}</td>
             <td>{photosList}</td>
@@ -42,11 +52,11 @@ const DestinationTable = (props) => {
             <td>{history}</td>
             <td>{createdAt}</td>
             <td>{updatedAt}</td>
-            <td style={{columnWidth: 200}}>
+            <td style={{ columnWidth: 200 }}>
                 <Link className="edit-link mr-2 ml-3" to={"/edit-destination/" + props.data._id}>
-                    Edit
+                    <i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i>
                 </Link>
-                <Button className="" onClick={e => {deleteTransport()}} size="sm" variant="danger">Delete</Button>
+                <i className='btn fa fa-trash fa-2x' onClick={e => { deleteDestination() }} style={{ cursor: 'pointer', color: 'red' }}></i>
             </td>
         </tr>
     );

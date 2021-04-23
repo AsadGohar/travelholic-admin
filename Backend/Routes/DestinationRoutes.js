@@ -1,8 +1,10 @@
 const express = require('express');
 const DestinationControllers = require('../Controllers/DestinationControllers');
 const { check } = require('express-validator');
-const router = express.Router();
 const { auth } = require('../middleware/auth')
+// const fileUpload = require('../middleware/fileUpload')
+
+const router = express.Router();
 
 
 // Create a Destination

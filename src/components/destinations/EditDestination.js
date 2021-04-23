@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import axios from "../axios";
+import axios, { imagePath } from "../support-components/axios";
 import { produce } from "immer";
+import Loader from "../support-components/Loader"
+
 
 
 const EditDestination = (props) => {
@@ -13,6 +15,8 @@ const EditDestination = (props) => {
     const [history, setHistory] = useState('');
     const [attractions, setAttractions] = useState([{ title: "", path: "" }])
     const [photos, setPhotos] = useState([{ path: "" }]);
+    const [uploading, setUploading] = useState(false)
+
 
     // Setting state to current destination details
     useEffect(() => {
@@ -35,9 +39,33 @@ const EditDestination = (props) => {
     const onChangeTitle = (e) => {
         setTitle(e.target.value);
     }
-    const onChangeTitleImage = (e) => {
-        setTitleImage(e.target.value);
+
+    const onChangeTitleImage = async (e) => {
+        const file = e.target.files[0]
+        const formData = new FormData()
+        formData.append('image', file)
+        setUploading(true)
+
+        try {
+            const config = {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            }
+
+            const { data } = await axios.post('/upload', formData, config)
+            setTitleImage(data)
+
+            setUploading(false)
+
+        } catch (error) {
+            console.error(error)
+            setUploading(false)
+
+        }
     }
+
+
     const onChangeIntro = (e) => {
         setIntroduction(e.target.value);
     }
@@ -47,6 +75,55 @@ const EditDestination = (props) => {
     const onChangeHistory = (e) => {
         setHistory(e.target.value);
     }
+
+    const onChangeAttractionPhotos = async (e, index) => {
+        const file = e.target.files[0]
+        const formData = new FormData()
+        formData.append('image', file)
+        setUploading(true)
+
+        try {
+            const config = {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            }
+            const { data } = await axios.post('/upload', formData, config)
+            setAttractions(currentAttractions => produce(currentAttractions, v => {
+                v[index].path = data;
+            }));
+            setUploading(false)
+        } catch (error) {
+            console.error(error)
+            setUploading(false)
+        }
+    }
+
+    const onChangePhotos = async (e, index) => {
+        const file = e.target.files[0]
+        const formData = new FormData()
+        formData.append('image', file)
+        setUploading(true)
+
+        try {
+            const config = {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            }
+            const { data } = await axios.post('/upload', formData, config)
+            setPhotos(currentPhotos => produce(currentPhotos, v => {
+                v[index].path = data;
+            }));
+
+            setUploading(false)
+        } catch (error) {
+            console.error(error)
+            setUploading(false)
+
+        }
+    }
+
 
     // Functions for destination attractions
     const handleAddAttraction = () => {
@@ -83,14 +160,14 @@ const EditDestination = (props) => {
             history: history
         };
 
-        axios.put('/destinations/' + props.match.params.id , destinationObject)
+        axios.put('/destinations/' + props.match.params.id, destinationObject)
             .then(res => console.log(res.data));
 
-            alert("Destination updated!");
+        alert("Destination updated!");
 
-            // Redirecting to view Page
-            props.history.push('/all-destinations')
-            
+        // Redirecting to view Page
+        props.history.push('/all-destinations')
+
     }
 
     return (
@@ -109,35 +186,38 @@ const EditDestination = (props) => {
 
                         {/* EDIT TITLE IMAGE */}
                         <div className="form-group">
-                            <label for="title-image">Title Image</label><br />
-                            <input type="text" className="form-control" id="title-image" value={titleImage} onChange={onChangeTitleImage} aria-describedby="destination image" placeholder="Write image path e.g images/abc.jpg" />
+                            <label htmlFor="title-image">Title Image</label><br />
+                            <input type="file" id="title-image-file" label="Choose File" onChange={onChangeTitleImage} />
+                            <p style={{ fontSize: '12px', color: 'green' }}>{titleImage}</p>
+                            {titleImage && <img src={`${imagePath}/${titleImage}`} width={100} />}
+                            {uploading && <Loader />}
                         </div>
 
                         {/* EDIT INTRO */}
                         <div className="form-group">
-                            <label for="introduction">Introduction</label>
-                            <input type="text" className="form-control" id="introduction" value={introduction} onChange={onChangeIntro} aria-describedby="destination intro" placeholder="Write short destination introduction (max 150 words)" />
+                            <label htmlFor="introduction">Introduction</label>
+                            <textarea rows="4" className="form-control" id="introduction" value={introduction} onChange={onChangeIntro} aria-describedby="destination intro" placeholder="Write short destination introduction (max 150 words)" />
                         </div>
 
-                        {/* EDIT ATTRACTION PHOTOS */}
+                        {/* INSERT ATTRACTION PHOTOS */}
                         <div className="form-group">
-                            <label for="photos">Add attractions photos</label>
+                            <label htmlFor="photos">Add attractions photos</label>
                             <div className="border border-dark">
                                 {attractions.map((attraction, index) => (
-                                    <div className="attractions-input-div p-3">
-                                        <input type="text" className="form-control" value={attraction.title} onChange={e => {
+                                    <div className="attractions-input-div p-3" key={index}>
+
+                                        <input type="text" className="form-control mb-2" value={attraction.title} onChange={e => {
                                             const title = e.target.value;
                                             setAttractions(currentAttractions => produce(currentAttractions, v => {
                                                 v[index].title = title;
                                             }));
                                         }} placeholder="Attraction name"></input>
 
-                                        <input type="text" className="form-control mt-1" value={attraction.path} onChange={e => {
-                                            const path = e.target.value;
-                                            setAttractions(currentAttractions => produce(currentAttractions, v => {
-                                                v[index].path = path;
-                                            }));
-                                        }} placeholder="images/demo.jpg"></input>
+                                        <input type="file" id="attractions-file" label="Choose File" onChange={e => onChangeAttractionPhotos(e, index)} />
+
+                                        {attraction.path && <img src={`${imagePath}/${attraction.path}`} width={60} />}
+                                        <p style={{ fontSize: '12px', color: 'green' }}>{attraction.path}</p>
+                                        {uploading && <Loader />}
                                     </div>
                                 ))}
                                 <button type="button" onClick={handleAddAttraction} className="btn btn-success mt-1 mb-3 ml-3">Add another attraction</button>
@@ -145,18 +225,16 @@ const EditDestination = (props) => {
                             </div>
                         </div>
 
-                        {/* EDIT PHOTOS */}
+                        {/* INSERT PHOTOS */}
                         <div className="form-group">
-                            <label for="photos">Add destination photos</label>
+                            <label htmlFor="photos">Add destination photos</label>
                             <div className="border border-dark">
                                 {photos.map((photo, index) => (
-                                    <div className="photos-input-div p-3">
-                                        <input type="text" className="form-control" value={photo.path} onChange={e => {
-                                            const path = e.target.value;
-                                            setPhotos(currentPhotos => produce(currentPhotos, v => {
-                                                v[index].path = path;
-                                            }));
-                                        }} placeholder="images/demo.jpg"></input>
+                                    <div className="photos-input-div p-3" key={index}>
+                                        <input type="file" id="photos-file" label="Choose File" onChange={e => onChangePhotos(e, index)} />
+                                        {photo.path && <img src={`${imagePath}/${photo.path}`} width={60} />}
+                                        <p style={{ fontSize: '12px', color: 'green' }}>{photo.path}</p>
+                                        {uploading && <Loader />}
                                     </div>
                                 ))}
                                 <button type="button" onClick={handleAddPhoto} className="btn btn-success mt-1 mb-3 ml-3">Add another photo</button>
@@ -166,15 +244,16 @@ const EditDestination = (props) => {
 
                         {/* EDIT GUIDELINES */}
                         <div className="form-group">
-                            <label for="guidelines">Guidelines</label>
-                            <input type="text" className="form-control" id="guidelines" value={guidelines} onChange={onChangeGuidelines} aria-describedby="destination guidelines" placeholder="Write guidelines for destinations" />
+                            <label htmlFor="guidelines">Guidelines</label>
+                            <textarea rows='4' className="form-control" id="guidelines" value={guidelines} onChange={onChangeGuidelines} aria-describedby="destination guidelines" placeholder="Write guidelines for destinations" />
                         </div>
 
                         {/* EDIT HISTORY */}
                         <div className="form-group">
-                            <label for="history">History</label>
-                            <input type="text" className="form-control" id="history" value={history} onChange={onChangeHistory} aria-describedby="destination history" placeholder="Write history for destinations" />
+                            <label htmlFor="history">History</label>
+                            <textarea rows='4' className="form-control" id="history" value={history} onChange={onChangeHistory} aria-describedby="destination history" placeholder="Write history for destinations" />
                         </div>
+
                         <button type="submit" className="btn btn-dark mb-5">Update</button>
                     </form>
                 </div>

@@ -1,35 +1,35 @@
 import React, { useState } from 'react';
-import axios from "../axios";
+import axios from "../support-components/axios";
 
 const AddTransport = () => {
 
-// Setting up states
+    // Setting up states
     const [title, setTitle] = useState('');
     const [fare, setFare] = useState('');
 
-// Setting functions
-const onChangeTitle = (e) => {
-    setTitle(e.target.value);
-}
-const onChangeFare = (e) => {
-    setFare(e.target.value);
-}
+    // Setting functions
+    const onChangeTitle = (e) => {
+        setTitle(e.target.value);
+    }
+    const onChangeFare = (e) => {
+        setFare(e.target.value);
+    }
 
 
-const submitTransport = (e) => {
-    e.preventDefault()
+    const submitTransport = (e) => {
+        e.preventDefault()
 
-    const TransportObject = {
-        name: title,
-        fare: fare
-    };
+        const TransportObject = {
+            name: title,
+            fare: fare
+        };
 
-    axios.post('/transports', TransportObject)
-    .then(res => console.log(res.data));
+        axios.post('/transports', TransportObject)
+            .then(res => console.log(res.data));
 
-    setTitle('');
-    setFare('');
-}
+        setTitle('');
+        setFare('');
+    }
 
     return (
         <div className="container add-transport-wrap">

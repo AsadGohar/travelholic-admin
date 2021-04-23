@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import axios from '../axios';
+import axios from '../support-components/axios';
 import DestinationTable from "./DestinationTable";
 import Table from 'react-bootstrap/Table';
-import "../TableStyle.css"
+import "../support-components/TableStyle.css"
 
 
 
@@ -34,13 +34,13 @@ const ViewDestinations = () => {
             <div className="row destinations-table">
                 <h5>Destinations:</h5>
 
-                <Table striped bordered hover >
+                <Table striped bordered hover>
                     <thead className="thead-dark">
                         <tr>
                             <th>Id</th>
                             <th>Title</th>
                             <th>Title Image</th>
-                            {/* <th>Rating</th> */}
+                            <th>Rating</th>
                             <th className="tableHeader-1">Introduction</th>
                             <th className="tableHeader-2">Attractions</th>
                             <th className="tableHeader-2">Photos</th>

@@ -1,11 +1,11 @@
-const express = require ('express');
+const express = require('express');
 const dotenv = require("dotenv")
 const HttpError = require('./Models/HttpError');
 const connectDB = require('./config/db')
 const path = require('path')
 
 
-dotenv.config({path: './config/config.env'})
+dotenv.config({ path: './config/config.env' })
 const cors = require('cors')
 
 // IMPORTING ROUTES HERE
@@ -18,13 +18,14 @@ const QuestionRoutes = require('./Routes/QuestionRoutes');
 const TripRoutes = require('./Routes/TripRoutes');
 const RouteRoutes = require('./Routes/RouteRoutes');
 const HotelRoutes = require('./Routes/HotelRoutes');
+const UploadRoutes = require('./Routes/UploadRoutes');
 
 
 const app = express();
 app.use(express.json());
 app.use(cors());
 
-app.use('/public/images/users',express.static(path.join('public','images','users')))
+// app.use('/public/images/users',express.static(path.join('public','images','users')))
 
 // app.use(express.static('public'))
 // app.use(express.static(__dirname + '/public'));
@@ -39,22 +40,29 @@ app.use('/api/questions', QuestionRoutes)
 app.use('/api/trips', TripRoutes)
 app.use('/api/routes', RouteRoutes)
 app.use('/api/hotels', HotelRoutes)
+app.use('/api/upload', UploadRoutes)
 
 // PAYPAL API
-app.get('/api/config/paypal', (req, res) => res.send(process.env.PAYPAL_CLIENT_ID) )
+app.get('/api/config/paypal', (req, res) => res.send(process.env.PAYPAL_CLIENT_ID))
+
+// Static Folder fo images upload
+// app.use('/uploads', express.static(path.join(__dirname, '/uploads')))
+app.use('/uploads/images',express.static(path.join('uploads','images')))
+
+
 
 //Error handling on server side
 app.use((req, res, next) => {
     const error = new HttpError('Could not find this route.', 404);
     throw error;
-  });
-  
-app.use((error, req, res,next) => {
-    if(res.headerSent) {
+});
+
+app.use((error, req, res, next) => {
+    if (res.headerSent) {
         return next(error);
     }
     res.status(error.code || 500)
-    res.json({message: error.message || 'An unknown error has occurred!'});
+    res.json({ message: error.message || 'An unknown error has occurred!' });
 });
 
 //DATABASE CONNECTION HERE

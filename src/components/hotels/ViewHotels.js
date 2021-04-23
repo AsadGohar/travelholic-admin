@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import axios from '../axios';
+import axios from '../support-components/axios';
 import HotelTable from "./HotelTable";
 import Table from 'react-bootstrap/Table';
-import "../TableStyle.css"
+import "../support-components/TableStyle.css"
 
 
 const ViewHotels = () => {
