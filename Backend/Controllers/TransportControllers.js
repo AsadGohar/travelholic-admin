@@ -125,24 +125,35 @@ const addRoutetoTransport = async (req, res, next) => {
 //DOES A TRANSPORT HAS A ROUTE BETWEEN TWO DESTINATIONS
 const doesRouteExist = async (req, res, next) => {
     
-    const {route} = req.body
-    console.log(route.destination_to)
-    let transport;
-    try {
-        transport = await TransportModel.find( {"routes": { 
-        $elemMatch: { 'destination_to':route.destination_to,  'destination_from':route.destination_from} } } );
-    } catch (err) {
-        const error = new HttpError('Finding required transport failed, please try again.',500);
-        return next(error);
-    }
-
-    if (transport.length===0) {
-        res.send({exist:false})
+    console.log(req.body)
+    const {destination_to,destination_from} = req.body
+    
+    console.log(destination_to,destination_from)
+    if (destination_from===destination_to){
+        res.send({status:'Please Select Two Different Destinations'})
     }
     else {
-        res.send({exist:true})
+        console.log(destination_to)
+        let transport;
+        try {
+            transport = await TransportModel.find( {"routes": { 
+            $elemMatch: { 'destination_to':destination_to,  'destination_from':destination_from} }});
+        } catch (err) {
+            const error = new HttpError('Finding required transport failed, please try again.',500);
+            return next(error);
+        }
+
+        if (transport.length===0) {
+        
+            res.send({status:'Nah! Find Another Route'})
+        }
+        else {
+            res.send({status:"Yes! It's Possible"})
+        }
     }
+    
     // res.json(transport);
+    // // res.send({destination_to,destination_from})
 }
 
 // UPDATE A SPECIFIC TRANSPORT COMPANY

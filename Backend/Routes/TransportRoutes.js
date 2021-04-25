@@ -14,7 +14,7 @@ router.post('/route/:id', TransportControllers.addRoutetoTransport);
 router.get('/', TransportControllers.getTransports);
 
 //Get Does Route Exist Value
-router.get('/exist', TransportControllers.doesRouteExist);
+router.post('/exist', TransportControllers.doesRouteExist);
 
 //Get Transport By Destinations
 router.get('/destinations', TransportControllers.getTransportByDestinations);
