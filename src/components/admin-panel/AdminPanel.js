@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import "./AdminPanel.css"
 import Navbar from "../navbar/Navbar";
 import Sidemenu from "../sidemenu/Sidemenu";
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 //IMPORTING ADMIN COMPONENTS HERE
+import Login from "../authentication/Login";
 import Dashboard from "../dashboard/Dashboard";
 import ViewDestinations from "../destinations/ViewDestinations";
 import AddDestination from "../destinations/AddDestination";
@@ -16,14 +17,16 @@ import ViewTripReviews from "../reviews/ViewTripReviews";
 import ViewHotels from "../hotels/ViewHotels";
 import AnswerTable from "../answer/AnswerTable";
 import QuestionTable from "../question/QuestionTable";
-import TripTable from "../trip/TripTable";
+import ViewTrips from "../trip/ViewTrips";
+import EditTrip from "../trip/EditTrip";
 import RouteTable from "../route/RouteTable";
 import AddRouteForm from "../route/AddRouteForm";
-import AddTripForm from "../trip/AddTripForm";
+import AddTripForm from "../trip/AddTrip";
 import UserTable from "../user/UserTable";
 
 
 const AdminPanel = () => {
+
     return (
         <BrowserRouter>
             <div className=" AdminPanel-wrap">
@@ -38,19 +41,20 @@ const AdminPanel = () => {
                     </div>
                     <div className="col-md-9 pr-5 pt-3">
                         <Switch>
+                            <Route path="/login" component={Login} />
                             <Route exact path="/" component={Dashboard} />
                             <Route path="/all-destinations" component={ViewDestinations} />
                             <Route path="/add-new-destination" component={AddDestination} />
                             <Route path="/view-transports" component={ViewTransports} />
-                            <Route path="/edit-destination/:id" component={EditDestination}/>
+                            <Route path="/edit-destination/:id" component={EditDestination} />
                             <Route path="/add-new-transport" component={AddTransport} />
                             <Route path="/trip-bookings" component={ViewBookings} />
                             <Route path="/trip-reviews" component={ViewTripReviews} />
                             <Route path="/view-hotels" component={ViewHotels} />
-                            <Route exact path="/" component={Dashboard} />
                             <Route exact path="/view-answers" component={AnswerTable} />
                             <Route exact path="/view-questions" component={QuestionTable} />
-                            <Route exact path="/view-trips" component={TripTable} />
+                            <Route exact path="/view-trips" component={ViewTrips} />
+                            <Route exact path="/edit-trip" component={EditTrip} />
                             <Route exact path="/view-routes" component={RouteTable} />
                             <Route exact path="/add-new-route" component={AddRouteForm} />
                             <Route exact path="/add-new-trip" component={AddTripForm} />

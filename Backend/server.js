@@ -19,6 +19,7 @@ const TripRoutes = require('./Routes/TripRoutes');
 const RouteRoutes = require('./Routes/RouteRoutes');
 const HotelRoutes = require('./Routes/HotelRoutes');
 const UploadRoutes = require('./Routes/UploadRoutes');
+const AdminRoutes = require('./Routes/AdminRoutes')
 
 
 const app = express();
@@ -41,6 +42,9 @@ app.use('/api/trips', TripRoutes)
 app.use('/api/routes', RouteRoutes)
 app.use('/api/hotels', HotelRoutes)
 app.use('/api/upload', UploadRoutes)
+
+// For admin
+app.use('/api/admin', AdminRoutes )
 
 // PAYPAL API
 app.get('/api/config/paypal', (req, res) => res.send(process.env.PAYPAL_CLIENT_ID))

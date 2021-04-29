@@ -40,7 +40,7 @@ const BookingTable = (props) => {
             <td>{seats}</td>
             <td>{totalPrice}</td>
             <td>{isPaid ? <p style={{ fontWeight: 'bold' }}>{paymentMethod}</p> : <p style={{ fontWeight: 'bold' }}>Not Paid</p>}</td>
-            <td>{isPaid ? <p style={{ color: 'green' }}>Paid</p> : <p style={{ color: 'red' }}>Pending</p>}</td>
+            <td>{isPaid ? <p style={{ color: 'green' }}><b>Paid</b></p> : <p style={{ color: 'red' }}>Pending</p>}</td>
             <td>{booking_confirmed ? <p style={{ color: 'green' }}><strong>Confirmed</strong></p> : <p style={{ color: 'red' }}>Not Confirmed</p>}</td>
             <td>{booking_confirmed ? <Button className="disabled" style={{ pointerEvents: 'none' }} size="sm" variant="success">Confirm</Button> :
                 <Button onClick={confirmBooking} size="sm" variant="success">Confirm</Button>}</td>

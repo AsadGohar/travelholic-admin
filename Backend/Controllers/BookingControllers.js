@@ -12,7 +12,7 @@ const createBooking = async (req, res, next) => {
         );
     }
 
-    const { title, name, email, city, address, phoneNo, seats, paymentMethod, totalPrice, isPaid, paidAt, booking_confirmed } = req.body;
+    const { title, name, email, city, address, phoneNo, seats, startDate, endDate, paymentMethod, totalPrice, isPaid, paidAt, booking_confirmed } = req.body;
 
     const createdBooking = new Booking({
         user: req.user._id,
@@ -23,6 +23,8 @@ const createBooking = async (req, res, next) => {
         address,
         phoneNo,
         seats,
+        startDate,
+        endDate,
         paymentMethod: 'Unpaid',
         totalPrice,
         isPaid,

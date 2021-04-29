@@ -34,6 +34,12 @@ const BookingSchema = mongoose.Schema({
       type: Number,
       required: true
    },
+   startDate: {
+      type: Date
+   },
+   endDate: {
+      type: Date
+   },
    paymentMethod: {
       type: String,
    },

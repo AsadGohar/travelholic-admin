@@ -3,6 +3,7 @@ import axios from '../support-components/axios';
 import DestinationTable from "./DestinationTable";
 import Table from 'react-bootstrap/Table';
 import "../support-components/TableStyle.css"
+import { Link } from 'react-router-dom';
 
 
 
@@ -33,7 +34,9 @@ const ViewDestinations = () => {
         <div className="container view-destinations-wrap">
             <div className="row destinations-table">
                 <h5>Destinations:</h5>
-
+                <div className="ml-3">
+                <Link to={"/add-new-destination"}><button className="rounded btn-dark mb-2"><i class="fa fa-plus-square" aria-hidden="true"></i> New Destination</button></Link>
+                </div>
                 <Table striped bordered hover>
                     <thead className="thead-dark">
                         <tr>
@@ -46,8 +49,8 @@ const ViewDestinations = () => {
                             <th className="tableHeader-2">Photos</th>
                             <th className="tableHeader-1">Guidelines</th>
                             <th className="tableHeader-1">History</th>
-                            <th>Created At</th>
-                            <th>Updated At</th>
+                            <th className="tableHeader-4">Created At</th>
+                            <th className="tableHeader-4">Updated At</th>
                             <th>Action</th>
                         </tr>
                     </thead>

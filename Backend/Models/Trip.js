@@ -32,7 +32,7 @@ const TripSchema = mongoose.Schema({
     attractions: { type: String, required: true },
     excludes: { type: String, required: true },
     service_provided: { type: String, required: true },
-    display_image: { type: String, required: true },
+    display_image: { type: String},
     start_date: { type: Date, required: true },
     end_date: { type: Date, required: true },
     itinerary: [ItinerarySchema],
