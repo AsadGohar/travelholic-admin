@@ -1,16 +1,28 @@
 import React from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, NavLink } from 'react-router-dom';
+import { logout } from '../../actions/adminActions';
 import "./Navbar.css";
 
-const Navbar = () => {
+const Navbar = ({location}) => {
+    const dispatch = useDispatch()
+
+	const adminInfo = useSelector(state => state.adminLogin.adminInfo)
+
+	const logoutHandler = () =>{
+		dispatch(logout())
+		// window.location.reload()
+	}
+
     return (
         <div className="navbar-wrap container-fluid fixed-top">
             <div className="navbar row">
                 <div className=" float-left">
-                    <img src={"images/logo-png.png"} className="logo-img" />
+                    <Link to="/"><img src={"images/logo-png.png"} className="logo-img" /></Link>
                 </div>
                 <div className="float-right">
                     <span className="logout-link">
-                        <a href="#" id="logout">Logout</a>
+                        {adminInfo ? <NavLink to="/login" id="logout" onClick = {logoutHandler}>Logout</NavLink> : null}             
                     </span>
                 </div>
             </div>

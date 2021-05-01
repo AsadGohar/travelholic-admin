@@ -1,8 +1,11 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import "./AdminPanel.css"
 import Navbar from "../navbar/Navbar";
 import Sidemenu from "../sidemenu/Sidemenu";
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+
+
 
 //IMPORTING ADMIN COMPONENTS HERE
 import Login from "../authentication/Login";
@@ -25,7 +28,10 @@ import AddTripForm from "../trip/AddTrip";
 import UserTable from "../user/UserTable";
 
 
-const AdminPanel = () => {
+const AdminPanel = ({ location }) => {
+
+    const adminInfo = useSelector(state => state.adminLogin.adminInfo)
+
 
     return (
         <BrowserRouter>
@@ -35,30 +41,39 @@ const AdminPanel = () => {
                         <Navbar />
                     </div>
                 </div>
-                <div className="row">
-                    <div className="col-md-3">
-                        <Sidemenu />
-                    </div>
+                <div className="row d-flex justify-content-center">
+                    {adminInfo ?
+                        <div className="col-md-3">
+                            <Sidemenu />
+                        </div> : null}
+
                     <div className="col-md-9 pr-5 pt-3">
                         <Switch>
                             <Route path="/login" component={Login} />
-                            <Route exact path="/" component={Dashboard} />
-                            <Route path="/all-destinations" component={ViewDestinations} />
-                            <Route path="/add-new-destination" component={AddDestination} />
-                            <Route path="/view-transports" component={ViewTransports} />
-                            <Route path="/edit-destination/:id" component={EditDestination} />
-                            <Route path="/add-new-transport" component={AddTransport} />
-                            <Route path="/trip-bookings" component={ViewBookings} />
-                            <Route path="/trip-reviews" component={ViewTripReviews} />
-                            <Route path="/view-hotels" component={ViewHotels} />
-                            <Route exact path="/view-answers" component={AnswerTable} />
-                            <Route exact path="/view-questions" component={QuestionTable} />
-                            <Route exact path="/view-trips" component={ViewTrips} />
-                            <Route exact path="/edit-trip" component={EditTrip} />
-                            <Route exact path="/view-routes" component={RouteTable} />
-                            <Route exact path="/add-new-route" component={AddRouteForm} />
-                            <Route exact path="/add-new-trip" component={AddTripForm} />
-                            <Route exact path="/registered-users" component={UserTable} />
+                            {adminInfo ? (
+                                <>
+                                    <Route exact path="/" component={Dashboard} />
+                                    <Route path="/all-destinations" component={ViewDestinations} />
+                                    <Route path="/add-new-destination" component={AddDestination} />
+                                    <Route path="/view-transports" component={ViewTransports} />
+                                    <Route path="/edit-destination/:id" component={EditDestination} />
+                                    <Route path="/add-new-transport" component={AddTransport} />
+                                    <Route path="/trip-bookings" component={ViewBookings} />
+                                    <Route path="/trip-reviews" component={ViewTripReviews} />
+                                    <Route path="/view-hotels" component={ViewHotels} />
+                                    <Route exact path="/view-answers" component={AnswerTable} />
+                                    <Route exact path="/view-questions" component={QuestionTable} />
+                                    <Route exact path="/view-trips" component={ViewTrips} />
+                                    <Route exact path="/edit-trip" component={EditTrip} />
+                                    <Route exact path="/view-routes" component={RouteTable} />
+                                    <Route exact path="/add-new-route" component={AddRouteForm} />
+                                    <Route exact path="/add-new-trip" component={AddTripForm} />
+                                    <Route exact path="/registered-users" component={UserTable} />
+                                </>
+                            ) : (
+                                <Redirect to='/login' />
+                            )}
+
                         </Switch>
                     </div>
                 </div>

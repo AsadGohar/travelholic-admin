@@ -1,8 +1,10 @@
 import React from 'react'
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import "./Sidemenu.css";
 
 const Sidemenu = () => {
+
     return (
         <div className="sidemenu-wrap fixed-top">
             <div className="nav-side-menu">
