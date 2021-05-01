@@ -6,6 +6,7 @@ const HttpError = require('../Models/HttpError');
 
 const getTripPlanEstimate = async (req,res,next)=>{
   const {destinations} =req.body
+  console.log('destinations',destinations)
   //nextDest iterator variable
   //minHotel for minimum hotel rent
   //maxHotel for maximumhotel rent
@@ -121,6 +122,6 @@ const getTripPlanEstimate = async (req,res,next)=>{
   //calculating the new min and max estimate
   let newMinEstimate = minHotel+minTransportFare
   let newMaxEstimate = maxHotel+maxTransportFare
-  res.send({minHotel,maxHotel, minTransportFare,maxTransportFare,minEstimate,maxEstimate,newMaxEstimate,newMinEstimate,totalFare})
+  res.send({newMaxEstimate,newMinEstimate})
 }
 module.exports.getTripPlanEstimate  = getTripPlanEstimate
