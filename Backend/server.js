@@ -19,6 +19,8 @@ const QuestionRoutes = require('./Routes/QuestionRoutes');
 const TripRoutes = require('./Routes/TripRoutes');
 const RouteRoutes = require('./Routes/RouteRoutes');
 const HotelRoutes = require('./Routes/HotelRoutes');
+const TripPlannerDestinationRoutes = require('./Routes/TripPlannerDestinationRoutes');
+const PlanATripRoutes = require('./Routes/PlanATripRoutes')
 
 
 const app = express();
@@ -40,6 +42,8 @@ app.use('/api/questions', QuestionRoutes)
 app.use('/api/trips', TripRoutes)
 app.use('/api/routes', RouteRoutes)
 app.use('/api/hotels', HotelRoutes)
+app.use('/api/plan',PlanATripRoutes)
+app.use('/api/tripplannerdestination', TripPlannerDestinationRoutes)
 
 app.get('/api/config/paypal', (req, res) => res.send(process.env.PAYPAL_CLIENT_ID) )
 
