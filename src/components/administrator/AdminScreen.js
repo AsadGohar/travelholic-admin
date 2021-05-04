@@ -6,7 +6,7 @@ import CreateAdmin from "./CreateAdmin"
 
 const ViewAdmins = () => {
     return (
-        <div>
+        <div className="ml-2">
             <div className="authorized-admin-div">
                 <AdminList />
             </div>

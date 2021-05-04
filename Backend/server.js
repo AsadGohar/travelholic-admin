@@ -55,6 +55,8 @@ app.use('/api/trips', TripRoutes)
 app.use('/api/routes', RouteRoutes)
 app.use('/api/hotels', HotelRoutes)
 app.use('/api/upload', UploadRoutes)
+app.use('/api/plan',PlanATripRoutes)
+app.use('/api/tripplannerdestination', TripPlannerDestinationRoutes)
 
 // For admin
 app.use('/api/admin', AdminRoutes)
@@ -67,13 +69,11 @@ app.get('/api/config/paypal', (req, res) => res.send(process.env.PAYPAL_CLIENT_I
 app.use('/uploads/images', express.static(path.join('uploads', 'images')))
 
 
-// const csrfProtection = csurf({
-//     cookie: true
-// })
+const csrfProtection = csurf({
+    cookie: true
+})
+app.use(csrfProtection)
 
-// app.use(csrfProtection)
-app.use('/api/plan',PlanATripRoutes)
-app.use('/api/tripplannerdestination', TripPlannerDestinationRoutes)
 
 
 //Error handling on server side
