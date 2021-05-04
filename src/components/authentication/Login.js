@@ -10,7 +10,8 @@ const Login = ({ history, location }) => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
 
-     const isAdminLoggedIn = useSelector(state => state.isLoggedIn.isLoggedIn)
+    const isAdminLoggedIn = useSelector(state => state.isLoggedIn)
+    const { adminInfo, loading: isLoggedInLoading } = isAdminLoggedIn
 
     const adminLogin = useSelector(state => state.adminLogin)
     const { loading, error } = adminLogin
@@ -18,14 +19,14 @@ const Login = ({ history, location }) => {
     const redirect = location.search ? location.search.split('=')[1] : '/'
 
     useEffect(() => {
-        if (isAdminLoggedIn) {
+        if (adminInfo) {
             history.push(redirect)
         }
-    }, [history, redirect, isAdminLoggedIn ])
+    }, [history, redirect, adminInfo])
 
 
 
-    const submitHandler = async(e) => {
+    const submitHandler = async (e) => {
         e.preventDefault()
         await dispatch(login(username, password))
         await dispatch(isLoggedIn())
@@ -58,7 +59,7 @@ const Login = ({ history, location }) => {
                                     <span className="sr-only">Loading...</span>
                                 </Spinner>
                             }
-                            {error ? <p style={{color: 'red'}}>{error}</p> : null}
+                            {error ? <p style={{ color: 'red' }}>Invalid Username or Password</p> : null}
                         </div>
 
                     </form>

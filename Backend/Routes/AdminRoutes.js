@@ -9,13 +9,16 @@ const router = express.Router();
 router.post('/superadmin', AdminControllers.createSuperAdmin)
 
 // Create Admin
-router.post('/', protectAdmin, AdminControllers.createAdmin)
+router.post('/', AdminControllers.createAdmin)
 
 // Login Admin
 router.post('/login', AdminControllers.adminLogin)
 
+// Get all admins
+router.get('/', AdminControllers.getAllAdmins)
+
 // Delete an Admins
-router.delete('/:id', protectAdmin, AdminControllers.deleteAdmin)
+router.delete('/:id', AdminControllers.deleteAdmin)
 
 // Logout admin
 router.get('/logout', AdminControllers.logoutAdmin)

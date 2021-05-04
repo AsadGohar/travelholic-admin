@@ -1,5 +1,5 @@
 import axios from "../components/support-components/axios"
-import { ADMIN_LOGIN_FAIL, ADMIN_LOGIN_REQUEST, ADMIN_LOGIN_SUCCESS, ADMIN_LOGOUT, IS_ADMIN_LOGGED_IN } from "../constants/adminConstants"
+import { ADMIN_LOGIN_FAIL, ADMIN_LOGIN_REQUEST, ADMIN_LOGIN_SUCCESS, ADMIN_LOGOUT, IS_ADMIN_LOGGED_IN_REQUEST, IS_ADMIN_LOGGED_IN_SUCCESS, IS_ADMIN_LOGGED_IN_FAIL } from "../constants/adminConstants"
 
 export const login = (username, password) => async (dispatch) => {
     try {
@@ -15,7 +15,7 @@ export const login = (username, password) => async (dispatch) => {
         const { data } = await axios.post('/admin/login', { username, password }, config)
         dispatch({
             type: ADMIN_LOGIN_SUCCESS,
-            payload: data
+            payload: data.message
         })
 
 
@@ -39,10 +39,21 @@ export const logout = () => async (dispatch) => {
 
 
 export const isLoggedIn = () => async (dispatch) => {
-    const { data } = await axios.get('/admin/isloggedin')
+    try {
+        dispatch({
+            type: IS_ADMIN_LOGGED_IN_REQUEST
+        })
 
-    dispatch({
-        type: IS_ADMIN_LOGGED_IN,
-        payload: data
-    })
+        const { data } = await axios.get('/admin/isloggedin')
+
+        dispatch({
+            type: IS_ADMIN_LOGGED_IN_SUCCESS,
+            payload: data
+        })
+    } catch (error) {
+        dispatch({
+            type: IS_ADMIN_LOGGED_IN_FAIL,
+            payload: error.response && error.response.data.message ? error.response.data.message : error.message,
+        })
+    }
 }

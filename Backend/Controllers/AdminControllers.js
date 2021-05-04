@@ -51,13 +51,8 @@ const adminLogin = asyncHandler(async (req, res, next) => {
 
     if (admin && (await admin.matchPassword(password))) {
         res.cookie('token', token, { httpOnly: true, maxAge: 3600000 })
-        res.cookie('isSuperAdmin', admin.isSuperAdmin, { httpOnly: true, maxAge: 3600000 })
         res.json({
-            // _id: admin._id,
-            name: admin.name,
-            // username: admin.username,
-            // isSuperAdmin: admin.isSuperAdmin,
-            // token: token
+            message: "Admin logged in"
         })
     } else {
         res.status(401)
@@ -105,18 +100,39 @@ const createAdmin = asyncHandler(async (req, res, next) => {
 })
 
 
-// Delete admin
-const deleteAdmin = asyncHandler(async (req, res, next) => {
-    const admin = await Admin.findById(req.params.id)
-
-    if (admin) {
-        await admin.remove()
-        res.json({ message: 'Admin removed' })
-    } else {
-        res.status(404)
-        throw new Error('Admin not found')
+// Get all admins
+const getAllAdmins = asyncHandler(async (req, res, next) => {
+    let admins;
+    try {
+        admins = await Admin.find();
+    } catch (err) {
+        const error = new HttpError('Unknown error occured while getting admins, please try again.', 500);
+        return next(error);
     }
+    res.send(admins);
 })
+
+
+// Delete admin
+const deleteAdmin = async (req, res, next) => {
+    const adminId = req.params.id;
+    let admin;
+    try {
+        admin = await Admin.findById(adminId);
+    } catch (err) {
+        const error = new HttpError('Unknown error occured while deleting Admin, please try again.', 500);
+        return next(error);
+    }
+
+    try {
+        await admin.remove();
+    } catch (err) {
+        const error = new HttpError('Unknown error occured while deleting admin, please try again.', 500);
+        return next(error);
+    }
+
+    res.status(200).json({ message: 'Admin has been deleted' });
+}
 
 
 // Logout admin
@@ -141,7 +157,7 @@ const isLoggedIn = async (req, res) => {
         res.send(decoded)
 
     } catch (err) {
-        res.send({message: 'An Error Occured'})
+        res.send(false)
     }
 }
 
@@ -153,4 +169,4 @@ module.exports.adminLogin = adminLogin
 module.exports.deleteAdmin = deleteAdmin
 module.exports.logoutAdmin = logoutAdmin
 module.exports.isLoggedIn = isLoggedIn
-
+module.exports.getAllAdmins = getAllAdmins

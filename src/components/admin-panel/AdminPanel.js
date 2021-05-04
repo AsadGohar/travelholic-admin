@@ -5,7 +5,7 @@ import Sidemenu from "../sidemenu/Sidemenu";
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { isLoggedIn } from '../../actions/adminActions';
-
+import { Spinner } from 'react-bootstrap';
 
 
 //IMPORTING ADMIN COMPONENTS HERE
@@ -27,12 +27,15 @@ import RouteTable from "../route/RouteTable";
 import AddRouteForm from "../route/AddRouteForm";
 import AddTripForm from "../trip/AddTrip";
 import UserTable from "../user/UserTable";
+import AdminScreen from "../administrator/AdminScreen";
+
 
 
 const AdminPanel = () => {
     const dispatch = useDispatch()
 
-    const isAdminLoggedIn = useSelector(state => state.isLoggedIn.isLoggedIn)
+    const isAdminLoggedIn = useSelector(state => state.isLoggedIn)
+    const { loading, adminInfo } = isAdminLoggedIn
 
     useEffect(() => {
         dispatch(isLoggedIn())
@@ -47,15 +50,20 @@ const AdminPanel = () => {
                     </div>
                 </div>
                 <div className="row d-flex justify-content-center">
-                    {isAdminLoggedIn ?
+                    {adminInfo ?
                         <div className="col-md-3">
                             <Sidemenu />
                         </div> : null}
 
                     <div className="col-md-9 pr-5 pt-3">
                         <Switch>
-                            <Route path="/login" component={Login} />
-                            {isAdminLoggedIn ? (
+                            {loading ? <Spinner animation="border" role="status">
+                                <span className="sr-only">Loading...</span>
+                            </Spinner> : (
+                                <Route path="/login" component={Login} />
+                            )}
+
+                            {adminInfo ? (
                                 <>
                                     <Route exact path="/" component={Dashboard} />
                                     <Route path="/all-destinations" component={ViewDestinations} />
@@ -74,6 +82,7 @@ const AdminPanel = () => {
                                     <Route path="/add-new-route" component={AddRouteForm} />
                                     <Route path="/add-new-trip" component={AddTripForm} />
                                     <Route path="/registered-users" component={UserTable} />
+                                    <Route path="/administrator" component={AdminScreen} />
                                 </>
                             ) : (
                                 <Redirect to='/login' />

@@ -7,7 +7,7 @@ import "./Navbar.css";
 const Navbar = ({location}) => {
     const dispatch = useDispatch()
 
-    const isAdminLoggedIn = useSelector(state => state.isLoggedIn.isLoggedIn)
+    const isAdminLoggedIn = useSelector(state => state.isLoggedIn.adminInfo)
 
 	const logoutHandler = () =>{
 		dispatch(logout())
