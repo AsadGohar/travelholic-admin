@@ -1,20 +1,21 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
 import { composeWithDevTools } from 'redux-devtools-extension'
-import { adminLoginReducer } from './reducers/adminReducers'
+import { adminLoginReducer, isLoggedInReducer } from './reducers/adminReducers'
 
 
 
 const reducer = combineReducers({
-    adminLogin: adminLoginReducer
+    adminLogin: adminLoginReducer,
+    isLoggedIn: isLoggedInReducer
 })
 
-const adminInfoFromStorage = localStorage.getItem('adminInfo') ? JSON.parse(localStorage.getItem('adminInfo')) : null
+// const adminInfoFromStorage = sessionStorage.getItem('adminInfo') ? JSON.parse(sessionStorage.getItem('adminInfo')) : null
 
 
 
 const initialState = {
-    adminLogin: { adminInfo: adminInfoFromStorage },
+    // adminLogin: { adminInfo: adminInfoFromStorage },
 }
 
 const middleware = [thunk]

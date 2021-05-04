@@ -17,5 +17,11 @@ router.post('/login', AdminControllers.adminLogin)
 // Delete an Admins
 router.delete('/:id', protectAdmin, AdminControllers.deleteAdmin)
 
+// Logout admin
+router.get('/logout', AdminControllers.logoutAdmin)
+
+// Check if admin is logged in
+router.get('/isloggedin', AdminControllers.isLoggedIn)
+
 
 module.exports = router;

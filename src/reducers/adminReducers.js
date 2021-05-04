@@ -1,4 +1,4 @@
-import { ADMIN_LOGIN_FAIL, ADMIN_LOGIN_REQUEST, ADMIN_LOGIN_SUCCESS, ADMIN_LOGOUT } from "../constants/adminConstants"
+import { ADMIN_LOGIN_FAIL, ADMIN_LOGIN_REQUEST, ADMIN_LOGIN_SUCCESS, ADMIN_LOGOUT, IS_ADMIN_LOGGED_IN } from "../constants/adminConstants"
 
 export const adminLoginReducer = (state = {}, action) => {
     switch (action.type) {
@@ -13,6 +13,16 @@ export const adminLoginReducer = (state = {}, action) => {
 
         case ADMIN_LOGOUT:
             return {}
+
+        default:
+            return state
+    }
+}
+
+export const isLoggedInReducer = (state = { isLoggedIn: false }, action) => {
+    switch (action.type) {
+        case IS_ADMIN_LOGGED_IN:
+            return { isLoggedIn: action.payload }
 
         default:
             return state

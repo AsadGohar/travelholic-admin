@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import "./AdminPanel.css"
 import Navbar from "../navbar/Navbar";
 import Sidemenu from "../sidemenu/Sidemenu";
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { isLoggedIn } from '../../actions/adminActions';
 
 
 
@@ -28,10 +29,14 @@ import AddTripForm from "../trip/AddTrip";
 import UserTable from "../user/UserTable";
 
 
-const AdminPanel = ({ location }) => {
+const AdminPanel = () => {
+    const dispatch = useDispatch()
 
-    const adminInfo = useSelector(state => state.adminLogin.adminInfo)
+    const isAdminLoggedIn = useSelector(state => state.isLoggedIn.isLoggedIn)
 
+    useEffect(() => {
+        dispatch(isLoggedIn())
+    }, [])
 
     return (
         <BrowserRouter>
@@ -42,7 +47,7 @@ const AdminPanel = ({ location }) => {
                     </div>
                 </div>
                 <div className="row d-flex justify-content-center">
-                    {adminInfo ?
+                    {isAdminLoggedIn ?
                         <div className="col-md-3">
                             <Sidemenu />
                         </div> : null}
@@ -50,7 +55,7 @@ const AdminPanel = ({ location }) => {
                     <div className="col-md-9 pr-5 pt-3">
                         <Switch>
                             <Route path="/login" component={Login} />
-                            {adminInfo ? (
+                            {isAdminLoggedIn ? (
                                 <>
                                     <Route exact path="/" component={Dashboard} />
                                     <Route path="/all-destinations" component={ViewDestinations} />
@@ -61,14 +66,14 @@ const AdminPanel = ({ location }) => {
                                     <Route path="/trip-bookings" component={ViewBookings} />
                                     <Route path="/trip-reviews" component={ViewTripReviews} />
                                     <Route path="/view-hotels" component={ViewHotels} />
-                                    <Route exact path="/view-answers" component={AnswerTable} />
-                                    <Route exact path="/view-questions" component={QuestionTable} />
-                                    <Route exact path="/view-trips" component={ViewTrips} />
-                                    <Route exact path="/edit-trip" component={EditTrip} />
-                                    <Route exact path="/view-routes" component={RouteTable} />
-                                    <Route exact path="/add-new-route" component={AddRouteForm} />
-                                    <Route exact path="/add-new-trip" component={AddTripForm} />
-                                    <Route exact path="/registered-users" component={UserTable} />
+                                    <Route path="/view-answers" component={AnswerTable} />
+                                    <Route path="/view-questions" component={QuestionTable} />
+                                    <Route path="/view-trips" component={ViewTrips} />
+                                    <Route path="/edit-trip" component={EditTrip} />
+                                    <Route path="/view-routes" component={RouteTable} />
+                                    <Route path="/add-new-route" component={AddRouteForm} />
+                                    <Route path="/add-new-trip" component={AddTripForm} />
+                                    <Route path="/registered-users" component={UserTable} />
                                 </>
                             ) : (
                                 <Redirect to='/login' />

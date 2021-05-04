@@ -35,7 +35,7 @@ const ViewDestinations = () => {
             <div className="row destinations-table">
                 <h5>Destinations:</h5>
                 <div className="ml-3">
-                <Link to={"/add-new-destination"}><button className="rounded btn-dark mb-2"><i class="fa fa-plus-square" aria-hidden="true"></i> New Destination</button></Link>
+                <Link to={"/add-new-destination"}><button className="rounded btn-dark mb-2"><i className="fa fa-plus-square" aria-hidden="true"></i> New Destination</button></Link>
                 </div>
                 <Table striped bordered hover>
                     <thead className="thead-dark">

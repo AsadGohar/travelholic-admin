@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { login } from '../../actions/adminActions'
+import { isLoggedIn, login } from '../../actions/adminActions'
 import Spinner from 'react-bootstrap/Spinner'
 import "./Login.css"
 
@@ -10,22 +10,26 @@ const Login = ({ history, location }) => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
 
+     const isAdminLoggedIn = useSelector(state => state.isLoggedIn.isLoggedIn)
+
     const adminLogin = useSelector(state => state.adminLogin)
-    const { loading, error, adminInfo } = adminLogin
+    const { loading, error } = adminLogin
 
     const redirect = location.search ? location.search.split('=')[1] : '/'
 
     useEffect(() => {
-        if (adminInfo) {
+        if (isAdminLoggedIn) {
             history.push(redirect)
         }
-    }, [history, adminInfo, redirect])
+    }, [history, redirect, isAdminLoggedIn ])
 
 
 
-    const submitHandler = (e) => {
+    const submitHandler = async(e) => {
         e.preventDefault()
-        dispatch(login(username, password))
+        await dispatch(login(username, password))
+        await dispatch(isLoggedIn())
+        history.push('/')
     }
 
     return (

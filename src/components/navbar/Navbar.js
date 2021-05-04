@@ -7,11 +7,11 @@ import "./Navbar.css";
 const Navbar = ({location}) => {
     const dispatch = useDispatch()
 
-	const adminInfo = useSelector(state => state.adminLogin.adminInfo)
+    const isAdminLoggedIn = useSelector(state => state.isLoggedIn.isLoggedIn)
 
 	const logoutHandler = () =>{
 		dispatch(logout())
-		// window.location.reload()
+		window.location.reload()
 	}
 
     return (
@@ -22,7 +22,7 @@ const Navbar = ({location}) => {
                 </div>
                 <div className="float-right">
                     <span className="logout-link">
-                        {adminInfo ? <NavLink to="/login" id="logout" onClick = {logoutHandler}>Logout</NavLink> : null}             
+                        {isAdminLoggedIn ? <NavLink to="/login" id="logout" onClick = {logoutHandler}>Logout</NavLink> : null}             
                     </span>
                 </div>
             </div>

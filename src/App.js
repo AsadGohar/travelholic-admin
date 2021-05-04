@@ -1,10 +1,11 @@
-import React from 'react';
+import axios from 'axios';
+import React, { useEffect } from 'react';
 import AdminPanel from "./components/admin-panel/AdminPanel";
-import Navbar from "./components/navbar/Navbar";
 
-import AnswerTable from "./components/answer/AnswerTable";
+axios.defaults.withCredentials = true;
 
-function App() {
+const App = () => {
+
   return (
     <div>
       <AdminPanel />
