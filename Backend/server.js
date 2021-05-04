@@ -22,6 +22,8 @@ const RouteRoutes = require('./Routes/RouteRoutes');
 const HotelRoutes = require('./Routes/HotelRoutes');
 const UploadRoutes = require('./Routes/UploadRoutes');
 const AdminRoutes = require('./Routes/AdminRoutes')
+const TripPlannerDestinationRoutes = require('./Routes/TripPlannerDestinationRoutes');
+const PlanATripRoutes = require('./Routes/PlanATripRoutes')
 
 
 const app = express();
@@ -67,6 +69,8 @@ app.use('/uploads/images', express.static(path.join('uploads', 'images')))
 // })
 
 // app.use(csrfProtection)
+app.use('/api/plan',PlanATripRoutes)
+app.use('/api/tripplannerdestination', TripPlannerDestinationRoutes)
 
 
 //Error handling on server side

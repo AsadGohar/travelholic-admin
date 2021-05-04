@@ -5,12 +5,12 @@ const HttpError = require('../Models/HttpError');
 const createRoute = async(req,res,next)=>{
 
   const {to,from} = req.body
-  let route = RouteModel()
-  route.destination_to=to;
-  route.destination_from=from;
-  await route.save()
-
+  let route 
   try {
+    route = RouteModel()
+    route.destination_to=to;
+    route.destination_from=from;
+    route.save()
   } 
   catch (err) {
     const error = new HttpError('creating route failed',500);
@@ -18,21 +18,43 @@ const createRoute = async(req,res,next)=>{
   }
   res.send(route)
 }
+//Does route exists
+const doesRouteExist = async(req,res,next)=>{
+
+  const {destination_to,destination_from} = req.body
+  let route 
+  try {
+     route = await RouteModel.find({destination_to:destination_to,destination_from:destination_from}).populate('destination_to destination_from', 'name').exec()
+  } 
+  catch (err) {
+    // console.log(err)
+    const error = new HttpError('finding Route failed, please try again',500);
+    return next(error);
+  }
+
+  if (route.length===0) {
+    res.send({exist:false}) 
+  }
+  else{
+    res.send({exist:true})  
+  }
+  
+}
 
 //GET ALL ROUTES
 const getRoutes = async(req,res,next)=>{
 
   let routes 
   try {
-     routes = await RouteModel.find()
+     routes = await RouteModel.find().populate('destination_to destination_from', 'name').exec()
   } 
   catch (err) {
-    const error = new HttpError('finding Questions failed, please try again',500);
+    const error = new HttpError('finding Routes failed, please try again',500);
     return next(error);
   }
 
   if (!routes) {
-    const error = new HttpError('could not find Questions',404);
+    const error = new HttpError('could not find any Routes',404);
     return next(error);
   }
   
@@ -47,11 +69,11 @@ const deleteRouteById =  async (req,res,next) => {
     route = await RouteModel.findByIdAndDelete(id)
   } 
   catch (err) {
-    const error = new HttpError('deleting Answer failed, please try again',500);
+    const error = new HttpError('deleting Route failed, please try again',500);
     return next(error);
   }
   if (!route) {
-    const error = new HttpError('could not find an Answer for the provided id.',404);
+    const error = new HttpError('could not find an Route for the provided id.',404);
     return next(error);
   }
   res.send(route)
@@ -76,3 +98,4 @@ module.exports.createRoute  = createRoute;
 module.exports.getRoutes  = getRoutes;
 module.exports.getRoutesAdmin  = getRoutesAdmin;
 module.exports.deleteRouteById  =deleteRouteById;
+module.exports.doesRouteExist  =doesRouteExist;
