@@ -18,66 +18,66 @@ const multerStorage = multer.diskStorage({
   // }
 })
 
-const multerFilter = (req,file,cb)=>{
-  if(file.mimetype.startsWith('image')){
-    cb(null,true)
+const multerFilter = (req, file, cb) => {
+  if (file.mimetype.startsWith('image')) {
+    cb(null, true)
   }
-  else{
+  else {
     cb('error')
   }
 }
 const upload = multer({
-  storage:multerStorage,
-  fileFilter:multerFilter
+  storage: multerStorage,
+  fileFilter: multerFilter
 })
 
 exports.uploadUserPhoto = upload.single('photo')
 
 
 //CREATE A USER
-const createUser = async(req,res,next)=>{
-  const {name,password,email,mobile_num} = req.body
-  console.log(name,password,email,mobile_num)
-  let {error} = validation(req.body)
-  if(error){
-    const err = new HttpError(error.details[0].message,500);
+const createUser = async (req, res, next) => {
+  const { name, password, email, mobile_num } = req.body
+  console.log(name, password, email, mobile_num)
+  let { error } = validation(req.body)
+  if (error) {
+    const err = new HttpError(error.details[0].message, 500);
     return next(err);
   }
   let token;
 
-  let user = await UserModel.findOne({email:email})
-  if(user){
-    const error = new HttpError('User Already Registered',500);
+  let user = await UserModel.findOne({ email: email })
+  if (user) {
+    const error = new HttpError('User Already Registered', 500);
     return next(error);
   }
   else {
     try {
       user = UserModel()
-      user.name=name
-      user.email=email
-      user.password=password
-      user.mobile_num=mobile_num
+      user.name = name
+      user.email = email
+      user.password = password
+      user.mobile_num = mobile_num
       token = user.getToken()
       await user.save()
     }
-    catch(err) {
-      const error = new HttpError('Creating User Failed',500);
+    catch (err) {
+      const error = new HttpError('Creating User Failed', 500);
       return next(error);
     }
-    res.send({user,token})
+    res.send({ user, token })
   }
 }
 
 //USER SIGN IN
-const logIn = async(req,res,next)=>{
+const logIn = async (req, res, next) => {
 
-  const {email,password} = req.body
+  const { email, password } = req.body
   let token;
   let isMatch
 
-  let user = await UserModel.findOne({email:email}).select('+password')
+  let user = await UserModel.findOne({ email: email }).select('+password')
   if (!user) {
-    const error = new HttpError('You Are Not Registered',500);
+    const error = new HttpError('You Are Not Registered', 500);
     return next(error);
   }
   try {
@@ -87,10 +87,10 @@ const logIn = async(req,res,next)=>{
   }
   console.log(isMatch)
   if (!isMatch) {
-    const error = new HttpError('Incorrect Password or Username',500);
+    const error = new HttpError('Incorrect Password or Username', 500);
     return next(error);
   }
-  
+
   token = user.getToken()
   // res.send(token)
   res.json({
@@ -102,27 +102,27 @@ const logIn = async(req,res,next)=>{
 }
 
 //GETTING USER BY ID
-const getUserById = async (req,res,next) => {
+const getUserById = async (req, res, next) => {
   let id = req.params.id
   let user = await UserModel.findById(id).select('+password')
   res.send(user)
 }
 
 //UPDATE USER BY ID
-const updateUserById = async(req,res,next) =>{
+const updateUserById = async (req, res, next) => {
 
   const id = req.params.id
   console.log(id)
-  const{name,mobile_num,gender} = req.body
-  let user 
+  const { name, mobile_num, gender } = req.body
+  let user
   try {
-    user = await UserModel.findByIdAndUpdate(id,{name,gender,mobile_num})
+    user = await UserModel.findByIdAndUpdate(id, { name, gender, mobile_num })
   } catch (err) {
-    const error = new HttpError('Finding User Failed',500);
+    const error = new HttpError('Finding User Failed', 500);
     return next(error);
   }
-  if(!user){
-    const error = new HttpError('No Such Existing User',500);
+  if (!user) {
+    const error = new HttpError('No Such Existing User', 500);
     return next(error);
   }
   res.send(user)
@@ -130,85 +130,85 @@ const updateUserById = async(req,res,next) =>{
 
 
 //UPDATING USER'S PASSWORD
-const updatePassword = async (req,res,next) =>{
+const updatePassword = async (req, res, next) => {
 
-  let id=req.params.id
-  const {currentPassword,newPassword,newPasswordConfirm} = req.body
-  let user ,isMatch
+  let id = req.params.id
+  const { currentPassword, newPassword, newPasswordConfirm } = req.body
+  let user, isMatch
   try {
-    user= await UserModel.findById(id).select('+password')
+    user = await UserModel.findById(id).select('+password')
   } catch (err) {
-    const error = new HttpError('Finding User Failed',500);
+    const error = new HttpError('Finding User Failed', 500);
     return next(error);
   }
-  if(!user){
-    const error = new HttpError('No Such Registered User',500);
+  if (!user) {
+    const error = new HttpError('No Such Registered User', 500);
     return next(error);
   }
   try {
     isMatch = await user.comparePassword(currentPassword)
   } catch (err) {
-    const error = new HttpError('Matching Password Failed',500);
+    const error = new HttpError('Matching Password Failed', 500);
     return next(error);
   }
   console.log(isMatch)
-  if(!isMatch){
-    const error = new HttpError('Current Password is Incorrect',500);
+  if (!isMatch) {
+    const error = new HttpError('Current Password is Incorrect', 500);
     return next(error);
   }
-  if(newPassword=== newPasswordConfirm){
+  if (newPassword === newPasswordConfirm) {
     user.password = newPassword
     user.save()
   }
-   res.send(user)
+  res.send(user)
 }
 
 //DELETE USER BY ID
-const deleteUserById = async(req,res,next) =>{
+const deleteUserById = async (req, res, next) => {
 
   let id = req.params.id
   console.log(id)
-  let user 
+  let user
   try {
     user = await UserModel.findByIdAndDelete(id)
   } catch (err) {
-    const error = new HttpError('Finding User Failed',500);
+    const error = new HttpError('Finding User Failed', 500);
     return next(error);
   }
-  if(!user){
-    const error = new HttpError('No Such Existing User',500);
+  if (!user) {
+    const error = new HttpError('No Such Existing User', 500);
     return next(error);
   }
   res.send('User Deleted')
 }
 
 //UPLOAD USER PROFILE PIC
-const uploadProfilePic = async (req,res,next) =>{
+const uploadProfilePic = async (req, res, next) => {
 
-  const{id}= req.body
-  let user,tempPath
+  const { id } = req.body
+  let user, tempPath
   // buffer = req.file.buffer
   req.file.filename = `user-${id}-${Date.now()}.jpeg`;
-//  let file=req.file
+  //  let file=req.file
   // console.log(file)
-  await sharp(req.file.path).resize({width:905,height:905}).toFile(`./public/images/users/${req.file.filename}`)
+  await sharp(req.file.path).resize({ width: 905, height: 905 }).toFile(`./public/images/users/${req.file.filename}`)
   try {
     user = await UserModel.findById(id).select('+password')
-    tempPath = 'public\\images\\users\\'+ user.display_image_name
+    tempPath = 'public\\images\\users\\' + user.display_image_name
     // console.log('tempapth',tempPath)
-    user.display_image_name=req.file.filename
+    user.display_image_name = req.file.filename
     user.save()
   } catch (err) {
-    const error = new HttpError('Updating User Failed',500);
+    const error = new HttpError('Updating User Failed', 500);
     return next(error);
   }
-  if(!user){
-    const error = new HttpError('No Such User Found',500);
+  if (!user) {
+    const error = new HttpError('No Such User Found', 500);
     return next(error);
   }
-  
-  if(tempPath!=='public\\images\\users\\default.jpg'){
-    fs.unlink(tempPath, function(err) {
+
+  if (tempPath !== 'public\\images\\users\\default.jpg') {
+    fs.unlink(tempPath, function (err) {
       if (err) {
         console.log(err)
       } else {
@@ -219,7 +219,7 @@ const uploadProfilePic = async (req,res,next) =>{
   res.send(user)
 }
 
-const getAllUsersAdmin = async (req,res,next)=>{
+const getAllUsersAdmin = async (req, res, next) => {
   var users
   try {
     users = await UserModel.find()
@@ -236,12 +236,12 @@ const getAllUsersAdmin = async (req,res,next)=>{
  res.send(users)
 }
 
-const validation = (values) =>{
+const validation = (values) => {
   let joiSchema = Joi.object().keys({
-    'name' : Joi.string().required(),
-    'mobile_num' : Joi.number().required(),
-    'email': Joi.string().email({ minDomainSegments: 2}).required().lowercase(),
-    'password' : Joi.string().required().pattern(/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/)
+    'name': Joi.string().required(),
+    'mobile_num': Joi.number().required(),
+    'email': Joi.string().email({ minDomainSegments: 2 }).required().lowercase(),
+    'password': Joi.string().required().pattern(/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/)
   })
 
   return joiSchema.validate(values)
@@ -299,6 +299,7 @@ const loginWithFacebook = async(req,res,next)=>{
 
 }
 
+
 module.exports.createUser =createUser
 module.exports.logIn =logIn
 module.exports.logInWithGoogle =logInWithGoogle
@@ -309,4 +310,5 @@ module.exports.updateUserById =updateUserById
 module.exports.deleteUserById =deleteUserById
 module.exports.uploadProfilePic  =uploadProfilePic 
 module.exports.getAllUsersAdmin  =getAllUsersAdmin 
+
 

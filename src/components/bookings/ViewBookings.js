@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import axios from '../axios';
+import axios from '../support-components/axios';
 import BookingTable from "./BookingTable";
 import Table from 'react-bootstrap/Table';
-import "../TableStyle.css"
+import "../support-components/TableStyle.css"
 
 
 const ViewBookings = () => {
@@ -18,7 +18,7 @@ const ViewBookings = () => {
             .catch((error) => {
                 console.log(error);
             })
-    }, [getBookings])
+    }, [])
 
     const DataTable = () => {
         return bookings.map((res, i) => {

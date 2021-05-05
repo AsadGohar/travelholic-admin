@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import axios from "../axios";
+import axios from "../support-components/axios";
 import Button from 'react-bootstrap/Button';
 
 const TransportTable = (props) => {

@@ -1,38 +1,37 @@
-import React, { useState } from 'react';
-import axios from 'axios'
+import React from 'react'
+import axios, { imagePath } from "../support-components/axios"
+import { Link } from 'react-router-dom'
+import "../support-components/TableStyle.css"
 
-import TripRow from "./TripRow";
 
-function TripTable() {
-  const [trips, setTrips] = useState([]);
-  const getTrips = () => {
-    axios.get('http://localhost:4000/api/trips/').then((res)=>{
+function TripTable(props) {
+  const trip = props.data
+  const onDelete = props.onDelete;
+  const deleteTrip = () => {
+    axios.delete(`/trips/${trip._id}`).then((res) => {
       console.log(res.data)
-      setTrips(res.data);
-    }).catch((err)=>{
+      onDelete()
+    }).catch((err) => {
       console.log(err)
     });
   }
-  React.useEffect(getTrips,[])
   return (
-    <div className="container mt-4">
-       <table className="table  table-bordered">
-        <thead className="table-dark">
-          <tr>
-            <th className="text-center" scope="col">Trip Name</th>
-            <th className="text-center" scope="col">Edit</th>
-            <th className="text-center" scope="col">Delete</th>
-          </tr>
-        </thead>
-        <tbody>
-        {trips.map(trip => { // using props in child component and looping
-              return (
-                  <TripRow data={trip} key={trip._id} onDelete = {getTrips}/>
-              )
-          })}
-        </tbody>
-      </table>
-    </div>
+    <tr>
+      <td scope="row">{trip._id}</td>
+      <td scope="row">{trip.title}</td>
+      <td scope="row">{trip.display_image}</td>
+      <td scope="row">{trip.description}</td>
+      <td scope="row">{trip.price}</td>
+      <td scope="row">{trip.rating}</td>
+      <td scope="row">{trip.attractions}</td>
+      <td scope="row">{trip.excludes}</td>
+      <td>
+        <Link className="edit-link mr-2 ml-3" to={"/edit-trip/" + trip._id}>
+          <i className="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i>
+        </Link>
+        <i className='btn fa fa-trash fa-2x' onClick={e => { deleteTrip() }} style={{ cursor: 'pointer', color: 'red' }}></i>
+      </td>
+    </tr>
   )
 }
 

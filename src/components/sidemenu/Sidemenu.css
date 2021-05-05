@@ -5,6 +5,9 @@
   text-decoration: none;
   color: white;
 }
+#admin-link{
+  background-color: rgb(78, 73, 73);
+}
 .nav-side-menu {
     overflow: auto;
     font-family: verdana;

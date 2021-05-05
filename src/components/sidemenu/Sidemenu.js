@@ -1,8 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import "./Sidemenu.css";
 
 const Sidemenu = () => {
+    const adminInfo = useSelector(state => state.isLoggedIn.adminInfo)
+    const { isSuperAdmin } = adminInfo
+
     return (
         <div className="sidemenu-wrap fixed-top">
             <div className="nav-side-menu">
@@ -81,6 +85,16 @@ const Sidemenu = () => {
                                 <i className="fa fa-user fa-lg"></i> Users
                             </li>
                         </Link>
+
+                        {/* SUPER ADMIN */}
+                        {isSuperAdmin ? (
+                            <Link to="/administrator" className="sidemenu-link" >
+                                <li id="admin-link" >
+                                    <i className="fa fa-lock fa-lg" aria-hidden="true"></i> Administrator
+                                </li>
+                            </Link>
+                        ) : null}
+
 
                     </ul>
                 </div>
