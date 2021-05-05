@@ -55,6 +55,7 @@ const createUser = async (req, res, next) => {
       user.email = email
       user.password = password
       user.mobile_num = mobile_num
+      user.display_image_name="default.jpg"
       token = user.getToken()
       await user.save()
     }
@@ -192,10 +193,10 @@ const uploadProfilePic = async (req, res, next) => {
   req.file.filename = `user-${id}-${Date.now()}.jpeg`;
   //  let file=req.file
   // console.log(file)
-  await sharp(req.file.path).resize({ width: 905, height: 905 }).toFile(`./public/images/users/${req.file.filename}`)
+  await sharp(req.file.path).resize({ width: 905, height: 905 }).toFile(`./uploads/users/${req.file.filename}`)
   try {
     user = await UserModel.findById(id).select('+password')
-    tempPath = 'public\\images\\users\\' + user.display_image_name
+    tempPath = 'uploads\\users\\' + user.display_image_name
     // console.log('tempapth',tempPath)
     user.display_image_name = req.file.filename
     user.save()
@@ -208,7 +209,7 @@ const uploadProfilePic = async (req, res, next) => {
     return next(error);
   }
 
-  if (tempPath !== 'public\\images\\users\\default.jpg') {
+  if (tempPath !== 'uploads\\users\\default.jpg') {
     fs.unlink(tempPath, function (err) {
       if (err) {
         console.log(err)

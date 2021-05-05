@@ -39,11 +39,6 @@ app.use(cors({
     credentials: true,
 }));
 
-app.use('/public/images/users', express.static(path.join('public', 'images', 'users')))
-
-// app.use(express.static('public'))
-// app.use(express.static(__dirname + '/public'));
-
 //Use the routes here
 app.use('/api/destinations', DestinationRoutes);
 app.use('/api/bookings', BookingRoutes);
@@ -67,6 +62,7 @@ app.get('/api/config/paypal', (req, res) => res.send(process.env.PAYPAL_CLIENT_I
 // Static Folder fo images upload
 // app.use('/uploads', express.static(path.join(__dirname, '/uploads')))
 app.use('/uploads/images', express.static(path.join('uploads', 'images')))
+app.use('/uploads/users', express.static(path.join('uploads', 'users')))
 
 
 const csrfProtection = csurf({
