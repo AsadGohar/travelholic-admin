@@ -40,11 +40,11 @@ const AddTransport = () => {
                 <div className="col-md-7">
                     <form onSubmit={submitTransport}>
                         <div className="form-group">
-                            <label for="transport-title">Transport Title</label>
+                            <label htmlFor="transport-title">Transport Title</label>
                             <input type="text" className="form-control" id="transport-title" value={title} onChange={onChangeTitle} aria-describedby="transport title" placeholder="Transport Title" />
                         </div>
                         <div className="form-group">
-                            <label for="transport-fare">Fare</label>
+                            <label htmlFor="transport-fare">Fare</label>
                             <input type="number" className="form-control" id="transport-fare" value={fare} onChange={onChangeFare} aria-describedby="transport fare" placeholder="Enter fare in Rupees" />
                         </div>
                         <button type="submit" className="btn btn-dark">Add Transport</button>

@@ -1,4 +1,4 @@
-const Hotel = require('../Models/Hotel');
+const HotelModel = require('../Models/Hotel');
 const HttpError = require('../Models/HttpError');
 const { validationResult } = require('express-validator');
 
@@ -10,17 +10,15 @@ const createHotel = async (req, res, next) => {
             new HttpError('Invalid inputs passed, please check your data.', 422)
         );
     }
-
-
-
 // CREATE HOTEL INFORMATION
 
-    const { title, luxury_rent, budget_rent, contact_number } = req.body
-    const createdHotel = new Hotel({
+    const { title, luxury_rent, budget_rent, contact_number,destination } = req.body
+    const createdHotel = new HotelModel({
         title,
         luxury_rent,
         budget_rent,
-        contact_number
+        contact_number,
+        destination
     });
 
     try {
@@ -37,7 +35,7 @@ const createHotel = async (req, res, next) => {
 const getHotels = async (req, res, next) => {
     let Hotels
     try {
-        Hotels = await Hotel.find();
+        Hotels = await HotelModel.find();
     } catch (err) {
         const error = new HttpError('Finding Hotels failed, please try again.',500);
         return next(error);
@@ -45,12 +43,27 @@ const getHotels = async (req, res, next) => {
     res.send(Hotels);
 }
 
+// GET ALL HOTEL DESTINATIONS AGGREGATED
+const getHotelDestinations = async (req, res, next) => {
+    const aggregate =  [
+
+        {"$group" : {_id:"$destination"}},
+        { $lookup: {from: 'tripplannerdestinations', localField: '_id', foreignField: '_id', as: 'destination'} },
+        { $project: {"destination.name":1}}
+        
+    ]
+    const destinations = await HotelModel.aggregate(aggregate).exec()
+	// console.log('results',results)
+	res.send(destinations)
+}
+
+
 // GET A SPECIFIC Hotel COMPANY BY ID
 const getHotelById = async (req, res, next) => {
-    const hotelId = req.params.id;
+    let hotelId = req.params.id;
     let Hotel;
     try {
-        Hotel = await Hotel.findById(hotelId);
+        Hotel = await HotelModel.findById(hotelId);
     } catch (err) {
         const error = new HttpError(
             'Finding required Hotel failed, please try again.',
@@ -84,7 +97,7 @@ const updateHotel = async (req, res, next) => {
 
     let hotel;
     try {
-        hotel = await Hotel.findById(hotelId);
+        hotel = await HotelModel.findById(hotelId);
     } catch (err) {
 
         const error = new HttpError('Unknown error occured while updating Hotel, please try again.',500);
@@ -111,7 +124,7 @@ const deleteHotel = async (req, res, next) => {
     const hotelId = req.params.id;
     let hotel;
     try {
-        hotel = await Hotel.findById(hotelId);
+        hotel = await HotelModel.findById(hotelId);
     } catch (err) {
         const error = new HttpError('Something went wrong, could not find Hotel for deletion.',500);
         return next(error);
@@ -134,3 +147,4 @@ exports.getHotels = getHotels;
 exports.getHotelById = getHotelById;
 exports.updateHotel = updateHotel;
 exports.deleteHotel = deleteHotel;
+exports.getHotelDestinations = getHotelDestinations;

@@ -4,15 +4,15 @@ import { Link, NavLink } from 'react-router-dom';
 import { logout } from '../../actions/adminActions';
 import "./Navbar.css";
 
-const Navbar = ({location}) => {
+const Navbar = ({ location }) => {
     const dispatch = useDispatch()
 
-	const adminInfo = useSelector(state => state.adminLogin.adminInfo)
+    const isAdminLoggedIn = useSelector(state => state.isLoggedIn.adminInfo)
 
-	const logoutHandler = () =>{
-		dispatch(logout())
-		// window.location.reload()
-	}
+    const logoutHandler = () => {
+        dispatch(logout())
+        window.location.reload()
+    }
 
     return (
         <div className="navbar-wrap container-fluid fixed-top">
@@ -22,7 +22,8 @@ const Navbar = ({location}) => {
                 </div>
                 <div className="float-right">
                     <span className="logout-link">
-                        {adminInfo ? <NavLink to="/login" id="logout" onClick = {logoutHandler}>Logout</NavLink> : null}             
+                        {isAdminLoggedIn ? <NavLink to="/login" id="logout" onClick={logoutHandler}><i class="fa fa-sign-out fa-2x" aria-hidden="true"></i>
+                        </NavLink> : null}
                     </span>
                 </div>
             </div>

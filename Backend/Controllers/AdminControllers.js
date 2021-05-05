@@ -1,7 +1,7 @@
 const asyncHandler = require('express-async-handler')
-// const generateToken = require('')
 const Admin = require('../Models/Admin')
 const HttpError = require('../Models/HttpError');
+const jwt = require('jsonwebtoken');
 
 
 // Create Admin
@@ -47,13 +47,12 @@ const adminLogin = asyncHandler(async (req, res, next) => {
 
     const admin = await Admin.findOne({ username })
 
+    const token = await admin.getToken()
+
     if (admin && (await admin.matchPassword(password))) {
+        res.cookie('token', token, { httpOnly: true, maxAge: 3600000 })
         res.json({
-            _id: admin._id,
-            name: admin.name,
-            username: admin.username,
-            isSuperAdmin: admin.isSuperAdmin,
-            token: admin.getToken()
+            message: "Admin logged in"
         })
     } else {
         res.status(401)
@@ -72,10 +71,10 @@ const createAdmin = asyncHandler(async (req, res, next) => {
     if (admin) {
         const error = new HttpError('An admin is already registered on this username, try another username', 500);
         return next(error);
-    // } else if (!req.admin.isSuperAdmin) {
-    //     const error = new HttpError('Only a super admin can create new admins', 500);
-    // console.log(error)
-    //     return next(error);
+        // } else if (!req.admin.isSuperAdmin) {
+        //     const error = new HttpError('Only a super admin can create new admins', 500);
+        // console.log(error)
+        //     return next(error);
     } else {
         try {
             admin = Admin()
@@ -101,18 +100,66 @@ const createAdmin = asyncHandler(async (req, res, next) => {
 })
 
 
-const deleteAdmin = asyncHandler(async (req, res, next) => {
-    const admin = await Admin.findById(req.params.id)
-  
-    if (admin) {
-      await admin.remove()
-      res.json({ message: 'Admin removed' })
-    } else {
-      res.status(404)
-      throw new Error('Admin not found')
+// Get all admins
+const getAllAdmins = asyncHandler(async (req, res, next) => {
+    let admins;
+    try {
+        admins = await Admin.find();
+    } catch (err) {
+        const error = new HttpError('Unknown error occured while getting admins, please try again.', 500);
+        return next(error);
     }
-  })
+    res.send(admins);
+})
 
+
+// Delete admin
+const deleteAdmin = async (req, res, next) => {
+    const adminId = req.params.id;
+    let admin;
+    try {
+        admin = await Admin.findById(adminId);
+    } catch (err) {
+        const error = new HttpError('Unknown error occured while deleting Admin, please try again.', 500);
+        return next(error);
+    }
+
+    try {
+        await admin.remove();
+    } catch (err) {
+        const error = new HttpError('Unknown error occured while deleting admin, please try again.', 500);
+        return next(error);
+    }
+
+    res.status(200).json({ message: 'Admin has been deleted' });
+}
+
+
+// Logout admin
+const logoutAdmin = async (req, res) => {
+    const options = {
+        expires: new Date(0),
+        httpOnly: true,
+    };
+    res.cookie("token", "expiredtoken", options);
+    res.status(200).json({ status: "success logging out" });
+};
+
+
+//   Check if admin is logged in
+const isLoggedIn = async (req, res) => {
+    try {
+        const token = req.cookies.token;
+        if (!token) return res.json(false);
+
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+        res.send(decoded)
+
+    } catch (err) {
+        res.send(false)
+    }
+}
 
 
 
@@ -120,3 +167,6 @@ module.exports.createSuperAdmin = createSuperAdmin
 module.exports.createAdmin = createAdmin
 module.exports.adminLogin = adminLogin
 module.exports.deleteAdmin = deleteAdmin
+module.exports.logoutAdmin = logoutAdmin
+module.exports.isLoggedIn = isLoggedIn
+module.exports.getAllAdmins = getAllAdmins

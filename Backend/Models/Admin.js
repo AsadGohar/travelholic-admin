@@ -40,8 +40,8 @@ AdminSchema.pre('save', async function (next) {
 })
 
 AdminSchema.methods.getToken = function () {
-    return jwt.sign({ id: this._id, name: this.name }, process.env.JWT_ADMIN_SECRET, {
-        expiresIn: '8h'
+    return jwt.sign({ id: this._id, name: this.name, isSuperAdmin: this.isSuperAdmin }, process.env.JWT_SECRET, {
+        expiresIn: '1h'
     });
 }
 

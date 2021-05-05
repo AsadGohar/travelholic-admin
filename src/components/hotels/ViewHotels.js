@@ -11,7 +11,7 @@ const ViewHotels = () => {
     useEffect(() => {
         axios.get('/hotels')
             .then(res => {
-                console.log(res.data);
+                // console.log(res.data);
                 setHotels(res.data);
             })
             .catch((error) => {
@@ -24,8 +24,6 @@ const ViewHotels = () => {
             return <HotelTable data={res} key={i} />;
         });
     }
-
-
 
     return (
         <div className="container view-hotels-wrap">

@@ -18,7 +18,7 @@ const ViewBookings = () => {
             .catch((error) => {
                 console.log(error);
             })
-    }, [getBookings])
+    }, [])
 
     const DataTable = () => {
         return bookings.map((res, i) => {

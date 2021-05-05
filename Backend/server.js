@@ -3,10 +3,12 @@ const dotenv = require("dotenv")
 const HttpError = require('./Models/HttpError');
 const connectDB = require('./config/db')
 const path = require('path')
+const cookieParser = require('cookie-parser')
+const cors = require('cors')
+const csurf = require('csurf')
 
 
 dotenv.config({ path: './config/config.env' })
-const cors = require('cors')
 
 // IMPORTING ROUTES HERE
 const DestinationRoutes = require('./Routes/DestinationRoutes');
@@ -20,13 +22,24 @@ const RouteRoutes = require('./Routes/RouteRoutes');
 const HotelRoutes = require('./Routes/HotelRoutes');
 const UploadRoutes = require('./Routes/UploadRoutes');
 const AdminRoutes = require('./Routes/AdminRoutes')
+const TripPlannerDestinationRoutes = require('./Routes/TripPlannerDestinationRoutes');
+const PlanATripRoutes = require('./Routes/PlanATripRoutes')
 
 
 const app = express();
 app.use(express.json());
-app.use(cors());
 
-// app.use('/public/images/users',express.static(path.join('public','images','users')))
+app.use(cookieParser());
+
+app.use(cors({
+    origin: [
+        "http://localhost:3000",
+        "http://localhost:3001",
+      ],
+    credentials: true,
+}));
+
+app.use('/public/images/users', express.static(path.join('public', 'images', 'users')))
 
 // app.use(express.static('public'))
 // app.use(express.static(__dirname + '/public'));
@@ -42,16 +55,24 @@ app.use('/api/trips', TripRoutes)
 app.use('/api/routes', RouteRoutes)
 app.use('/api/hotels', HotelRoutes)
 app.use('/api/upload', UploadRoutes)
+app.use('/api/plan',PlanATripRoutes)
+app.use('/api/tripplannerdestination', TripPlannerDestinationRoutes)
 
 // For admin
-app.use('/api/admin', AdminRoutes )
+app.use('/api/admin', AdminRoutes)
 
 // PAYPAL API
 app.get('/api/config/paypal', (req, res) => res.send(process.env.PAYPAL_CLIENT_ID))
 
 // Static Folder fo images upload
 // app.use('/uploads', express.static(path.join(__dirname, '/uploads')))
-app.use('/uploads/images',express.static(path.join('uploads','images')))
+app.use('/uploads/images', express.static(path.join('uploads', 'images')))
+
+
+const csrfProtection = csurf({
+    cookie: true
+})
+app.use(csrfProtection)
 
 
 

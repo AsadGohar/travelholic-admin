@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { login } from '../../actions/adminActions'
+import { isLoggedIn, login } from '../../actions/adminActions'
 import Spinner from 'react-bootstrap/Spinner'
 import "./Login.css"
 
@@ -10,8 +10,11 @@ const Login = ({ history, location }) => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
 
+    const isAdminLoggedIn = useSelector(state => state.isLoggedIn)
+    const { adminInfo, loading: isLoggedInLoading } = isAdminLoggedIn
+
     const adminLogin = useSelector(state => state.adminLogin)
-    const { loading, error, adminInfo } = adminLogin
+    const { loading, error } = adminLogin
 
     const redirect = location.search ? location.search.split('=')[1] : '/'
 
@@ -19,13 +22,15 @@ const Login = ({ history, location }) => {
         if (adminInfo) {
             history.push(redirect)
         }
-    }, [history, adminInfo, redirect])
+    }, [history, redirect, adminInfo])
 
 
 
-    const submitHandler = (e) => {
+    const submitHandler = async (e) => {
         e.preventDefault()
-        dispatch(login(username, password))
+        await dispatch(login(username, password))
+        await dispatch(isLoggedIn())
+        history.push('/')
     }
 
     return (
@@ -54,7 +59,7 @@ const Login = ({ history, location }) => {
                                     <span className="sr-only">Loading...</span>
                                 </Spinner>
                             }
-                            {error ? <p style={{color: 'red'}}>{error}</p> : null}
+                            {error ? <p style={{ color: 'red' }}>Invalid Username or Password</p> : null}
                         </div>
 
                     </form>

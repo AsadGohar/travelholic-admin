@@ -27,7 +27,7 @@ function TripTable(props) {
       <td scope="row">{trip.excludes}</td>
       <td>
         <Link className="edit-link mr-2 ml-3" to={"/edit-trip/" + trip._id}>
-          <i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i>
+          <i className="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i>
         </Link>
         <i className='btn fa fa-trash fa-2x' onClick={e => { deleteTrip() }} style={{ cursor: 'pointer', color: 'red' }}></i>
       </td>
