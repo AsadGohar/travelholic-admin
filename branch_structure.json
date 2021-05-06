@@ -1,0 +1,24 @@
+{
+  "default_branch": "master",
+  "branches": [
+    "Enigma",
+    "develop",
+    "master",
+    "origin",
+    "production"
+  ],
+  "parent": {
+    "Enigma": "master",
+    "develop": "master",
+    "master": null,
+    "origin": "master",
+    "production": "master"
+  },
+  "order": [
+    "master",
+    "Enigma",
+    "develop",
+    "origin",
+    "production"
+  ]
+}
