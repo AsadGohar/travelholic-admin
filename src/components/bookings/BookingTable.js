@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from "../support-components/axios";
 import Button from 'react-bootstrap/Button';
+import { toast } from 'react-toastify';
 
 const BookingTable = (props) => {
     const { _id, user, title, name, email, city, address, phoneNo, seats, paymentMethod, totalPrice, isPaid, booking_confirmed, createdAt } = props.data
@@ -10,7 +11,9 @@ const BookingTable = (props) => {
     const deleteBooking = () => {
         axios.delete('/bookings/' + props.data._id)
             .then((res) => {
-                console.log('Booking successfully deleted!')
+                toast.success("Booking Deleted", {
+                    position: toast.POSITION.TOP_CENTER
+                  });
                 onUpdate()
             }).catch((error) => {
                 console.log(error)
@@ -20,7 +23,9 @@ const BookingTable = (props) => {
     const confirmBooking = () => {
         axios.put(`/bookings/${props.data._id}/confirm`)
             .then((res) => {
-                console.log('Booking successfully updated!')
+                toast.success("Booking Updated", {
+                    position: toast.POSITION.TOP_CENTER
+                  });
                 onUpdate()
             }).catch((error) => {
                 console.log(error)

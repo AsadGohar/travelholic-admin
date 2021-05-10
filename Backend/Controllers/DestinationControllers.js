@@ -1,4 +1,4 @@
-const Destination = require('../Models/Destination');
+const DestinationModel = require('../Models/Destination');
 const { validationResult } = require('express-validator');
 const HttpError = require('../Models/HttpError');
 
@@ -14,7 +14,7 @@ const createDestination = async (req, res, next) => {
 
     const { title, title_image, introduction, attraction_photos, photos, guidelines, history } = req.body;
 
-    const createdDestination = new Destination({
+    const createdDestination = new DestinationModel({
         title,
         title_image,
         introduction,
@@ -39,7 +39,7 @@ const createDestination = async (req, res, next) => {
 const getDestinations = async (req, res, next) => {
     let destinations;
     try {
-        destinations = await Destination.find();
+        destinations = await DestinationModel.find();
     } catch (err) {
         const error = new HttpError('Unknown error occured while getting destinations, please try again.', 500);
         return next(error);
@@ -52,7 +52,7 @@ const getDestinationById = async (req, res, next) => {
     const destId = req.params.id;
     let destination;
     try {
-        destination = await Destination.findById(destId);
+        destination = await DestinationModel.findById(destId);
     } catch (err) {
         const error = new HttpError('Unknown error occured while getting destination, please try again.', 500);
         return next(error);
@@ -80,7 +80,7 @@ const updateDestination = async (req, res, next) => {
 
     let destination;
     try {
-        destination = await Destination.findById(destId);
+        destination = await DestinationModel.findById(destId);
     } catch (err) {
         const error = new HttpError('Unknown error occured while updating destination, please try again.', 500);
         return next(error);
@@ -111,7 +111,7 @@ const deleteDestination = async (req, res, next) => {
     const destId = req.params.id;
     let destination;
     try {
-        destination = await Destination.findById(destId);
+        destination = await DestinationModel.findById(destId);
     } catch (err) {
         const error = new HttpError('Unknown error occured while deleting destination, please try again.', 500);
         return next(error);
@@ -133,7 +133,7 @@ const deleteDestination = async (req, res, next) => {
 const rateDestination = async (req, res) => {
     const { rating } = req.body
 
-    const destination = await Destination.findById(req.params.id)
+    const destination = await DestinationModel.findById(req.params.id)
 
     if (destination) {
         const alreadyRated = destination.UserRatings.find(

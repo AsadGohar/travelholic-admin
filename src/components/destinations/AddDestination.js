@@ -2,9 +2,14 @@ import React, { useState } from 'react';
 import axios, { imagePath } from "../support-components/axios";
 import { produce } from "immer";
 import Loader from "../support-components/Loader"
+import { toast } from 'react-toastify';
+import {  useSelector } from 'react-redux';
+
 
 const AddDestination = () => {
 
+    const isAdminLoggedIn = useSelector(state => state.isLoggedIn)
+	const { adminInfo } = isAdminLoggedIn
     // Setting up states
     const [title, setTitle] = useState('');
     const [titleImage, setTitleImage] = useState('');
@@ -160,7 +165,11 @@ const AddDestination = () => {
             history: history
         };
 
-        axios.post('/destinations', destinationObject)
+        axios.post('/destinations', destinationObject,{
+            headers: {
+              Authorization:`Bearer ${adminInfo.token}` //the token is a variable which holds the token
+            }
+           })
             .then(res => console.log(res.data));
 
         setTitle('');
@@ -171,7 +180,9 @@ const AddDestination = () => {
         setAttractions([{ title: "", path: "" }]);
         setPhotos([{ path: "" }]);
 
-        alert("Destination added!");
+        toast.success("Destination Added", {
+            position: toast.POSITION.TOP_CENTER
+          });
     }
 
 
@@ -195,7 +206,7 @@ const AddDestination = () => {
                             <label htmlFor="title-image">Title Image</label><br />
                             <input type="file" id="title-image-file" label="Choose File" onChange={onChangeTitleImage} />
                             <p style={{ fontSize: '12px', color: 'green' }}>{titleImage}</p>
-                            {titleImage && <img src={`${imagePath}/${titleImage}`} width={100} />}
+                            {titleImage && <img alt='load'src={`${imagePath}/${titleImage}`} width={100} />}
                             {uploading && <Loader />}
                         </div>
 
@@ -221,7 +232,7 @@ const AddDestination = () => {
 
                                         <input type="file" id="attractions-file" label="Choose File" onChange={e => onChangeAttractionPhotos(e, index)} />
 
-                                        {attraction.path && <img src={`${imagePath}/${attraction.path}`} width={60} />}
+                                        {attraction.path && <img alt='load' src={`${imagePath}/${attraction.path}`} width={60} />}
                                         <p style={{ fontSize: '12px', color: 'green' }}>{attraction.path}</p>
                                         {uploading && <Loader />}
                                     </div>
@@ -238,7 +249,7 @@ const AddDestination = () => {
                                 {photos.map((photo, index) => (
                                     <div className="photos-input-div p-3" key={index}>
                                         <input type="file" id="photos-file" label="Choose File" onChange={e => onChangePhotos(e, index)} />
-                                        {photo.path && <img src={`${imagePath}/${photo.path}`} width={60} />}
+                                        {photo.path && <img alt='load' src={`${imagePath}/${photo.path}`} width={60} />}
                                         <p style={{ fontSize: '12px', color: 'green' }}>{photo.path}</p>
                                         {uploading && <Loader />}
                                     </div>

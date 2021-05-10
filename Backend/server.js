@@ -18,12 +18,12 @@ const AnswerRoutes = require('./Routes/AnswerRoutes');
 const UserRoutes = require('./Routes/UserRoutes');
 const QuestionRoutes = require('./Routes/QuestionRoutes');
 const TripRoutes = require('./Routes/TripRoutes');
-const RouteRoutes = require('./Routes/RouteRoutes');
 const HotelRoutes = require('./Routes/HotelRoutes');
 const UploadRoutes = require('./Routes/UploadRoutes');
 const AdminRoutes = require('./Routes/AdminRoutes')
 const TripPlannerDestinationRoutes = require('./Routes/TripPlannerDestinationRoutes');
 const PlanATripRoutes = require('./Routes/PlanATripRoutes')
+const FeedbackRoutes = require('./Routes/FeedbackRoutes')
 
 
 const app = express();
@@ -47,10 +47,10 @@ app.use('/api/answers', AnswerRoutes)
 app.use('/api/users', UserRoutes)
 app.use('/api/questions', QuestionRoutes)
 app.use('/api/trips', TripRoutes)
-app.use('/api/routes', RouteRoutes)
 app.use('/api/hotels', HotelRoutes)
 app.use('/api/upload', UploadRoutes)
 app.use('/api/plan',PlanATripRoutes)
+app.use('/api/feedbacks',FeedbackRoutes)
 app.use('/api/tripplannerdestination', TripPlannerDestinationRoutes)
 
 // For admin
@@ -63,6 +63,7 @@ app.get('/api/config/paypal', (req, res) => res.send(process.env.PAYPAL_CLIENT_I
 // app.use('/uploads', express.static(path.join(__dirname, '/uploads')))
 app.use('/uploads/images', express.static(path.join('uploads', 'images')))
 app.use('/uploads/users', express.static(path.join('uploads', 'users')))
+app.use('/uploads/trips', express.static(path.join('uploads', 'trips')))
 
 
 const csrfProtection = csurf({

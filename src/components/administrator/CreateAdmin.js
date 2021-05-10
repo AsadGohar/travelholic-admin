@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import axios from "../support-components/axios"
+import { toast } from 'react-toastify';
 
 const CreateAdmin = () => {
     const [name, setName] = useState('')
@@ -8,11 +9,15 @@ const CreateAdmin = () => {
 
     const registerAdmin = async (e) => {
         e.preventDefault()
-        await axios.post('/admin', { name, username, password })
+        await axios.post('/admin', { name, username, password }).then(res=>{
+            toast.success("Admin Added", {
+                position: toast.POSITION.TOP_CENTER
+              });
+        })
         setName('')
         setUsername('')
         setPassword('')
-        alert('New Admin Added')
+
     }
 
     return (

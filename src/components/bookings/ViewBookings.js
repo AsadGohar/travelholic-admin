@@ -8,8 +8,7 @@ import "../support-components/TableStyle.css"
 const ViewBookings = () => {
     const [bookings, setBookings] = useState([]);
 
-    let getBookings;
-    useEffect(getBookings = () => {
+    let getBookings= () => {
         axios.get('/bookings')
             .then(res => {
                 console.log(res.data);
@@ -18,7 +17,8 @@ const ViewBookings = () => {
             .catch((error) => {
                 console.log(error);
             })
-    }, [])
+    }
+    useEffect(getBookings , [])
 
     const DataTable = () => {
         return bookings.map((res, i) => {

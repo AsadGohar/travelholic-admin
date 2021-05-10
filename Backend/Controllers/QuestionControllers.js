@@ -53,6 +53,18 @@ const getQuestionsAdmin = async (req,res,next) => {
   }
   })
 }
+//GET REPORTED ANSWERS ADMIN
+const getReportedQuestionsAdmin = async (req,res,next) => {
+  QuestionModel.find({reported:true}).populate('user', 'name -_id').exec(function(err,data){
+  if(err){
+    const error = new HttpError('getting Questions failed, please try again',500);
+    return next(error);
+  }
+  else{
+    res.send(data)
+  }
+  })
+}
 //GET A QUESTION BY ID
 const getQuestionbyId = async(req,res,next)=>{
 
@@ -170,6 +182,37 @@ const getMostViewedQuestions = async (req,res,next)=>{
   
 }
 
+const getQuestionsbyUserId = async (req,res,next)=>{
+  let id = req.params.id
+  let questions
+  try {
+    questions = await QuestionModel.find({ user:id }).populate('user', 'name display_image_name -_id').exec();
+  } catch (error) {
+    const err = new HttpError('unknown error occured while finding Question, please try again',500);
+    return next(err)
+  }
+  if (questions.length===0){
+    const err = new HttpError('No Questions Found',500);
+    return next(err)
+  }
+  else{
+
+    res.send(questions)
+  }
+}
+
+const reportQuestion = async (req,res,next)=>{
+  
+  let id = req.params.id
+  let question;
+  try {
+     question= QuestionModel.findByIdAndUpdate(id,{reported:true})
+  } catch (error) {
+    const err = new HttpError('Finding Question Failed',500);
+    return next(err)
+  }
+  res.send(question)
+}
 
 //EXPORTING CONTROLLERS
 module.exports.getQuestions  = getQuestions
@@ -177,7 +220,10 @@ module.exports.getQuestionbyId  =getQuestionbyId
 module.exports.updateQuestionbyId  = updateQuestionbyId
 module.exports.createQuestion  = createQuestion
 module.exports.getQuestionsAdmin  = getQuestionsAdmin
+module.exports.getReportedQuestionsAdmin  = getReportedQuestionsAdmin
 module.exports.deleteQuestionbyId=deleteQuestionbyId
 module.exports.getQuestionsByTopic =getQuestionsByTopic 
 module.exports.addViewToQuestionbyId =addViewToQuestionbyId 
 module.exports.getMostViewedQuestions =getMostViewedQuestions 
+module.exports.reportQuestion =reportQuestion 
+module.exports.getQuestionsbyUserId =getQuestionsbyUserId 

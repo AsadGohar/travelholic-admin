@@ -6,6 +6,8 @@ const { auth } = require('../middleware/auth');
 
 router.post('/', TripControllers.createTrip)
 
+router.put('/upload', TripControllers.uploadTripPhoto,TripControllers.addImagetoTrip)
+
 router.route('/').get(TripControllers.getTrips)
 
 router.get('/admin', TripControllers.getTripsAdmin)

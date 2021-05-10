@@ -1,12 +1,19 @@
 import React,{useState} from 'react'
-import axios from 'axios'
+import axios from "../support-components/axios";
+import {  useSelector } from 'react-redux';
 
 import UserRow from './UserRow'
 
 function UserTable() {
+  const isAdminLoggedIn = useSelector(state => state.isLoggedIn)
+	const { adminInfo } = isAdminLoggedIn
   const [users, setUsers] = useState([]);
   const getUsers = () => {
-    axios.get('http://localhost:4000/api/users/admin/users').then((res)=>{
+    axios.get('/users/admin/users',{
+      headers: {
+        Authorization:`Bearer ${adminInfo.token}` //the token is a variable which holds the token
+      }
+     }).then((res)=>{
       console.log(res.data)
       setUsers(res.data);
     }).catch((err)=>{
@@ -16,8 +23,8 @@ function UserTable() {
   React.useEffect(getUsers,[])
   return (
     <div>
-      <table className="table">
-        <thead className="table-dark">
+      <table className="table table-striped">
+        <thead className="table-dark  ">
           <tr>
             <th scope="col">Username</th>
             <th scope="col">Reported</th>

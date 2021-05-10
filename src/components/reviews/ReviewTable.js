@@ -20,7 +20,7 @@ const ReviewTable = (props) => {
             <td>{_id}</td>
             <td>{text}</td>
             <td>{reported}</td>
-            <td>{createdAt}</td>
+            <td>{createdAt.substring(0,10)}</td>
             <td>
                 <Link className="edit-link mr-2 ml-3" to={"/edit-review/" + props.data._id}>
                     Edit
