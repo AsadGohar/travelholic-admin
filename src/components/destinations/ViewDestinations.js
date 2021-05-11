@@ -10,8 +10,7 @@ import { Link } from 'react-router-dom';
 const ViewDestinations = () => {
     const [destinations, setDestinations] = useState([]);
 
-    let getDestinations;
-    useEffect( getDestinations = () => {
+    let getDestinations = () => {
         axios.get('/destinations')
             .then(res => {
                 console.log(res.data);
@@ -20,7 +19,8 @@ const ViewDestinations = () => {
             .catch((error) => {
                 console.log(error);
             })
-    }, [])
+    }
+    useEffect( getDestinations , [])
 
     const DataTable = () => {
         return destinations.map((res, i) => {

@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Table } from 'react-bootstrap'
+import { Table } from 'react-bootstrap'
 import axios from "../support-components/axios"
-
+import {  useSelector } from 'react-redux';
 
 const AdminList = () => {
     const [admins, setAdmins] = useState()
-
+    const isAdminLoggedIn = useSelector(state => state.isLoggedIn)
+	const { adminInfo } = isAdminLoggedIn
+    console.log(`Bearer ${adminInfo.token}`)
     let getAdmins
     useEffect(getAdmins = async () => {
-        const { data } = await axios.get('/admin')
+        const { data } = await (await axios.get('/admin'))
         setAdmins(data)
     }, [])
 

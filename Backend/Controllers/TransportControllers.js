@@ -11,10 +11,10 @@ const createTransport = async (req, res, next) => {
     //     );
     // }
 
-    const { name, route } = req.body
+    const { name } = req.body
     const createdTransport = TransportModel()
     createdTransport.name=name;
-    createdTransport.routes.push(route)
+    // createdTransport.routes.push(route)
 
     try {
         await createdTransport.save();
@@ -57,6 +57,71 @@ const getTransportById = async (req, res, next) => {
     res.json(transport);
 }
 
+
+// GET ROUTES OF A SPECIFIC TRANSPORT COMPANY BY TRANSPORT ID
+const getRoutesByTransportId = async (req, res, next) => {
+    const transportId = req.params.id;
+    let transport;
+    try {
+        transport = await TransportModel.findById(transportId).populate('routes.destination_to routes.destination_from','name').select('routes -_id').exec();
+    } catch (err) {
+        const error = new HttpError('Finding required transport failed, please try again.',500);
+        return next(error);
+    }
+
+    if (!transport) {
+        const error = new HttpError('Could not find a transport for the provided id.',404);
+        return next(error);
+    }
+
+    res.json(transport);
+}
+
+// Delete Route by Route ID and Transport Id
+const deleteRouteByRouteId = async (req, res, next) => {
+    const {transport_id,route_id} = req.body;
+    console.log(transport_id,route_id)
+    let transport
+    try {
+        transport = await TransportModel.findById(transport_id).exec();
+        transport.routes.remove(route_id)
+        transport.save()
+    } catch (err) {
+        const error = new HttpError('Finding required transport failed, please try again.',500);
+        return next(error);
+    }
+
+    if (!transport) {
+        const error = new HttpError('Could not find a transport for the provided id.',404);
+        return next(error);
+    }
+
+    res.json(transport);
+}
+
+// GET ROUTE OF A SPECIFIC TRANSPORT COMPANY BY TRANSPORT ID And Route Id
+const getRouteByRouteId = async (req, res, next) => {
+    let route_id=req.params.id
+    const {transport_id} = req.body;
+    let transport,route
+    try {
+        transport = await TransportModel.findById(transport_id).populate('routes.destination_to routes.destination_from','name').exec();
+        route=transport.routes.id(route_id)
+        transport.save()
+    } catch (err) {
+        const error = new HttpError('Finding required transport failed, please try again.',500);
+        return next(error);
+    }
+
+    if (!transport) {
+        const error = new HttpError('Could not find a transport for the provided id.',404);
+        return next(error);
+    }
+
+    res.json(route);
+}
+
+
 // GET A SPECIFIC TRANSPORT COMPANY BY ROUTES
 const getTransportByDestinations = async (req, res, next) => {
     const {destinations} =req.body
@@ -89,24 +154,20 @@ const getTransportByDestinations = async (req, res, next) => {
 // ADD A ROUTE TO A TRANSPORT
 const addRoutetoTransport = async (req, res, next) => {
     
-    const transportId = req.params.id;
-    const {route} = req.body
+    const {route,id} = req.body
     console.log(route.destination_to)
     console.log(route.destination_from)
     let transport;
     try {
-        transport = await TransportModel.find( {'_id':transportId, "routes": { 
+        transport = await TransportModel.find( {'_id':id, "routes": { 
         $elemMatch: { 'destination_to':route.destination_to,  'destination_from':route.destination_from} } } );
-        // transport = await TransportModel.find({'_id':transportId,'routes.destination_to':route.destination_to,'routes.destination_from':route.destination_from}).populate('routes.destination_to routes.destination_from','name').exec();
-        // transport.routes.push(route)
-        // transport.save()
     } catch (err) {
         const error = new HttpError('Finding required transport failed, please try again.',500);
         return next(error);
     }
-
+    // console.log('lenth',transport.length)
     if ((transport).length===0) {
-       let ntransport = await TransportModel.findByIdAndUpdate(transportId,
+       let ntransport = await TransportModel.findByIdAndUpdate(id,
             { 
               "$push": { "routes": route } 
             },{returnOriginal:false}
@@ -219,3 +280,6 @@ exports.updateTransport = updateTransport;
 exports.deleteTransport = deleteTransport;
 exports.addRoutetoTransport = addRoutetoTransport
 exports.doesRouteExist = doesRouteExist
+exports.getRoutesByTransportId = getRoutesByTransportId
+exports.deleteRouteByRouteId = deleteRouteByRouteId
+exports.getRouteByRouteId = getRouteByRouteId

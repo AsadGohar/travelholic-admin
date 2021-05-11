@@ -1,25 +1,94 @@
 const TripModel = require('../Models/Trip');
 const HttpError = require('../Models/HttpError');
+const multer = require('multer')
+const sharp = require('sharp')
+const fs = require("fs")
+
+
+//IMAGE HANDLING
+const multerStorage = multer.diskStorage({
+  // destination:(req,file,cb)=>{
+  //   cb(null,'public/images/users')
+  // },
+  // filename:(req,file,cb)=>{
+  //   const ext = file.mimetype.split('/')[1];
+  //   cb(null,`user-${req.body.id}-${Date.now()}.${ext}`)
+  // }
+})
+
+const multerFilter = (req, file, cb) => {
+  if (file.mimetype.startsWith('image')) {
+    cb(null, true)
+  }
+  else {
+    cb('error')
+  }
+}
+const upload = multer({
+  storage: multerStorage,
+  fileFilter: multerFilter
+})
+
+exports.uploadTripPhoto = upload.single('photo')
+
+
+
+//Add dispalay image to trip
+const addImagetoTrip = async (req, res, next) => {
+
+  const { id,name } = req.body
+  let trip, tempPath
+  // buffer = req.file.buffer
+  req.file.filename = `trip-${name}-${Date.now()}.jpeg`;
+  //  let file=req.file
+  // console.log(file)
+  await sharp(req.file.path).resize({ width: 905, height: 905 }).toFile(`./uploads/trips/${req.file.filename}`)
+  try {
+    trip = await TripModel.findById(id)
+    tempPath = 'uploads\\trips\\' + trip.display_image
+    // console.log('tempapth',tempPath)
+    trip.display_image = req.file.filename
+    trip.save()
+  } catch (err) {
+    const error = new HttpError('Updating User Failed', 500);
+    return next(error);
+  }
+  if (!trip) {
+    const error = new HttpError('No Such User Found', 500);
+    return next(error);
+  }
+
+  if (tempPath !== 'uploads\\trips\\default.jpg') {
+    fs.unlink(tempPath, function (err) {
+      if (err) {
+        console.log(err)
+      } else {
+        console.log("Successfully deleted the previous")
+      }
+    })
+  }
+  res.send(trip)
+
+}
 
 //ADD A TRIP
 const createTrip = async (req, res, next) => {
 
-  const { title, price, description, rating, attractions, excludes, service_provided, display_image, start_date, end_date, itinerary, reviews, numReviews, company } = req.body
+  const { title, price, description, attractions, excludes, service_provided, start_date, end_date, itinerary, company } = req.body
   let trip = TripModel()
   trip.title = title
   trip.price = price
   trip.description = description
-  trip.rating = rating
+  trip.rating = 0
   trip.attractions = attractions
   trip.excludes = excludes
   trip.service_provided = service_provided
-  trip.display_image = display_image
+  trip.display_image = 'default.jpg'
   trip.start_date = start_date
   trip.end_date = end_date
   trip.itinerary = itinerary
-  trip.reviews = reviews
   trip.company = company
-  trip.numReviews = numReviews
+  trip.numReviews = 0
 
   try {
     await trip.save()
@@ -154,3 +223,4 @@ module.exports.getTripsAdmin = getTripsAdmin
 module.exports.getTripbyId = getTripbyId
 module.exports.deleteTripById = deleteTripById
 module.exports.createTripReview = createTripReview
+module.exports.addImagetoTrip = addImagetoTrip

@@ -83,23 +83,17 @@ const getAnswersAdmin = async (req,res,next) => {
   }
   })
 }
-
-//GET ALL REPORTED ANSWERS
-const getAllReportedAnswers = async(req,res,next)=> {
-
-  let reportedAnswers
-  try {
-    reportedAnswers =  await AnswerModel.find({reported:true})
-  } 
-  catch (err) {
-    const error = new HttpError('finding Answers failed, please try again',500);
-    return next(error) 
-  }
-  if (!reportedAnswers) {
-    const error = new HttpError('Could not find any reported answers',404);
+//GET REPORTED ANSWERS ADMIN
+const getReportedAnswersAdmin = async (req,res,next) => {
+  AnswerModel.find({reported:true}).populate('user', 'name -_id').exec(function(err,data){
+  if(err){
+    const error = new HttpError('getting Answers failed, please try again',500);
     return next(error);
   }
-  res.send(reportedAnswers)
+  else{
+    res.send(data)
+  }
+  })
 }
 
 //UPDATING ANSWER BY ID
@@ -121,12 +115,24 @@ const updateAnswerbyId = async(req,res,next)=>{
   res.send(answer)
 }
 
-
+const reportAnswer = async (req,res,next)=>{
+  
+  let id = req.params.id
+  let question;
+  try {
+     question= AnswerModel.findByIdAndUpdate(id,{reported:true})
+  } catch (error) {
+    const err = new HttpError('Finding Answer Failed',500);
+    return next(err)
+  }
+  res.send(question)
+}
 //EXPORTING CONTROLLERS
 module.exports.createAnswer  = createAnswer;
 module.exports.getAnswers  = getAnswers;
 module.exports.getAnswersByQuestionId  = getAnswersByQuestionId
 module.exports.getAnswersAdmin  = getAnswersAdmin;
 module.exports.deleteAnswerbyId  = deleteAnswerbyId;
-module.exports.getAllReportedAnswers  = getAllReportedAnswers;
+module.exports.getReportedAnswersAdmin  = getReportedAnswersAdmin;
 module.exports.updateAnswerbyId  = updateAnswerbyId;
+module.exports.reportAnswer  = reportAnswer

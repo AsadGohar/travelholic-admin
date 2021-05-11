@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
-import axios from 'axios'
+import axios from "../support-components/axios";
+
 
 import TripTable from "./TripTable";
 
 function ViewTrips() {
   const [trips, setTrips] = useState([]);
   const getTrips = () => {
-    axios.get('http://localhost:4000/api/trips/').then((res) => {
+    axios.get('/trips/').then((res) => {
       console.log(res.data)
       setTrips(res.data);
     }).catch((err) => {

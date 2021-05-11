@@ -36,7 +36,7 @@ const Login = ({ history, location }) => {
     return (
         <div className="container login-wrap">
             <div className="text-center">
-                <img src="https://img.icons8.com/dotty/80/000000/admin-settings-male.png" />
+                <img alt='load' src="https://img.icons8.com/dotty/80/000000/admin-settings-male.png" />
                 <h5 className="mt-2" >Are you an admin? Please Login to continue</h5>
             </div>
             <div className="row justify-content-center login-main-div mt-5">

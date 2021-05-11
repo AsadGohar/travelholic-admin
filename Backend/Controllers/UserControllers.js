@@ -1,4 +1,9 @@
 const UserModel = require('../Models/User');
+const AnswerModel = require('../Models/Answer');
+const QuestionModel = require('../Models/Question');
+const BookingModel = require('../Models/Booking');
+const TripModel = require('../Models/Trip');
+const DestinationModel = require('../Models/Destination');
 const HttpError = require('../Models/HttpError');
 const multer = require('multer')
 const sharp = require('sharp')
@@ -33,6 +38,43 @@ const upload = multer({
 
 exports.uploadUserPhoto = upload.single('photo')
 
+//UPLOAD USER PROFILE PIC
+const uploadProfilePic = async (req, res, next) => {
+
+  const { id } = req.body
+  let user, tempPath
+  // buffer = req.file.buffer
+  req.file.filename = `user-${id}-${Date.now()}.jpeg`;
+  //  let file=req.file
+  // console.log(file)
+  await sharp(req.file.path).resize({ width: 905, height: 905 }).toFile(`./uploads/users/${req.file.filename}`)
+  try {
+    user = await UserModel.findById(id).select('+password')
+    tempPath = 'uploads\\users\\' + user.display_image_name
+    // console.log('tempapth',tempPath)
+    user.display_image_name = req.file.filename
+    user.save()
+  } catch (err) {
+    const error = new HttpError('Updating User Failed', 500);
+    return next(error);
+  }
+  if (!user) {
+    const error = new HttpError('No Such User Found', 500);
+    return next(error);
+  }
+
+  if (tempPath !== 'uploads\\users\\default.jpg') {
+    fs.unlink(tempPath, function (err) {
+      if (err) {
+        console.log(err)
+      } else {
+        console.log("Successfully deleted the previous")
+      }
+    })
+  }
+  res.send(user)
+}
+
 
 //CREATE A USER
 const createUser = async (req, res, next) => {
@@ -57,6 +99,7 @@ const createUser = async (req, res, next) => {
       user.email = email
       user.password = password
       user.mobile_num = mobile_num
+      user.display_image_name="default.jpg"
       token = user.getToken()
       await user.save()
     }
@@ -170,6 +213,12 @@ const deleteUserById = async (req, res, next) => {
   console.log(id)
   let user
   try {
+
+    AnswerModel.deleteMany({user:id})
+    QuestionModel.deleteMany({user:id})
+    BookingModel.deleteMany({user:id})
+    TripModel.updateMany({},{ $pull: { reviews: { user: id } }})
+    DestinationModel.updateMany({},{ $pull: { UserRatings: { user: id } }})
     user = await UserModel.findByIdAndDelete(id)
   } catch (err) {
     const error = new HttpError('Finding User Failed', 500);
@@ -182,52 +231,35 @@ const deleteUserById = async (req, res, next) => {
   res.send('User Deleted')
 }
 
-//UPLOAD USER PROFILE PIC
-const uploadProfilePic = async (req, res, next) => {
 
-  const { id } = req.body
-  let user, tempPath
-  // buffer = req.file.buffer
-  req.file.filename = `user-${id}-${Date.now()}.jpeg`;
-  //  let file=req.file
-  // console.log(file)
-  await sharp(req.file.path).resize({ width: 905, height: 905 }).toFile(`./public/images/users/${req.file.filename}`)
-  try {
-    user = await UserModel.findById(id).select('+password')
-    tempPath = 'public\\images\\users\\' + user.display_image_name
-    // console.log('tempapth',tempPath)
-    user.display_image_name = req.file.filename
-    user.save()
-  } catch (err) {
-    const error = new HttpError('Updating User Failed', 500);
-    return next(error);
-  }
-  if (!user) {
-    const error = new HttpError('No Such User Found', 500);
-    return next(error);
-  }
-
-  if (tempPath !== 'public\\images\\users\\default.jpg') {
-    fs.unlink(tempPath, function (err) {
-      if (err) {
-        console.log(err)
-      } else {
-        console.log("Successfully deleted the previous")
-      }
-    })
-  }
-  res.send(user)
-}
 
 const getAllUsersAdmin = async (req, res, next) => {
   var users
   try {
     users = await UserModel.find()
- } 
- catch (err) {
-   const error = new HttpError('finding users failed, please try again',500);
-   return next(error);
- }
+  }
+  catch (err) {
+    const error = new HttpError('finding Questions failed, please try again', 500);
+    return next(error);
+  }
+
+  if (!users) {
+    const error = new HttpError('could not find Questions', 404);
+    return next(error);
+  }
+  res.send(users)
+}
+
+const getReportedUsersAdmin = async (req, res, next) => {
+  var users
+  try {
+
+    users = await UserModel.find({reported:true})
+  }
+  catch (err) {
+    const error = new HttpError('finding Questions failed, please try again', 500);
+    return next(error);
+  }
 
  if (!users) {
    const error = new HttpError('could not find users',404);
@@ -310,5 +342,4 @@ module.exports.updateUserById =updateUserById
 module.exports.deleteUserById =deleteUserById
 module.exports.uploadProfilePic  =uploadProfilePic 
 module.exports.getAllUsersAdmin  =getAllUsersAdmin 
-
-
+module.exports.getReportedUsersAdmin = getReportedUsersAdmin

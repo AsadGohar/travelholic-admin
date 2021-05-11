@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import "./Sidemenu.css";
 
 const Sidemenu = () => {
     const adminInfo = useSelector(state => state.isLoggedIn.adminInfo)
-    const { isSuperAdmin } = adminInfo
+    const { isSuperAdmin } = adminInfo.decoded
 
     return (
         <div className="sidemenu-wrap fixed-top">
@@ -38,6 +38,7 @@ const Sidemenu = () => {
                         <ul className="sub-menu collapse" id="trips">
                             <Link to="/view-trips" className="sidemenu-link"><li>View all Trips</li></Link>
                             <Link to="/add-new-trip" className="sidemenu-link"><li>Add new Trip</li></Link>
+                            <Link to="/add-trip-image" className="sidemenu-link"><li>Update Trip Image</li></Link>
                             <Link to="/trip-bookings" className="sidemenu-link"><li>Bookings</li></Link>
                             <Link to="/trip-reviews" className="sidemenu-link"><li>Trip Reviews</li></Link>
                         </ul>
@@ -49,15 +50,17 @@ const Sidemenu = () => {
                         <ul className="sub-menu collapse" id="transports">
                             <Link to="/view-transports" className="sidemenu-link"><li>View transport services</li></Link>
                             <Link to="/add-new-transport" className="sidemenu-link"><li>Add new transport service</li></Link>
+                            <Link to="/add-route-transport" className="sidemenu-link"><li>Add Route To Transport</li></Link>
+                            <Link to="/view-route-transport" className="sidemenu-link"><li>View Routes by Transport</li></Link>
                         </ul>
 
-                        {/* ROUTES MENU */}
+                        {/* TRIP PLANNER DESTINATIONS MENU */}
                         <li data-toggle="collapse" data-target="#routes" className="collapsed">
-                            <i className="fa fa-road fa-lg"></i> Routes <span className="arrow"></span>
+                            <i className="fa fa-road fa-lg"></i> Trip Planner Destinations <span className="arrow"></span>
                         </li>
                         <ul className="sub-menu collapse" id="routes">
-                            <Link to="/view-routes" className="sidemenu-link"><li>View available Routes</li></Link>
-                            <Link to="/add-new-route" className="sidemenu-link"><li>Add new Route</li></Link>
+                            <Link to="/add-new-trip-destination" className="sidemenu-link"><li>Add Trip Planner Destination</li></Link>
+                            <Link to="/view-trip-destinations" className="sidemenu-link"><li>View All Trip Planner Destinations</li></Link>
                         </ul>
 
                         {/* HOTELS MENU */}
@@ -66,7 +69,7 @@ const Sidemenu = () => {
                         </li>
                         <ul className="sub-menu collapse" id="hotels">
                             <Link to="/view-hotels" className="sidemenu-link"><li>View all Hotels</li></Link>
-                            <Link to="/add-new-hotel" className="sidemenu-link"><li>Add new Hotel</li></Link>
+                            <Link to="/add-hotel" className="sidemenu-link"><li>Add new Hotel</li></Link>
                         </ul>
 
                         {/* FORUM MENU */}
@@ -76,6 +79,8 @@ const Sidemenu = () => {
                         <ul className="sub-menu collapse" id="forum">
                             <Link to="/view-questions" className="sidemenu-link"><li>View all questions</li></Link>
                             <Link to="/view-answers" className="sidemenu-link"><li>View all answers</li></Link>
+                            <Link to="/reported-answers" className="sidemenu-link"><li>View Reprted Answers</li></Link>
+                            <Link to="/reported-questions" className="sidemenu-link"><li>View Reported Questions</li></Link>
                         </ul>
 
 
@@ -83,6 +88,11 @@ const Sidemenu = () => {
                         <Link to="/registered-users" className="sidemenu-link">
                             <li>
                                 <i className="fa fa-user fa-lg"></i> Users
+                            </li>
+                        </Link>
+                        <Link to="/reported-users" className="sidemenu-link">
+                            <li>
+                                <i className="fa fa-user fa-lg"></i> Reported Users
                             </li>
                         </Link>
 

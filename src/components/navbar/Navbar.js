@@ -18,11 +18,11 @@ const Navbar = ({ location }) => {
         <div className="navbar-wrap container-fluid fixed-top">
             <div className="navbar row">
                 <div className=" float-left">
-                    <Link to="/"><img src={"images/logo-png.png"} className="logo-img" /></Link>
+                    <Link to="/"><img alt='wait' src={"images/logo-png.png"} className="logo-img" /></Link>
                 </div>
                 <div className="float-right">
                     <span className="logout-link">
-                        {isAdminLoggedIn ? <NavLink to="/login" id="logout" onClick={logoutHandler}><i class="fa fa-sign-out fa-2x" aria-hidden="true"></i>
+                        {isAdminLoggedIn ? <NavLink to="/login" id="logout" onClick={logoutHandler}><i className="fa fa-sign-out fa-2x" aria-hidden="true"></i>
                         </NavLink> : null}
                     </span>
                 </div>

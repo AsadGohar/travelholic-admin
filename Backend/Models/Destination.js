@@ -34,4 +34,6 @@ const DestinationSchema = new Schema({
     history: { type: String, required: true },
 }, { timestamps: true });
 
-module.exports = mongoose.model('Destination', DestinationSchema);
+
+const DestinationModel = mongoose.model('Destination', DestinationSchema);
+module.exports = DestinationModel;

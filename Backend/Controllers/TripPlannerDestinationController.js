@@ -53,7 +53,24 @@ const getTripPlannerDestionationById = async (req,res,next)=>{
   res.send(destinations)
 }
 
+const deleteTripPlannerDestionationById = async (req,res,next)=>{
+  let destinations
+  let id = req.params.id
+  try {
+     destinations = await TripPlannerDestinationModel.findByIdAndDelete(id)
+  } catch (error) {
+    const err = new HttpError('Getting Trip Planner Destination Failed, please try again',500);
+    return next(err);
+  }
+  if (!destinations) {
+    const error = new HttpError('Could not find any Trip Planner Destination',404);
+    return next(error);
+  }
+  res.send(destinations)
+}
+
 
 module.exports.createTripPlannerDestination = createTripPlannerDestination
 module.exports.getAllTripPlannerDestionations  = getAllTripPlannerDestionations
 module.exports.getTripPlannerDestionationById  = getTripPlannerDestionationById
+module.exports.deleteTripPlannerDestionationById  = deleteTripPlannerDestionationById
