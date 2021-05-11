@@ -1,58 +1,56 @@
 import React, { useState } from 'react';
 import axios from "../support-components/axios";
+import { toast } from 'react-toastify';
+import {  useSelector } from 'react-redux';
+
 
 const AddTransport = () => {
 
+  const isAdminLoggedIn = useSelector(state => state.isLoggedIn)
+	const { adminInfo } = isAdminLoggedIn
     // Setting up states
-    const [title, setTitle] = useState('');
-    const [fare, setFare] = useState('');
+  const [name, setName] = useState('');
 
-    // Setting functions
-    const onChangeTitle = (e) => {
-        setTitle(e.target.value);
-    }
-    const onChangeFare = (e) => {
-        setFare(e.target.value);
-    }
+  const submitTransport = (e) => {
+    e.preventDefault()
 
+    const transportObject = {
+      name: name
+    };
 
-    const submitTransport = (e) => {
-        e.preventDefault()
+    axios.post('/transports', transportObject,{
+      headers: {
+        Authorization:`Bearer ${adminInfo.token}` //the token is a variable which holds the token
+      }
+     })
+    .then(res => {
+        toast.success("Transport Added", {
+          position: toast.POSITION.TOP_CENTER
+        });
+      })
+    .catch(err=>console.log(err))
 
-        const TransportObject = {
-            name: title,
-            fare: fare
-        };
+  }
 
-        axios.post('/transports', TransportObject)
-            .then(res => console.log(res.data));
-
-        setTitle('');
-        setFare('');
-    }
-
-    return (
-        <div className="container add-transport-wrap">
-            <div className="row">
-                <h5 className="Display-1">Add new transport service:</h5>
+  return (
+    <div className="container add-destination-wrap">
+      <div className="row">
+        <h5 className="Display-1">Add New Transport:</h5>
+      </div>
+      <div className="row add-destination-form-div mt-3">
+        <div className="col-md-7">
+          <form onSubmit={submitTransport}>
+            {/* SET HOTEL NAME */}
+            <div className="form-group">
+              <label htmlFor="destination-title">Transport Company Name</label>
+              <input type="text" className="form-control" onChange={e=>{setName(e.target.value)}} placeholder="Transport Name" />
             </div>
-            <div className="row add-transport-form-div mt-3">
-                <div className="col-md-7">
-                    <form onSubmit={submitTransport}>
-                        <div className="form-group">
-                            <label htmlFor="transport-title">Transport Title</label>
-                            <input type="text" className="form-control" id="transport-title" value={title} onChange={onChangeTitle} aria-describedby="transport title" placeholder="Transport Title" />
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="transport-fare">Fare</label>
-                            <input type="number" className="form-control" id="transport-fare" value={fare} onChange={onChangeFare} aria-describedby="transport fare" placeholder="Enter fare in Rupees" />
-                        </div>
-                        <button type="submit" className="btn btn-dark">Add Transport</button>
-                    </form>
-                </div>
-            </div>
+            <button type="submit" className="btn btn-dark mb-5">Add Transport</button>
+          </form>
         </div>
-    );
+      </div>
+    </div>
+  );
 }
 
 export default AddTransport;

@@ -91,7 +91,6 @@ const updateHotel = async (req, res, next) => {
             new HttpError('Invalid inputs passed, please check your data.', 422)
         );
     }
-    
     const { title, luxury_rent, budget_rent, contact_number  } = req.body;
     const hotelId = req.params.id;
 

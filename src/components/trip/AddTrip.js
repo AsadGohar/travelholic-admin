@@ -1,24 +1,28 @@
 import React, { useState } from 'react'
-import axios from 'axios'
+import axios from "../support-components/axios";
+import { toast } from 'react-toastify';
+import {  useSelector } from 'react-redux';
 
-import Itinerary from './Itinerary'
 
 function AddTripForm() {
+  const isAdminLoggedIn = useSelector(state => state.isLoggedIn)
+	const { adminInfo } = isAdminLoggedIn
+
   const [itineraryDays, setItineraryDays] = useState(0)
   const [itinerary, setItinerary] = useState([])
-  const [data, setData] = useState({
-    title: '',  
-    price: '',
-    description: '',
-    rating: '',
-    attractions: '',
-    excludes: '',
-    service_provided: '',
-    start_date: '',
-    end_date: ''
-  })
+  const [start_date, setStartDate] = useState()
+  const [end_date, setEndDate] = useState()
+  const [title, setTitle] = useState('')
+  const [price, setPrice] = useState('')
+  const [description, setDescription] = useState('')
+  const [attractions, setAttractions] = useState('')
+  const [excludes, setExcludes] = useState('')
+  const [service_provided, setServicesProvided] = useState('')
+  const [company, setCompany] = useState('')
+
   const list = []
   const itineraryData = []
+
 
   const pushToItineraryDataArray = (x, y) => {
     var json = { day: x, description: y }
@@ -40,19 +44,11 @@ function AddTripForm() {
       var inputText = document.getElementsByClassName("input-x form-control")[index].value
       pushToItineraryDataArray(index, inputText)
     }
-    //console.log("onSave data" , data)
     setItinerary(itineraryData);
     console.log("onSave itinerary data", itineraryData)
-    console.log("onSave itinerary useState", itinerary)
+    // console.log("onSave itinerary useState", itinerary)
   }
 
-  // const setItinerary = (x)=>{
-  //   console.log('in set iti')
-  //   console.log('x' , x)
-  //   setData({...data,itinerary:x})
-
-  //   console.log(data)
-  // }
   const increase = (e) => {
     e.preventDefault()
     setItineraryDays(itineraryDays + 1)
@@ -61,9 +57,34 @@ function AddTripForm() {
     e.preventDefault()
     setItineraryDays(itineraryDays - 1)
   }
-  const onS = (e) => {
+  const onSubmit = (e) => {
     e.preventDefault()
     console.log(itinerary)
+    const tripObject = {
+      itinerary: itinerary,
+      title: title,
+      price: price,
+      description:description,
+      attractions:attractions,
+      excludes:excludes,
+      service_provided:service_provided,
+      start_date:start_date,
+      end_date:end_date,
+      company:company
+    };
+    axios.post(`/trips/`,tripObject,{
+      headers: {
+        Authorization:`Bearer ${adminInfo.token}` //the token is a variable which holds the token
+      }
+     })
+    .then(res=>{
+      toast.success("Trip Added", {
+        position: toast.POSITION.TOP_CENTER
+      });
+    })
+    .catch(err=>{
+      console.log(err)
+    })
   }
   return (
     <div>
@@ -73,40 +94,44 @@ function AddTripForm() {
           <form className="container mt-2 pt-2 pb-4">
             <div className="form-group">
               <label>Title</label>
-              <input type="text" className="form-control" placeholder='Trip Title' />
+              <input onChange={e=> setTitle(e.target.value)} type="text" className="form-control" placeholder='Trip Title' />
             </div>
             <div className="form-group">
               <label>Price</label>
-              <input type="number" className="form-control" placeholder='Trip Price e.g 15000' />
+              <input onChange={e=> setPrice(e.target.value)} type="number" className="form-control" min='0' placeholder='Trip Price e.g 15000' />
             </div>
             <div className="form-group">
               <label>Description</label>
-              <input type="text" className="form-control" placeholder='Description (max 120 words)' />
+              <input onChange={e=> setDescription(e.target.value)} type="text" className="form-control" placeholder='Description (max 120 words)' />
             </div>
             <div className="form-group">
               <label>Attractions</label>
-              <input type="text" className="form-control" placeholder='Describe trip atrractions' />
+              <input onChange={e=> setAttractions(e.target.value)} type="text" className="form-control" placeholder='Describe trip atrractions' />
             </div>
             <div className="form-group">
               <label>Excludes</label>
-              <input type="text" className="form-control" placeholder='Trip exludes' />
+              <input onChange={e=> setExcludes(e.target.value)} type="text" className="form-control" placeholder='Trip exludes' />
             </div>
             <div className="form-group">
               <label>Services Provided</label>
-              <input type="text" className="form-control" placeholder='Describe services to be provided' />
+              <input onChange={e=> setServicesProvided(e.target.value)} type="text" className="form-control" placeholder='Describe services to be provided' />
             </div>
-            {/* <div className="form-group">
+            <div className="form-group">
+              <label>Company</label>
+              <input onChange={e=> setCompany(e.target.value)} type="text" className="form-control" placeholder='Company Name' />
+            </div>
+            <div className="form-group">
               <label>Start Date</label>
-              <input type="date" className="form-control" />
+              <input onChange={e=>{setStartDate(e.target.value)}} type="date" className="form-control" />
             </div>
             <div className="form-group">
               <label>End Date</label>
-              <input type="date" className="form-control" />
-            </div> */}
+              <input onChange={e=>{setEndDate(e.target.value)}} type="date" className="form-control" />
+            </div>
             <div className="form-group">
               <h5>Itinerary Days : {itineraryDays}</h5>
               <button onClick={increase} className="mt-4 btn btn-primary mr-2">Increase</button>
-              <button onClick={decrease} className="mt-4 btn btn-primary">Decrease</button>
+              <button onClick={decrease} className="mt-4 btn btn-danger">Decrease</button>
             </div>
             {/* <Itinerary set={setItinerary} days = {itineraryDays} /> */}
             {formRender(itineraryDays)}
@@ -115,9 +140,9 @@ function AddTripForm() {
               <div className="form-group">
                 {list}
               </div>
-              <button onClick={onSave} className="mt-4 btn btn-warning">Save</button>
+              <button onClick={onSave} className="btn btn-success mt-1 mb-3">Save</button>
             </div>
-            <button type="submit" onClick={onS} className="mt-4 btn btn-primary">Submit</button>
+            <button type="submit" onClick={onSubmit} className="mt-3 btn btn-dark mb-5">Submit</button>
           </form>
         </div>
       </div>

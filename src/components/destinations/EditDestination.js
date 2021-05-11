@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react';
 import axios, { imagePath } from "../support-components/axios";
 import { produce } from "immer";
 import Loader from "../support-components/Loader"
-
-
+import { toast } from 'react-toastify';
+import {  useSelector } from 'react-redux';
 
 const EditDestination = (props) => {
-
+    const isAdminLoggedIn = useSelector(state => state.isLoggedIn)
+	const { adminInfo } = isAdminLoggedIn
     // Setting up states
     const [title, setTitle] = useState('');
     const [titleImage, setTitleImage] = useState('');
@@ -33,7 +34,7 @@ const EditDestination = (props) => {
             .catch((error) => {
                 console.log(error);
             })
-    }, [])
+    }, [props.match.params.id])
 
     // Setting functions
     const onChangeTitle = (e) => {
@@ -160,10 +161,17 @@ const EditDestination = (props) => {
             history: history
         };
 
-        axios.put('/destinations/' + props.match.params.id, destinationObject)
-            .then(res => console.log(res.data));
+        axios.put('/destinations/' + props.match.params.id, destinationObject,{
+            headers: {
+              Authorization:`Bearer ${adminInfo.token}` //the token is a variable which holds the token
+            }
+           })
+            .then(res => {
+                toast.success("Destination Updated", {
+                    position: toast.POSITION.TOP_CENTER
+                  });
+            });
 
-        alert("Destination updated!");
 
         // Redirecting to view Page
         props.history.push('/all-destinations')
@@ -189,7 +197,7 @@ const EditDestination = (props) => {
                             <label htmlFor="title-image">Title Image</label><br />
                             <input type="file" id="title-image-file" label="Choose File" onChange={onChangeTitleImage} />
                             <p style={{ fontSize: '12px', color: 'green' }}>{titleImage}</p>
-                            {titleImage && <img src={`${imagePath}/${titleImage}`} width={100} />}
+                            {titleImage && <img alt='load' src={`${imagePath}/${titleImage}`} width={100} />}
                             {uploading && <Loader />}
                         </div>
 
@@ -215,7 +223,7 @@ const EditDestination = (props) => {
 
                                         <input type="file" id="attractions-file" label="Choose File" onChange={e => onChangeAttractionPhotos(e, index)} />
 
-                                        {attraction.path && <img src={`${imagePath}/${attraction.path}`} width={60} />}
+                                        {attraction.path && <img alt='load'src={`${imagePath}/${attraction.path}`} width={60} />}
                                         <p style={{ fontSize: '12px', color: 'green' }}>{attraction.path}</p>
                                         {uploading && <Loader />}
                                     </div>
@@ -232,7 +240,7 @@ const EditDestination = (props) => {
                                 {photos.map((photo, index) => (
                                     <div className="photos-input-div p-3" key={index}>
                                         <input type="file" id="photos-file" label="Choose File" onChange={e => onChangePhotos(e, index)} />
-                                        {photo.path && <img src={`${imagePath}/${photo.path}`} width={60} />}
+                                        {photo.path && <img alt='load'src={`${imagePath}/${photo.path}`} width={60} />}
                                         <p style={{ fontSize: '12px', color: 'green' }}>{photo.path}</p>
                                         {uploading && <Loader />}
                                     </div>

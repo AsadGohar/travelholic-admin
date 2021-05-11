@@ -37,7 +37,6 @@ const ViewTransports = () => {
                         <tr>
                             <th>Id</th>
                             <th className="tableHeader-2">Name</th>
-                            <th>Fare</th>
                             <th>Created At</th>
                             <th>Updated At</th>
                             <th>Action</th>

@@ -154,7 +154,7 @@ const isLoggedIn = async (req, res) => {
 
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-        res.send(decoded)
+        res.send({decoded,token})
 
     } catch (err) {
         res.send(false)

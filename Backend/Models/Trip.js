@@ -28,7 +28,7 @@ const TripSchema = mongoose.Schema({
     title: { type: String, required: true },
     price: { type: Number, required: true },
     description: { type: String, required: true },
-    rating: { type: Number, required: true },
+    rating: { type: Number},
     attractions: { type: String, required: true },
     excludes: { type: String, required: true },
     service_provided: { type: String, required: true },
@@ -37,7 +37,7 @@ const TripSchema = mongoose.Schema({
     end_date: { type: Date, required: true },
     itinerary: [ItinerarySchema],
     reviews: [reviewSchema],
-    numReviews: { type: Number, required: true, default: 0 },
+    numReviews: { type: Number},
     company: { type: String, required: true }
 }, { timestamps: true });
 
