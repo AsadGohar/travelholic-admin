@@ -9,7 +9,9 @@ const multer = require('multer')
 const sharp = require('sharp')
 const fs = require("fs")
 const Joi = require('joi');
+const {OAuth2Client} = require('google-auth-library')
 
+const client = new OAuth2Client(`${process.env.GOOGLE_CLIENT_ID}`)
 //IMAGE HANDLING
 const multerStorage = multer.diskStorage({
   // destination:(req,file,cb)=>{
@@ -251,6 +253,7 @@ const getAllUsersAdmin = async (req, res, next) => {
 const getReportedUsersAdmin = async (req, res, next) => {
   var users
   try {
+
     users = await UserModel.find({reported:true})
   }
   catch (err) {
@@ -258,11 +261,11 @@ const getReportedUsersAdmin = async (req, res, next) => {
     return next(error);
   }
 
-  if (!users) {
-    const error = new HttpError('could not find Questions', 404);
-    return next(error);
-  }
-  res.send(users)
+ if (!users) {
+   const error = new HttpError('could not find users',404);
+   return next(error);
+ }
+ res.send(users)
 }
 
 const validation = (values) => {
@@ -275,14 +278,68 @@ const validation = (values) => {
 
   return joiSchema.validate(values)
 }
+//USER SIGN IN
+const logInWithGoogle = async(req,res,next)=>{
 
-module.exports.createUser = createUser
-module.exports.logIn = logIn
-module.exports.getUserById = getUserById
-module.exports.updatePassword = updatePassword
-module.exports.updateUserById = updateUserById
-module.exports.deleteUserById = deleteUserById
-module.exports.uploadProfilePic = uploadProfilePic
-module.exports.getAllUsersAdmin = getAllUsersAdmin
+  const {tokenId} = req.body
+  client.verifyIdToken({idToken:tokenId,audience:`${process.env.GOOGLE_CLIENT_ID}`})
+  .then(async response=> {
+    const {email_verified,name,email}=response.payload
+    if (email_verified){
+      let user
+      try {
+        user = await UserModel.findOne({email:email}).select('+password')
+      } catch (error) {
+        const err = new HttpError('finding users failed, please try again',500);
+        return next(err);
+      }
+      if (!user){
+        let new_user,token
+        try {
+          new_user = UserModel()
+          new_user.name=name
+          new_user.email=email
+          new_user.password=name+email
+          token = new_user.getToken()
+          await new_user.save()
+        }
+        catch (err) {
+          const error = new HttpError('Creating User Failed',500);
+          return next(error);
+        }
+        res.json({
+          _id: new_user._id,
+          name: new_user.name,
+          email: new_user.email,
+          token: token
+        })
+      }
+      else {
+        let token=user.getToken()
+        res.json({
+          _id: user._id,
+          name: user.name,
+          email: user.email,
+          token: token
+        })
+      }
+    }
+  })
+}
+
+const loginWithFacebook = async(req,res,next)=>{
+
+}
+
+
+module.exports.createUser =createUser
+module.exports.logIn =logIn
+module.exports.logInWithGoogle =logInWithGoogle
+module.exports.loginWithFacebook =loginWithFacebook
+module.exports.getUserById =getUserById
+module.exports.updatePassword =updatePassword
+module.exports.updateUserById =updateUserById
+module.exports.deleteUserById =deleteUserById
+module.exports.uploadProfilePic  =uploadProfilePic 
+module.exports.getAllUsersAdmin  =getAllUsersAdmin 
 module.exports.getReportedUsersAdmin = getReportedUsersAdmin
-

@@ -13,5 +13,6 @@ router.get('/reported/users', UserController.getReportedUsersAdmin)
 router.get('/admin/users', UserController.getAllUsersAdmin)
 router.delete('/:id', UserController.deleteUserById)
 router.post('/login', UserController.logIn)
+router.post('/login/google', UserController.logInWithGoogle)
 
 module.exports = router;
