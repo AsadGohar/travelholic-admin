@@ -1,9 +1,14 @@
 const FeedbackModel = require('../Models/Feedback')
 const HttpError = require('../Models/HttpError');
+const {thankyouEmail}= require('../public/emailTemplate')
+const nodemailer = require('nodemailer');
 
 //CREATE FEEDBACK
 const createFeedback = async (req,res,next)=>{
+
+  
   const {name,email,message,phone}= req.body
+  const output = thankyouEmail(name)
   let feedback
   try {
     feedback= FeedbackModel()
@@ -16,6 +21,33 @@ const createFeedback = async (req,res,next)=>{
     const error = new HttpError('Creating Feedback failed',500);
     return next(error);
   }
+
+  var mail = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: 'fa17-bse-137@cuilahore.edu.pk',
+      pass: 'FA17BSE137'
+    },
+  tls: {
+    rejectUnauthorized: false
+}
+  });
+
+  var mailOptions = {
+    from: 'Travelogic',
+    to: email,
+    subject: 'Feedback Response',
+    text: 'Sent!',
+    html: output,
+  }
+
+  mail.sendMail(mailOptions, function(error, info){
+    if (error) {
+      console.log(error);
+    } else {
+      console.log('Email sent With Attachment: ' + info.response);
+    }
+  });
   res.send(feedback)
 }
 //GET ALL FEEDBACK

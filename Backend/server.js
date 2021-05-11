@@ -65,7 +65,6 @@ app.use('/uploads/images', express.static(path.join('uploads', 'images')))
 app.use('/uploads/users', express.static(path.join('uploads', 'users')))
 app.use('/uploads/trips', express.static(path.join('uploads', 'trips')))
 
-
 const csrfProtection = csurf({
     cookie: true
 })
