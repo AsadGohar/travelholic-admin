@@ -1,16 +1,19 @@
 const express = require('express');
 const DestinationControllers = require('../Controllers/DestinationControllers');
 const { check } = require('express-validator');
+const { auth } = require('../middleware/auth')
+// const fileUpload = require('../middleware/fileUpload')
+
 const router = express.Router();
 
--
-    // Create a Destination
-    router.post('/',
-        [
-            check('title').not().isEmpty().isLength({ max: 40 }),
-            check('introduction').not().isEmpty().isLength({ min: 100, max: 600 })
-        ],
-        DestinationControllers.createDestination);
+
+// Create a Destination
+router.post('/',
+    [
+        check('title').not().isEmpty().isLength({ max: 40 }),
+        check('introduction').not().isEmpty().isLength({ min: 10, max: 600 })
+    ],
+    DestinationControllers.createDestination);
 
 //Get all Destinations
 router.get('/', DestinationControllers.getDestinations);
@@ -22,12 +25,16 @@ router.get('/:id', DestinationControllers.getDestinationById);
 router.put('/:id',
     [
         check('title').not().isEmpty().isLength({ max: 40 }),
-        check('introduction').not().isEmpty().isLength({ min: 100, max: 600 })
+        check('introduction').not().isEmpty().isLength({ min: 10, max: 600 })
     ],
     DestinationControllers.updateDestination);
 
 //Delete a Destination
 router.delete('/:id', DestinationControllers.deleteDestination);
+
+
+//Rate a Destination
+router.post('/:id/rating', auth, DestinationControllers.rateDestination);
 
 
 module.exports = router;

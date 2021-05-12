@@ -1,4 +1,4 @@
-const Destination = require('../Models/Destination');
+const DestinationModel = require('../Models/Destination');
 const { validationResult } = require('express-validator');
 const HttpError = require('../Models/HttpError');
 
@@ -12,25 +12,22 @@ const createDestination = async (req, res, next) => {
         );
     }
 
-    const { title, title_image, rating, introduction, guidelines, history, is_trip_planner } = req.body;
+    const { title, title_image, introduction, attraction_photos, photos, guidelines, history } = req.body;
 
-    const createdDestination = new Destination({
+    const createdDestination = new DestinationModel({
         title,
         title_image,
-        rating,
         introduction,
+        attraction_photos,
+        photos,
         guidelines,
-        history,
-        is_trip_planner
+        history
     });
 
     try {
         await createdDestination.save();
     } catch (err) {
-        const error = new HttpError(
-            'Creating destination failed, please try again.',
-            500
-        );
+        const error = new HttpError('Creating destination failed, please try again.', 500);
         return next(error);
     }
 
@@ -42,15 +39,12 @@ const createDestination = async (req, res, next) => {
 const getDestinations = async (req, res, next) => {
     let destinations;
     try {
-        destinations = await Destination.find();
+        destinations = await DestinationModel.find();
     } catch (err) {
-        const error = new HttpError(
-            'Unknown error occured while getting destinations, please try again.',
-            500
-        );
+        const error = new HttpError('Unknown error occured while getting destinations, please try again.', 500);
         return next(error);
     }
-    res.json({destinations: destinations.map(destination => destination.toObject({ getters: true }))});
+    res.send(destinations);
 }
 
 // GET DESTINATION BY ID
@@ -58,20 +52,14 @@ const getDestinationById = async (req, res, next) => {
     const destId = req.params.id;
     let destination;
     try {
-        destination = await Destination.findById(destId);
+        destination = await DestinationModel.findById(destId);
     } catch (err) {
-        const error = new HttpError(
-            'Unknown error occured while getting destination, please try again.',
-            500
-        );
+        const error = new HttpError('Unknown error occured while getting destination, please try again.', 500);
         return next(error);
     }
 
     if (!destination) {
-        const error = new HttpError(
-            'Could not find a destination for the provided id.',
-            404
-        );
+        const error = new HttpError('Could not find a destination for the provided id.', 404);
         return next(error);
     }
 
@@ -86,66 +74,101 @@ const updateDestination = async (req, res, next) => {
             new HttpError('Invalid input. Check your data', 422)
         );
     }
-    
-    const { title, title_image, rating, introduction, guidelines, history, is_trip_planner } = req.body;
+
+    const { title, title_image, introduction, attraction_photos, photos, guidelines, history } = req.body;
     const destId = req.params.id;
 
     let destination;
     try {
-        destination = await Destination.findById(destId);
+        destination = await DestinationModel.findById(destId);
     } catch (err) {
-        const error = new HttpError(
-            'Unknown error occured while updating destination, please try again.',
-            500
-        );
+        const error = new HttpError('Unknown error occured while updating destination, please try again.', 500);
         return next(error);
     }
 
     destination.title = title;
     destination.title_image = title_image;
-    destination.rating = rating;
     destination.introduction = introduction;
+    destination.attraction_photos = attraction_photos;
+    destination.photos = photos;
     destination.guidelines = guidelines;
     destination.history = history;
-    destination.is_trip_planner = is_trip_planner;
-
-    try{
+    try {
         await destination.save();
-    }catch (err){
+    } catch (err) {
         const error = new HttpError(
             'Something went wrong, could not update place.',
             500
-          );
-          return next(error);
+        );
+        return next(error);
     }
     res.json(destination);
 }
+
 
 // DELETE DESTINATION
 const deleteDestination = async (req, res, next) => {
     const destId = req.params.id;
     let destination;
     try {
-        destination = await Destination.findById(destId);
+        destination = await DestinationModel.findById(destId);
     } catch (err) {
-        const error = new HttpError(
-            'Unknown error occured while deleting destination, please try again.',
-            500
-        );
+        const error = new HttpError('Unknown error occured while deleting destination, please try again.', 500);
         return next(error);
     }
 
     try {
         await destination.remove();
     } catch (err) {
-        const error = new HttpError(
-            'Unknown error occured while deleting destination, please try again.',
-            500
-        );
+        const error = new HttpError('Unknown error occured while deleting destination, please try again.', 500);
         return next(error);
     }
 
     res.status(200).json({ message: 'Destination has been deleted' });
+}
+
+
+
+// RATE A DESTINATION
+const rateDestination = async (req, res) => {
+    const { rating } = req.body
+
+    const destination = await DestinationModel.findById(req.params.id)
+
+    if (destination) {
+        const alreadyRated = destination.UserRatings.find(
+            (r) => r.user.toString() === req.user._id.toString()
+          )
+      
+          if (alreadyRated) {
+            res.status(400)
+            throw new Error('You have already rated this destination')
+          }
+
+
+        const userRating = {
+            name: req.user.name,
+            rating: Number(rating),
+            user: req.user._id,
+        }
+
+        destination.UserRatings.push(userRating)
+
+        destination.numRating = destination.UserRatings.length
+
+        destination.rating =
+            destination.UserRatings.reduce((acc, item) => item.rating + acc, 0) /
+            destination.UserRatings.length
+
+        await destination.save()
+
+        res.status(201).json({ message: 'Destination Rated' })
+    } else {
+        res.status(404)
+        throw new Error('Destination not found')
+    }
+
+
 }
 
 
@@ -155,3 +178,4 @@ exports.getDestinations = getDestinations;
 exports.getDestinationById = getDestinationById;
 exports.updateDestination = updateDestination;
 exports.deleteDestination = deleteDestination;
+exports.rateDestination = rateDestination;
