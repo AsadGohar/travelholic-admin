@@ -2,7 +2,10 @@ import React, { useState } from 'react'
 import axios from "../support-components/axios"
 import { toast } from 'react-toastify';
 
-const CreateAdmin = () => {
+
+const CreateAdmin = (props) => {
+
+    const getAdmins =props.refresh
     const [name, setName] = useState('')
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
@@ -17,6 +20,7 @@ const CreateAdmin = () => {
         setName('')
         setUsername('')
         setPassword('')
+        getAdmins()
 
     }
 
