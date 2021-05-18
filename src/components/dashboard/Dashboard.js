@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react'
 import axios from "../support-components/axios"
 import { Link } from 'react-router-dom'
 import "./Dashboard.css"
-import { useDispatch } from 'react-redux'
-import { isLoggedIn } from '../../actions/adminActions'
 
 
 const Dashboard = () => {
