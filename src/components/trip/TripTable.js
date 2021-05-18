@@ -3,6 +3,7 @@ import axios from "../support-components/axios"
 // import { Link } from 'react-router-dom'
 import "../support-components/TableStyle.css"
 import {  useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 
 
@@ -35,6 +36,9 @@ function TripTable(props) {
       <td >{trip.attractions}</td>
       <td >{trip.excludes}</td>
       <td>
+        <Link className="edit-link mr-2 ml-3" to={"/edit-trip/" + props.data._id}>
+          <i className="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i>
+        </Link>
         <i className='btn fa fa-trash fa-2x' onClick={e => { deleteTrip() }} style={{ cursor: 'pointer', color: 'red' }}></i>
       </td>
     </tr>

@@ -62,7 +62,10 @@ const AdminPanel = () => {
 					{adminInfo ?
 						<div className="col-md-3">
 							<Sidemenu />
-						</div> : null}
+						</div> 
+						: 
+						null
+					}
 
 						<div className="col-md-9 pr-5 pt-3">
 							<Switch>
@@ -92,7 +95,7 @@ const AdminPanel = () => {
 										<Route path="/reported-answers" component={ReportedAnswers} />
 										<Route path="/reported-questions" component={ReportedQuestions} />
 										<Route path="/view-trips" component={ViewTrips} />
-										<Route path="/edit-trip" component={EditTrip} />
+										<Route path="/edit-trip/:id" component={EditTrip} />
 										<Route path="/add-trip-image" component={AddImage} />
 										<Route path="/add-new-trip" component={AddTripForm} />
 										<Route path="/add-new-trip-destination" component={AddTripDestination} />
