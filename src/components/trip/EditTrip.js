@@ -84,7 +84,7 @@ function EditTrip(props) {
   }
   const onUpdate = (e) => {
     e.preventDefault()
-    console.log(itinerary)
+    //console.log(itinerary)
     const tripObject = {
       itinerary: itinerary,
       title: title,
@@ -97,19 +97,19 @@ function EditTrip(props) {
       end_date:end_date,
       company:company
     };
+    
     axios.put(`/trips/${props.match.params.id}`,tripObject,{
       headers: {
         Authorization:`Bearer ${adminInfo.token}` //the token is a variable which holds the token
       }
      })
     .then(res=>{
-      toast.success("Trip Updated", {
-        position: toast.POSITION.TOP_CENTER
-      });
+      // toast.success("Trip Updated", {
+      //   position: toast.POSITION.TOP_CENTER
+      // });
+      console.log(res.data)
     })
-    .catch(err=>{
-      console.log(err)
-    })
+    .catch(err=>console.log(err))
   }
   return (
     <div>
@@ -167,7 +167,7 @@ function EditTrip(props) {
               </div>
               <button onClick={onSave} className="btn btn-success mt-1 mb-3">Save</button>
             </div>
-            <button type="submit" onClick={onUpdate} className="mt-3 btn btn-dark mb-5">Update</button>
+            <button onClick={onUpdate} className="mt-3 btn btn-dark mb-5">Update</button>
           </form>
         </div>
       </div>

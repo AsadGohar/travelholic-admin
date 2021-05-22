@@ -21,7 +21,7 @@ function ImageViewer(props) {
 		formData.append('name',title)
 		console.log('formData' +formData.get('id'))
 
-    axios.put('/trips/upload',formData ,{
+    axios.put('/trips/upload/image',formData ,{
       headers: {
         Authorization:`Bearer ${adminInfo.token}` //the token is a variable which holds the token
       }

@@ -45,8 +45,8 @@ const AddRouteToTransport = () => {
         fare:fare
       }
     };
-
-    axios.post('/transports/routes', routeObject,{
+    // console.log('route Ob',routeObject)
+    axios.post('/transports/route/', routeObject,{
       headers: {
         Authorization:`Bearer ${adminInfo.token}` //the token is a variable which holds the token
       }
@@ -56,7 +56,11 @@ const AddRouteToTransport = () => {
         position: toast.POSITION.TOP_CENTER
       });
     })
-    .catch(err=>console.log(err))
+    .catch(err=>
+      toast.warn(err.response.data.message, {
+        position: toast.POSITION.TOP_CENTER
+      })
+      )
 
   }
 

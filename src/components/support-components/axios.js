@@ -10,6 +10,6 @@ const instance = axios.create({
 
 // export const imagePath = 'https://travelogic.herokuapp.com/uploads/images'
 export const imagePath = 'https://travelogic.glitch.me/uploads/images'
-export const tripImagePath = 'https://travelogic.glitch.me/uploads/trips/'
+export const tripImagePath = 'https://travelogic.glitch.me/uploads/trips'
 
 export default instance;
