@@ -13,6 +13,7 @@ const Dashboard = () => {
     const [hotels, setHotels] = useState([])
     const [transports, setTransports] = useState([])
     const [questions, setQuestions] = useState([])
+    const [routes, setRoutes] = useState([])
 
     useEffect(() => {
 
@@ -50,6 +51,10 @@ const Dashboard = () => {
             .then(res => {
                 setQuestions(res.data)
             })
+        axios.get(`/routes`)
+        .then(res => {
+            setRoutes(res.data)
+        })
     }, [])
 
 
@@ -149,6 +154,14 @@ const Dashboard = () => {
                         <div className="card border-info shadow text-info p-3 my-card" ><span className="fas fa-bed" aria-hidden="true"></span></div>
                         <div className="text-success text-center mt-3"><h4>Hotels</h4></div>
                         <div className="text-dark text-center mt-2"><h1>{hotels ? hotels.length : null}</h1></div>
+                    </div>
+                </div>
+
+                <div className="col-md-3">
+                    <div className="card border-info mx-sm-1 p-3 counter-card">
+                        <div className="card border-info shadow text-info p-3 my-card" ><span className="fa fa-road" aria-hidden="true"></span></div>
+                        <div className="text-success text-center mt-3"><h4>Routes</h4></div>
+                        <div className="text-dark text-center mt-2"><h1>{routes ? routes.length : null}</h1></div>
                     </div>
                 </div>
 

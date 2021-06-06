@@ -8,7 +8,7 @@ import {  useSelector } from 'react-redux';
 const TransportTable = (props) => {
     const isAdminLoggedIn = useSelector(state => state.isLoggedIn)
 	const { adminInfo } = isAdminLoggedIn
-    const { _id, name, createdAt, updatedAt } = props.data
+    const { _id, route, company_name, createdAt, updatedAt } = props.data
 
     const deleteTransport = () => {
         axios.delete('/transports/' + props.data._id,{
@@ -27,7 +27,9 @@ const TransportTable = (props) => {
     return (
         <tr>
             <td>{_id}</td>
-            <td>{name}</td>
+            <td>{company_name}</td>
+            <td>{route.destination_from.name}</td>
+            <td>{route.destination_to.name}</td>
             <td>{createdAt.substring(0,10)}</td>
             <td>{updatedAt.substring(0,10)}</td>
             <td style={{columnWidth:100}}>
