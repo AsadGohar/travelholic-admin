@@ -78,13 +78,13 @@ const AddHotel = () => {
             {/* SET LUXURY RENT*/}
             <div className="form-group">
               <label htmlFor="introduction">Luxury Rent</label>
-              <input type="num" min='0' className="form-control" onChange={e=>{setLuxuryRent(e.target.value)}} placeholder="Luxury Rent" />
+              <input type="number" min='0' className="form-control" onChange={e=>{setLuxuryRent(e.target.value)}} placeholder="Luxury Rent" />
             </div>
 
             {/* SET BUDGET RENT */}
             <div className="form-group">
               <label htmlFor="introduction">Budget Rent</label>
-              <input type="num" min='0' className="form-control" onChange={e=>{setBudgetRent(e.target.value)}} placeholder="Budget Rent" />
+              <input type="number" min='0' className="form-control" onChange={e=>{setBudgetRent(e.target.value)}} placeholder="Budget Rent" />
             </div>
 
             {/* SET Contact Num */}

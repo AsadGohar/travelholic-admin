@@ -90,11 +90,6 @@ const Sidemenu = () => {
                                 <i className="fa fa-user fa-lg"></i> Users
                             </li>
                         </Link>
-                        <Link to="/reported-users" className="sidemenu-link">
-                            <li>
-                                <i className="fa fa-user fa-lg"></i> Reported Users
-                            </li>
-                        </Link>
 
                         {/* SUPER ADMIN */}
                         {isSuperAdmin ? (

@@ -1,18 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Table } from 'react-bootstrap'
 import axios from "../support-components/axios"
 import {  useSelector } from 'react-redux';
 
-const AdminList = () => {
-    const [admins, setAdmins] = useState()
+const AdminList = (props) => {
+   
+    const admins = props.newAdmins
+    const getAdmins =props.refresh
     const isAdminLoggedIn = useSelector(state => state.isLoggedIn)
 	const { adminInfo } = isAdminLoggedIn
     console.log(`Bearer ${adminInfo.token}`)
-    let getAdmins
-    useEffect(getAdmins = async () => {
-        const { data } = await (await axios.get('/admin'))
-        setAdmins(data)
-    }, [])
 
     const renderAdminList = () => {
         if (admins) {
@@ -43,11 +40,6 @@ const AdminList = () => {
             <div>
                 <div className="float-left">
                     <h5>Authorized Admins</h5>
-                </div>
-                <div className="float-right">
-                    <i className="fa fa-refresh" aria-hidden="true"
-                        style={{ color: 'green', cursor: 'pointer' }}
-                        onClick={getAdmins()}></i>
                 </div>
             </div>
 

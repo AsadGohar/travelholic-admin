@@ -102,19 +102,19 @@ function AddTripForm() {
             </div>
             <div className="form-group">
               <label>Description</label>
-              <input onChange={e=> setDescription(e.target.value)} type="text" className="form-control" placeholder='Description (max 120 words)' />
+              <textarea rows="4" onChange={e=> setDescription(e.target.value)} type="text" className="form-control" placeholder='Description (max 120 words)' />
             </div>
             <div className="form-group">
               <label>Attractions</label>
-              <input onChange={e=> setAttractions(e.target.value)} type="text" className="form-control" placeholder='Describe trip atrractions' />
+              <textarea rows="4" onChange={e=> setAttractions(e.target.value)} type="text" className="form-control" placeholder='Describe trip atrractions' />
             </div>
             <div className="form-group">
               <label>Excludes</label>
-              <input onChange={e=> setExcludes(e.target.value)} type="text" className="form-control" placeholder='Trip exludes' />
+              <textarea rows="4"t onChange={e=> setExcludes(e.target.value)} type="text" className="form-control" placeholder='Trip exludes' />
             </div>
             <div className="form-group">
               <label>Services Provided</label>
-              <input onChange={e=> setServicesProvided(e.target.value)} type="text" className="form-control" placeholder='Describe services to be provided' />
+              <textarea rows="4" onChange={e=> setServicesProvided(e.target.value)} type="text" className="form-control" placeholder='Describe services to be provided' />
             </div>
             <div className="form-group">
               <label>Company</label>

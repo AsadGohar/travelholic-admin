@@ -13,6 +13,7 @@ export const login = (username, password) => async (dispatch) => {
         }
 
         const { data } = await axios.post('/admin/login', { username, password }, config)
+        console.log(data)
         dispatch({
             type: ADMIN_LOGIN_SUCCESS,
             payload: data.message
@@ -45,7 +46,7 @@ export const isLoggedIn = () => async (dispatch) => {
         })
 
         const { data } = await axios.get('/admin/isloggedin')
-
+        
         dispatch({
             type: IS_ADMIN_LOGGED_IN_SUCCESS,
             payload: data

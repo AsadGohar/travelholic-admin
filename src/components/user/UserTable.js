@@ -1,6 +1,8 @@
 import React,{useState} from 'react'
 import axios from "../support-components/axios";
 import {  useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+
 
 import UserRow from './UserRow'
 
@@ -23,6 +25,7 @@ function UserTable() {
   React.useEffect(getUsers,[])
   return (
     <div>
+      <Link to="/reported-users"><button className="rounded btn-dark mb-2"><i className="fa fa-user fa-lg" aria-hidden="true"></i>  View Reported Users</button></Link>
       <table className="table table-striped">
         <thead className="table-dark  ">
           <tr>

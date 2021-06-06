@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import axios from "../support-components/axios";
 import Button from 'react-bootstrap/Button';
