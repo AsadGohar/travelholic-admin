@@ -3,6 +3,7 @@ import axios from "../support-components/axios"
 // import { Link } from 'react-router-dom'
 import "../support-components/TableStyle.css"
 import {  useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 
 
@@ -10,6 +11,7 @@ function TripTable(props) {
   const isAdminLoggedIn = useSelector(state => state.isLoggedIn)
 	const { adminInfo } = isAdminLoggedIn
   const trip = props.data
+  console.log(trip.excludes)
   const onDelete = props.onDelete;
   const deleteTrip = () => {
     axios.delete(`/trips/${trip._id}`,{
@@ -29,13 +31,14 @@ function TripTable(props) {
       <td >{trip.title}</td>
       <td >{trip.display_image}</td>
       <td >{trip.description}</td>
+      <td >{trip.price}</td>
       <td >{trip.rating}</td>
       <td >{trip.attractions}</td>
       <td >{trip.excludes}</td>
       <td>
-        {/* <Link className="edit-link mr-2 ml-3" to={"/edit-trip/" + trip._id}>
+        <Link className="edit-link mr-2 ml-3" to={"/edit-trip/" + props.data._id}>
           <i className="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i>
-        </Link> */}
+        </Link>
         <i className='btn fa fa-trash fa-2x' onClick={e => { deleteTrip() }} style={{ cursor: 'pointer', color: 'red' }}></i>
       </td>
     </tr>

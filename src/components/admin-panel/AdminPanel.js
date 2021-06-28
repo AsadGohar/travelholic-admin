@@ -16,8 +16,6 @@ import AddDestination from "../destinations/AddDestination";
 import EditDestination from "../destinations/EditDestination";
 import ViewTransports from "../transports/ViewTransports";
 import AddTransport from "../transports/AddTransport";
-import AddRouteToTransport from "../transports/AddRouteToTransport";
-import ViewRoutesTransport from "../transports/ViewRoutesTransport";
 import ViewBookings from "../bookings/ViewBookings";
 import ViewTripReviews from "../reviews/ViewTripReviews";
 import ViewHotels from "../hotels/ViewHotels";
@@ -36,6 +34,8 @@ import ReportedUserTable from "../user/ReportedUserTable";
 import AddTripDestination from "../trip-planner-destinations/AddTripDestination";
 import TripDestinationsTable from "../trip-planner-destinations/TripDestinationsTable";
 import AdminScreen from "../administrator/AdminScreen";
+import RouteTable from "../route/RouteTable";
+import AddRoute from "../route/AddRoute";
 
 
 const AdminPanel = () => {
@@ -62,7 +62,10 @@ const AdminPanel = () => {
 					{adminInfo ?
 						<div className="col-md-3">
 							<Sidemenu />
-						</div> : null}
+						</div> 
+						: 
+						null
+					}
 
 						<div className="col-md-9 pr-5 pt-3">
 							<Switch>
@@ -80,8 +83,6 @@ const AdminPanel = () => {
 										<Route path="/view-transports" component={ViewTransports} />
 										<Route path="/edit-destination/:id" component={EditDestination} />
 										<Route path="/add-new-transport" component={AddTransport} />
-										<Route path="/add-route-transport" component={AddRouteToTransport} />
-										<Route path="/view-route-transport" component={ViewRoutesTransport} />
 										<Route path="/trip-bookings" component={ViewBookings} />
 										<Route path="/trip-reviews" component={ViewTripReviews} />
 										<Route path="/view-hotels" component={ViewHotels} />
@@ -92,13 +93,15 @@ const AdminPanel = () => {
 										<Route path="/reported-answers" component={ReportedAnswers} />
 										<Route path="/reported-questions" component={ReportedQuestions} />
 										<Route path="/view-trips" component={ViewTrips} />
-										<Route path="/edit-trip" component={EditTrip} />
+										<Route path="/edit-trip/:id" component={EditTrip} />
 										<Route path="/add-trip-image" component={AddImage} />
 										<Route path="/add-new-trip" component={AddTripForm} />
 										<Route path="/add-new-trip-destination" component={AddTripDestination} />
 										<Route path="/view-trip-destinations" component={TripDestinationsTable} />
 										<Route path="/registered-users" component={UserTable} />
 										<Route path="/reported-users" component={ReportedUserTable} />
+										<Route path="/view-routes" component={RouteTable} />
+                    <Route path="/add-new-route" component={AddRoute} />
 										<Route path="/administrator" component={AdminScreen} />
 								</>
 								) : 
