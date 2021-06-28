@@ -37,6 +37,8 @@ const ViewTransports = () => {
                         <tr>
                             <th>Id</th>
                             <th className="tableHeader-2">Name</th>
+                            <th className="tableHeader-2">From</th>
+                            <th className="tableHeader-2">To</th>
                             <th>Created At</th>
                             <th>Updated At</th>
                             <th>Action</th>

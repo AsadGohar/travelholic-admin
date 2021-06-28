@@ -43,6 +43,11 @@ const AddHotel = () => {
       toast.success("Hotel Added", {
         position: toast.POSITION.TOP_CENTER
       });
+      setTitle('')
+      setDestination('')
+      setLuxuryRent('')
+      setBudgetRent('')
+      setContactNumber('')
     })
     .catch(err=>console.log(err))
 
