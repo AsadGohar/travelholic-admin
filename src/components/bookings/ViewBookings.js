@@ -38,7 +38,8 @@ const ViewBookings = () => {
                         <tr>
                             <th>Id</th>
                             <th>User Id</th>
-                            <th className="tableHeader-2">Title</th>
+                            <th className="tableHeader-2">Trip Title</th>
+                            <th className="tableHeader-2">Trip Date</th>
                             <th>Name</th>
                             <th className="tableHeader-2">Email</th>
                             <th>City</th>
@@ -47,10 +48,11 @@ const ViewBookings = () => {
                             <th>Seats</th>
                             <th>Total Price</th>
                             <th>Payment Method</th>
-                            <th>Is Paid?</th>
-                            <th>Booking Confirmed?</th>    
+                            <th>Payment Status</th>
+                            <th>Booking Status</th>    
                             <th>Confirm Booking</th>                            
                             <th className="tableHeader-4">Booking Date</th>
+                            <th>Cancel Booking</th>
                             <th>Action</th>
                         </tr>
                     </thead>
