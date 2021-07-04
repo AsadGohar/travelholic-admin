@@ -45,7 +45,7 @@ const AdminPanel = () => {
 	const { loading, adminInfo } = isAdminLoggedIn
 
 	useEffect(() => {
-			dispatch(isLoggedIn())
+		dispatch(isLoggedIn())
 	}, [])
 
 	return (
@@ -53,60 +53,60 @@ const AdminPanel = () => {
 			<div className=" AdminPanel-wrap">
 				<div className="row">
 					<div className="col-md-12">
-					
-					<Navbar />
-					
+
+						<Navbar />
+
 					</div>
 				</div>
 				<div className="row d-flex justify-content-center">
 					{adminInfo ?
 						<div className="col-md-3">
 							<Sidemenu />
-						</div> 
-						: 
+						</div>
+						:
 						null
 					}
 
-						<div className="col-md-9 pr-5 pt-3">
-							<Switch>
-								{loading ? <Spinner animation="border" role="status">
-										<span className="sr-only">Loading...</span>
-								</Spinner> : (
-										<Route path="/login" component={Login} />
-								)}
+					<div className="col-md-9 pr-5 pt-3">
+						<Switch>
+							{loading ? <Spinner animation="border" role="status">
+								<span className="sr-only">Loading...</span>
+							</Spinner> : (
+								<Route path="/login" component={Login} />
+							)}
 
-								{adminInfo ? (
-										<>
-										<Route exact path="/" component={Dashboard} />
-										<Route path="/all-destinations" component={ViewDestinations} />
-										<Route path="/add-new-destination" component={AddDestination} />
-										<Route path="/view-transports" component={ViewTransports} />
-										<Route path="/edit-destination/:id" component={EditDestination} />
-										<Route path="/add-new-transport" component={AddTransport} />
-										<Route path="/trip-bookings" component={ViewBookings} />
-										<Route path="/trip-reviews" component={ViewTripReviews} />
-										<Route path="/view-hotels" component={ViewHotels} />
-										<Route path="/add-hotel" component={AddHotel} />
-										<Route path="/edit-hotel/:id" component={EditHotel} />
-										<Route path="/view-answers" component={AnswerTable} />
-										<Route path="/view-questions" component={QuestionTable} />
-										<Route path="/reported-answers" component={ReportedAnswers} />
-										<Route path="/reported-questions" component={ReportedQuestions} />
-										<Route path="/view-trips" component={ViewTrips} />
-										<Route path="/edit-trip/:id" component={EditTrip} />
-										<Route path="/add-trip-image" component={AddImage} />
-										<Route path="/add-new-trip" component={AddTripForm} />
-										<Route path="/add-new-trip-destination" component={AddTripDestination} />
-										<Route path="/view-trip-destinations" component={TripDestinationsTable} />
-										<Route path="/registered-users" component={UserTable} />
-										<Route path="/reported-users" component={ReportedUserTable} />
-										<Route path="/view-routes" component={RouteTable} />
-                    <Route path="/add-new-route" component={AddRoute} />
-										<Route path="/administrator" component={AdminScreen} />
+							{adminInfo ? (
+								<>
+									<Route exact path="/" component={Dashboard} />
+									<Route path="/all-destinations" component={ViewDestinations} />
+									<Route path="/add-new-destination" component={AddDestination} />
+									<Route path="/view-transports" component={ViewTransports} />
+									<Route path="/edit-destination/:id" component={EditDestination} />
+									<Route path="/add-new-transport" component={AddTransport} />
+									<Route path="/trip-bookings" component={ViewBookings} />
+									<Route path="/trip-reviews" component={ViewTripReviews} />
+									<Route path="/view-hotels" component={ViewHotels} />
+									<Route path="/add-hotel" component={AddHotel} />
+									<Route path="/edit-hotel/:id" component={EditHotel} />
+									<Route path="/view-answers" component={AnswerTable} />
+									<Route path="/view-questions" component={QuestionTable} />
+									<Route path="/reported-answers" component={ReportedAnswers} />
+									<Route path="/reported-questions" component={ReportedQuestions} />
+									<Route path="/view-trips" component={ViewTrips} />
+									<Route path="/edit-trip/:id" component={EditTrip} />
+									<Route path="/add-trip-image" component={AddImage} />
+									<Route path="/add-new-trip" component={AddTripForm} />
+									<Route path="/add-new-trip-destination" component={AddTripDestination} />
+									<Route path="/view-trip-destinations" component={TripDestinationsTable} />
+									<Route path="/registered-users" component={UserTable} />
+									<Route path="/reported-users" component={ReportedUserTable} />
+									<Route path="/view-routes" component={RouteTable} />
+									<Route path="/add-new-route" component={AddRoute} />
+									<Route path="/administrator" component={AdminScreen} />
 								</>
-								) : 
+							) :
 								(
-										<Redirect to='/login' />
+									<Redirect to='/login' />
 								)}
 						</Switch>
 					</div>
