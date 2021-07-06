@@ -34,7 +34,7 @@ function EditTrip(props) {
       setStartDate(res.data.start_date.substring(0,10))
       setEndDate(res.data.end_date.substring(0,10))
       setItineraryDays(res.data.itinerary.length)
-      for (let index = 0; index < itineraryDays; index++) {
+      for (let index = 0; index <res.data.itinerary.length; index++) {
         document.getElementsByClassName("input-x form-control")[index].value = res.data.itinerary[index].description
        
       }
@@ -43,7 +43,7 @@ function EditTrip(props) {
       console.log(err)
     })
 
-  },[props.match.params.id,itineraryDays])
+  },[props.match.params.id])
 
   const list = []
   const itineraryData = []
@@ -80,7 +80,14 @@ function EditTrip(props) {
   }
   const decrease = (e) => {
     e.preventDefault()
-    setItineraryDays(itineraryDays - 1)
+    if (itineraryDays===0){
+      toast.warn("Cannot be Less than 0", {
+        position: toast.POSITION.TOP_CENTER
+      });
+    }
+    else {
+      setItineraryDays(itineraryDays - 1)
+    }
   }
   const onUpdate = (e) => {
     e.preventDefault()

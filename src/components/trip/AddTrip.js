@@ -55,7 +55,14 @@ function AddTripForm() {
   }
   const decrease = (e) => {
     e.preventDefault()
-    setItineraryDays(itineraryDays - 1)
+    if (itineraryDays===0){
+      toast.warn("Cannot be Less than 0", {
+        position: toast.POSITION.TOP_CENTER
+      });
+    }
+    else {
+      setItineraryDays(itineraryDays - 1)
+    }
   }
   const onSubmit = (e) => {
     e.preventDefault()
