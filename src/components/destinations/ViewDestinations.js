@@ -4,6 +4,7 @@ import DestinationTable from "./DestinationTable";
 import Table from 'react-bootstrap/Table';
 import "../support-components/TableStyle.css"
 import { Link } from 'react-router-dom';
+import { Spinner } from 'react-bootstrap';
 
 
 
@@ -20,11 +21,11 @@ const ViewDestinations = () => {
                 console.log(error);
             })
     }
-    useEffect( getDestinations , [])
+    useEffect(getDestinations, [])
 
     const DataTable = () => {
         return destinations.map((res, i) => {
-            return <DestinationTable data={res} key={i} onDelete={getDestinations}/>;
+            return <DestinationTable data={res} key={i} onDelete={getDestinations} />;
         });
     }
 
@@ -35,29 +36,37 @@ const ViewDestinations = () => {
             <div className="row destinations-table">
                 <h5>Destinations:</h5>
                 <div className="ml-3">
-                <Link to={"/add-new-destination"}><button className="rounded btn-dark mb-2"><i className="fa fa-plus-square" aria-hidden="true"></i> New Destination</button></Link>
+                    <Link to={"/add-new-destination"}><button className="rounded btn-dark mb-2"><i className="fa fa-plus-square" aria-hidden="true"></i> New Destination</button></Link>
                 </div>
-                <Table striped bordered hover>
-                    <thead className="thead-dark">
-                        <tr>
-                            <th>Id</th>
-                            <th>Title</th>
-                            <th>Title Image</th>
-                            <th>Rating</th>
-                            <th className="tableHeader-1">Introduction</th>
-                            <th className="tableHeader-2">Attractions</th>
-                            <th className="tableHeader-2">Photos</th>
-                            <th className="tableHeader-1">Guidelines</th>
-                            <th className="tableHeader-1">History</th>
-                            <th className="tableHeader-4">Created At</th>
-                            <th className="tableHeader-4">Updated At</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {DataTable()}
-                    </tbody>
-                </Table>
+
+                {destinations.length === 0 ? (
+                    <div className='row container pt-5 d-block d-flex justify-content-center'>
+                        <Spinner animation="border" role="status" />
+                    </div>
+                ) : (
+                    <Table striped bordered hover>
+                        <thead className="thead-dark">
+                            <tr>
+                                <th>Id</th>
+                                <th>Title</th>
+                                <th>Title Image</th>
+                                <th>Rating</th>
+                                <th className="tableHeader-1">Introduction</th>
+                                <th className="tableHeader-2">Attractions</th>
+                                <th className="tableHeader-2">Photos</th>
+                                <th className="tableHeader-1">Guidelines</th>
+                                <th className="tableHeader-1">History</th>
+                                <th className="tableHeader-4">Created At</th>
+                                <th className="tableHeader-4">Updated At</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {DataTable()}
+                        </tbody>
+                    </Table>
+                )}
+
             </div>
         </div>
     );

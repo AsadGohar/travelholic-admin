@@ -9,6 +9,7 @@ const instance = axios.create({
 // instance.defaults.headers.delete['Authorization']= 
 
 export const imagePath = 'https://server.travelogic.pk/uploads/images'
+export const userImagePath = 'https://server.travelogic.pk/uploads/users'
 export const tripImagePath = 'https://server.travelogic.pk/uploads/trips'
 
 export default instance;

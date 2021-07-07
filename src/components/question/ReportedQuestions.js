@@ -25,6 +25,7 @@ function ReportedQuestions() {
   return (
     <div className="container mt-4" >
        <h5>Reported Questions:</h5>
+       
        <table className="table table-bordered table-striped">
         <thead className="table-dark">
           <tr>

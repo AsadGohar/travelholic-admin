@@ -20,7 +20,7 @@ function QuestionRow(props) {
   }
   return (
       <tr>
-        <th className="text-center" scope="row">{user.name}</th>
+        <th className="text-center" scope="row">{!user ? <p className='text-secondary'>User</p> : user.name }</th>
         <td className="text-center">{statement}</td>
         <td className="text-center">{`${reported}`}</td>
         <td className="text-center">{createdAt.substring(0,10)}</td>
