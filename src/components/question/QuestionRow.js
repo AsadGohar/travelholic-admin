@@ -1,5 +1,7 @@
 import React from 'react'
 import axios from "../support-components/axios";
+import { toast } from 'react-toastify';
+
 
 function QuestionRow(props) {
   
@@ -7,8 +9,10 @@ function QuestionRow(props) {
   const onDelete = props.onDelete;
 
   const deleteQuestion = ()=>{
-    axios.delete(`/api/questions/${_id}`).then((res)=>{
-      console.log(res.data)
+    axios.delete(`/questions/${_id}`).then((res)=>{
+      toast.success("Question Deleted", {
+        position: toast.POSITION.TOP_CENTER
+      });
       onDelete()
     }).catch((err)=>{
       console.log(err)
@@ -16,7 +20,7 @@ function QuestionRow(props) {
   }
   return (
       <tr>
-        <th className="text-center" scope="row">{user.name}</th>
+        <th className="text-center" scope="row">{!user ? <p className='text-secondary'>User</p> : user.name }</th>
         <td className="text-center">{statement}</td>
         <td className="text-center">{`${reported}`}</td>
         <td className="text-center">{createdAt.substring(0,10)}</td>

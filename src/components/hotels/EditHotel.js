@@ -92,13 +92,13 @@ const EditHotel = (props) => {
             {/* SET LUXURY RENT*/}
             <div className="form-group">
               <label htmlFor="introduction">Luxury Rent</label>
-              <input value={luxuryRent}type="num" min='0' className="form-control" onChange={e=>{setLuxuryRent(e.target.value)}} placeholder="Luxury Rent" />
+              <input value={luxuryRent}type="number" min='0' className="form-control" onChange={e=>{setLuxuryRent(e.target.value)}} placeholder="Luxury Rent" />
             </div>
 
             {/* SET BUDGET RENT */}
             <div className="form-group">
               <label htmlFor="introduction">Budget Rent</label>
-              <input value={budgetRent} type="num" min='0' className="form-control" onChange={e=>{setBudgetRent(e.target.value)}} placeholder="Budget Rent" />
+              <input value={budgetRent} type="number" min='0' className="form-control" onChange={e=>{setBudgetRent(e.target.value)}} placeholder="Budget Rent" />
             </div>
 
             {/* SET Contact Num */}

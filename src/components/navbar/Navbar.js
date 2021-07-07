@@ -1,16 +1,18 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useHistory } from 'react-router-dom';
 import { logout } from '../../actions/adminActions';
 import "./Navbar.css";
 
 const Navbar = ({ location }) => {
     const dispatch = useDispatch()
+	let history = useHistory()
 
     const isAdminLoggedIn = useSelector(state => state.isLoggedIn.adminInfo)
 
     const logoutHandler = () => {
         dispatch(logout())
+        // history.push('/login')
         window.location.reload()
     }
 

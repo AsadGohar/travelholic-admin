@@ -1,5 +1,5 @@
 import React,{useState} from 'react'
-import axios, { imagePath } from "../support-components/axios";
+import axios, { tripImagePath } from "../support-components/axios";
 import {  useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 
@@ -21,7 +21,7 @@ function ImageViewer(props) {
 		formData.append('name',title)
 		console.log('formData' +formData.get('id'))
 
-    axios.put('/trips/upload',formData ,{
+    axios.put('/trips/upload/image',formData ,{
       headers: {
         Authorization:`Bearer ${adminInfo.token}` //the token is a variable which holds the token
       }
@@ -40,7 +40,7 @@ function ImageViewer(props) {
     <div>
       <form>
         {
-          display_image && <img src={`${imagePath}/trips/${display_image}`} className="avatar img-circle img-thumbnail" alt="avatar" />
+          display_image && <img src={`${tripImagePath}/${display_image}`} className="avatar img-circle img-thumbnail" alt="avatar" />
         }
         <input id="file-input" type="file" className="mt-2 text-center center-block" onChange={e=>{setFile(e.target.files[0])}} />
         </form>
