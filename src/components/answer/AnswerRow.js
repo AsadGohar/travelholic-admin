@@ -4,7 +4,7 @@ import axios from "../support-components/axios";
 
 function AnswerRow(props) {
 
-  const { _id,user,text,reported,createdAt,updatedAt} = props.data
+  const { _id,user,text,reported,createdAt,updatedAt, question} = props.data
   const onDelete = props.onDelete;
 
   const deleteAnswer = ()=>{
@@ -19,6 +19,7 @@ function AnswerRow(props) {
       <tr>
         <th className="text-center" scope="row">{user.name}</th>
         <td className="text-center">{text}</td>
+        <td className="text-center">{question}</td>
         <td className="text-center">{`${reported}`}</td>
         <td className="text-center">{createdAt.substring(0,10)}</td>
         <td className="text-center">{updatedAt.substring(0,10)}</td>

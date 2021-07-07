@@ -1,9 +1,9 @@
 import React from 'react'
-import axios from "../support-components/axios";
+import axios, { userImagePath } from "../support-components/axios";
 
 
 function UserRow(props) {
-  const { _id,updatedAt,createdAt,name,reported} = props.data
+  const { _id,updatedAt,createdAt,name,reported, email, display_image_name} = props.data
   const onDelete = props.onDelete;
   const deleteUser = ()=>{
     axios.delete(`/users/${_id}`).then((res)=>{
@@ -15,7 +15,10 @@ function UserRow(props) {
   }
   return (
     <tr>
-      <th className="text-center" scope="row">{name}</th>
+      <th className="text-center" scope="row">{_id}</th>
+      <td className="text-center" scope="row">{name}</td>
+      <td className="text-center" scope="row">{<a rel="noreferrer" href={`${userImagePath}/${display_image_name}`} target="_blank"><img alt='loading' src={`${userImagePath}/${display_image_name}`} width='70px' /></a>}</td>
+      <td className="text-center" scope="row">{email}</td>
       <td className="text-center">{`${reported}`}</td>
       <td className="text-center">{createdAt.substring(0,10)}</td>
       <td className="text-center">{updatedAt.substring(0,10)}</td>

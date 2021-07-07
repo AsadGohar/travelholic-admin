@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import axios from "../support-components/axios";
 import { toast } from 'react-toastify';
-import {  useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 
 function AddTripForm() {
   const isAdminLoggedIn = useSelector(state => state.isLoggedIn)
-	const { adminInfo } = isAdminLoggedIn
+  const { adminInfo } = isAdminLoggedIn
 
   const [itineraryDays, setItineraryDays] = useState(0)
   const [itinerary, setItinerary] = useState([])
@@ -55,7 +55,14 @@ function AddTripForm() {
   }
   const decrease = (e) => {
     e.preventDefault()
-    setItineraryDays(itineraryDays - 1)
+    if (itineraryDays===0){
+      toast.warn("Cannot be Less than 0", {
+        position: toast.POSITION.TOP_CENTER
+      });
+    }
+    else {
+      setItineraryDays(itineraryDays - 1)
+    }
   }
   const onSubmit = (e) => {
     e.preventDefault()
@@ -64,27 +71,27 @@ function AddTripForm() {
       itinerary: itinerary,
       title: title,
       price: price,
-      description:description,
-      attractions:attractions,
-      excludes:excludes,
-      service_provided:service_provided,
-      start_date:start_date,
-      end_date:end_date,
-      company:company
+      description: description,
+      attractions: attractions,
+      excludes: excludes,
+      service_provided: service_provided,
+      start_date: start_date,
+      end_date: end_date,
+      company: company
     };
-    axios.post(`/trips/`,tripObject,{
+    axios.post(`/trips/`, tripObject, {
       headers: {
-        Authorization:`Bearer ${adminInfo.token}` //the token is a variable which holds the token
+        Authorization: `Bearer ${adminInfo.token}` //the token is a variable which holds the token
       }
-     })
-    .then(res=>{
-      toast.success("Trip Added", {
-        position: toast.POSITION.TOP_CENTER
-      });
     })
-    .catch(err=>{
-      console.log(err)
-    })
+      .then(res => {
+        toast.success("Trip Added", {
+          position: toast.POSITION.TOP_CENTER
+        });
+      })
+      .catch(err => {
+        console.log(err)
+      })
   }
   return (
     <div>
@@ -94,39 +101,41 @@ function AddTripForm() {
           <form className="container mt-2 pt-2 pb-4">
             <div className="form-group">
               <label>Title</label>
-              <input onChange={e=> setTitle(e.target.value)} type="text" className="form-control" placeholder='Trip Title' />
+              <input onChange={e => setTitle(e.target.value)} type="text" className="form-control" placeholder='Trip Title' />
             </div>
             <div className="form-group">
               <label>Price</label>
-              <input onChange={e=> setPrice(e.target.value)} type="number" className="form-control" min='0' placeholder='Trip Price e.g 15000' />
+              <input onChange={e => setPrice(e.target.value)} type="number" className="form-control" min='0' placeholder='Trip Price e.g 15000' />
             </div>
             <div className="form-group">
               <label>Description</label>
-              <textarea rows="4" onChange={e=> setDescription(e.target.value)} type="text" className="form-control" placeholder='Description (max 120 words)' />
+              <textarea rows="4" onChange={e => setDescription(e.target.value)} type="text" className="form-control" placeholder='Description (max 120 words)' />
             </div>
             <div className="form-group">
               <label>Attractions</label>
-              <textarea rows="4" onChange={e=> setAttractions(e.target.value)} type="text" className="form-control" placeholder='Describe trip atrractions' />
+              <textarea rows="4" onChange={e => setAttractions(e.target.value)} type="text" className="form-control" placeholder='Describe trip atrractions' />
             </div>
             <div className="form-group">
               <label>Excludes</label>
-              <textarea rows="4"t onChange={e=> setExcludes(e.target.value)} type="text" className="form-control" placeholder='Trip exludes' />
+              <textarea rows="4" t onChange={e => setExcludes(e.target.value)} type="text" className="form-control" placeholder='Trip exludes' />
             </div>
             <div className="form-group">
               <label>Services Provided</label>
-              <textarea rows="4" onChange={e=> setServicesProvided(e.target.value)} type="text" className="form-control" placeholder='Describe services to be provided' />
+              <textarea rows="4" onChange={e => setServicesProvided(e.target.value)} type="text" className="form-control" placeholder='Describe services to be provided' />
             </div>
             <div className="form-group">
               <label>Company</label>
-              <input onChange={e=> setCompany(e.target.value)} type="text" className="form-control" placeholder='Company Name' />
+              <input onChange={e => setCompany(e.target.value)} type="text" className="form-control" placeholder='Company Name' />
             </div>
             <div className="form-group">
               <label>Start Date</label>
-              <input onChange={e=>{setStartDate(e.target.value)}} type="date" className="form-control" />
+              <input onChange={e => { setStartDate(e.target.value) }} type="date" placeholder="dd-mm-yyyy" 
+                min="1997-01-01" max="2030-12-31" className="form-control" />
             </div>
             <div className="form-group">
               <label>End Date</label>
-              <input onChange={e=>{setEndDate(e.target.value)}} type="date" className="form-control" />
+              <input onChange={e => { setEndDate(e.target.value) }} type="date" placeholder="dd-mm-yyyy" 
+                min="1997-01-01" max="2030-12-31" className="form-control" />
             </div>
             <div className="form-group">
               <h5>Itinerary Days : {itineraryDays}</h5>
