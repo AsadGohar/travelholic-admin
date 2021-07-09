@@ -58,7 +58,7 @@ function EditTrip(props) {
       list.push(
         <div key={index} className="form-group">
           <label>Day : {index}</label>
-          <input type="text" className="input-x form-control" />
+          <textarea className="input-x form-control" />
         </div>
       )
     }

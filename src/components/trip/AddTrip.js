@@ -29,11 +29,11 @@ function AddTripForm() {
     itineraryData.push(json)
   }
   const formRender = (days) => {
-    for (let index = 1; index <= days; index++) {
+    for (let index = 0; index <= days; index++) {
       list.push(
         <div key={index} className="form-group">
           <label>Day : {index}</label>
-          <input type="text" className="input-x form-control" />
+          <textarea className="input-x form-control" />
         </div>
       )
     }
