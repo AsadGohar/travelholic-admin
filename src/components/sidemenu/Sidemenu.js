@@ -40,7 +40,7 @@ const Sidemenu = () => {
                             <Link to="/add-new-trip" className="sidemenu-link"><li>Add new Trip</li></Link>
                             <Link to="/add-trip-image" className="sidemenu-link"><li>Update Trip Image</li></Link>
                             <Link to="/trip-bookings" className="sidemenu-link"><li>Bookings</li></Link>
-                            <Link to="/trip-reviews" className="sidemenu-link"><li>Trip Reviews</li></Link>
+                            {/* <Link to="/trip-reviews" className="sidemenu-link"><li>Trip Reviews</li></Link> */}
                         </ul>
                         {/* ROUTES MENU */}
                         <li data-toggle="collapse" data-target="#routes" className="collapsed">
