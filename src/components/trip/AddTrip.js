@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import axios from "../support-components/axios";
 import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
-
+import { Spinner } from 'react-bootstrap';
 
 function AddTripForm() {
   const isAdminLoggedIn = useSelector(state => state.isLoggedIn)
@@ -19,6 +19,8 @@ function AddTripForm() {
   const [excludes, setExcludes] = useState('')
   const [service_provided, setServicesProvided] = useState('')
   const [company, setCompany] = useState('')
+  const [submitSpinner, setSubmitSpinner] = useState(false);
+
 
   const list = []
   const itineraryData = []
@@ -66,6 +68,7 @@ function AddTripForm() {
   }
   const onSubmit = (e) => {
     e.preventDefault()
+    setSubmitSpinner(true)
     console.log(itinerary)
     const tripObject = {
       itinerary: itinerary,
@@ -85,11 +88,16 @@ function AddTripForm() {
       }
     })
       .then(res => {
+        setSubmitSpinner(false)
         toast.success("Trip Added", {
           position: toast.POSITION.TOP_CENTER
         });
       })
       .catch(err => {
+        setSubmitSpinner(false)
+        toast.warn(err.response.data.message, {
+          position: toast.POSITION.TOP_CENTER
+        });
         console.log(err)
       })
   }
@@ -151,7 +159,12 @@ function AddTripForm() {
               </div>
               <button onClick={onSave} className="btn btn-success mt-1 mb-3">Save</button>
             </div>
-            <button type="submit" onClick={onSubmit} className="mt-3 btn btn-dark mb-5">Submit</button>
+            {
+              submitSpinner ?
+              <Spinner animation="border" role="status" />
+              :
+              <button type="submit" onClick={onSubmit} className="mt-3 btn btn-dark mb-5">Submit</button>
+            }
           </form>
         </div>
       </div>
