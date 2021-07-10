@@ -64,8 +64,8 @@ const Sidemenu = () => {
                             <i className="fa fa-road fa-lg"></i> Trip Planner Destinations <span className="arrow"></span>
                         </li>
                         <ul className="sub-menu collapse" id="tripplannerdestinations">
-                            <Link to="/add-new-trip-destination" className="sidemenu-link"><li>Add Trip Planner Destination</li></Link>
                             <Link to="/view-trip-destinations" className="sidemenu-link"><li>View All Trip Planner Destinations</li></Link>
+                            <Link to="/add-new-trip-destination" className="sidemenu-link"><li>Add Trip Planner Destination</li></Link>
                         </ul>
 
                         {/* HOTELS MENU */}
