@@ -41,7 +41,7 @@ function RouteTable() {
               <th className="text-center" scope="col">Destination To : </th>
               <th className="text-center" scope="col">Created At</th>
               <th className="text-center" scope="col">Updated At</th>
-              <th className="text-center" scope="col">Delete</th>
+              <th className="text-center" scope="col">Action</th>
             </tr>
           </thead>
           <tbody>

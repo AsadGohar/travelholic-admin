@@ -1,15 +1,19 @@
 import React from 'react'
+import { toast } from 'react-toastify';
 import axios from "../support-components/axios";
-
 
 function AnswerRow(props) {
 
   const { _id, user, text, reported, createdAt, updatedAt, question } = props.data
   const onDelete = props.onDelete;
 
-  const deleteAnswer = () => {
-    axios.delete(`answer/${_id}`).then((res) => {
-      console.log(res.data)
+
+  const deleteAnswer = ()=>{
+    axios.delete(`answers/${_id}`).then((res)=>{
+      toast.success("Answer Deleted", {
+        position: toast.POSITION.TOP_CENTER
+      });
+
       onDelete()
     }).catch((err) => {
       console.log(err)
