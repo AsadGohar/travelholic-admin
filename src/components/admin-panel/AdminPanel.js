@@ -17,7 +17,7 @@ import EditDestination from "../destinations/EditDestination";
 import ViewTransports from "../transports/ViewTransports";
 import AddTransport from "../transports/AddTransport";
 import ViewBookings from "../bookings/ViewBookings";
-import ViewTripReviews from "../reviews/ViewTripReviews";
+// import ViewTripReviews from "../reviews/ViewTripReviews";
 import ViewHotels from "../hotels/ViewHotels";
 import AddHotel from "../hotels/AddHotel";
 import EditHotel from "../hotels/EditHotel";
@@ -84,7 +84,7 @@ const AdminPanel = () => {
 									<Route path="/edit-destination/:id" component={EditDestination} />
 									<Route path="/add-new-transport" component={AddTransport} />
 									<Route path="/trip-bookings" component={ViewBookings} />
-									<Route path="/trip-reviews" component={ViewTripReviews} />
+									{/* <Route path="/trip-reviews" component={ViewTripReviews} /> */}
 									<Route path="/view-hotels" component={ViewHotels} />
 									<Route path="/add-hotel" component={AddHotel} />
 									<Route path="/edit-hotel/:id" component={EditHotel} />

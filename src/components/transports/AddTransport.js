@@ -2,6 +2,8 @@ import React, { useState,useEffect } from 'react';
 import axios from "../support-components/axios";
 import { toast } from 'react-toastify';
 import {  useSelector } from 'react-redux';
+import { Spinner } from 'react-bootstrap';
+
 
 const AddTransport = () => {
 
@@ -12,6 +14,8 @@ const AddTransport = () => {
   const [fare, setFare] = useState('');
   const [route, setRoute] = useState('');
   const [routes, setRoutes] = useState([]);
+  const [submitSpinner, setSubmitSpinner] = useState(false);
+
 
   useEffect(()=>{
     axios.get('/routes/',{
@@ -27,6 +31,7 @@ const AddTransport = () => {
 
   const submitTransport = (e) => {
     e.preventDefault()
+    setSubmitSpinner(true)
 
     const transportObject = {
       company_name: name,
@@ -40,14 +45,21 @@ const AddTransport = () => {
       }
      })
     .then(res => {
-        toast.success("Transport Added", {
-          position: toast.POSITION.TOP_CENTER
-        });
-        setName('')
-        setFare('')
-        setRoute('')
+      setSubmitSpinner(false)
+      toast.success("Transport Added", {
+        position: toast.POSITION.TOP_CENTER
+      });
+      setName('')
+      setFare('')
+      setRoute('')
       })
-    .catch(err=>console.log(err))
+    .catch(err=>{
+      setSubmitSpinner(false)
+      toast.warn(err.response.data.message, {
+        position: toast.POSITION.TOP_CENTER
+      });
+      console.log(err)
+    })
 
   }
 
@@ -62,15 +74,15 @@ const AddTransport = () => {
             {/* SET HOTEL NAME */}
             <div className="form-group">
               <label htmlFor="destination-title">Transport Company Name</label>
-              <input type="text" className="form-control" onChange={e=>{setName(e.target.value)}} placeholder="Transport Name" />
+              <input value={name} type="text" className="form-control" onChange={e=>{setName(e.target.value)}} placeholder="Transport Name" />
             </div>
             <div className="form-group">
               <label htmlFor="destination-title">Fare</label>
-              <input type="number" className="form-control" onChange={e=>{setFare(e.target.value)}} placeholder="Fare" />
+              <input value={fare} type="number" className="form-control" onChange={e=>{setFare(e.target.value)}} placeholder="Fare" />
             </div>
             <div className="form-group">
               <label htmlFor="title-image">Route</label><br/>
-              <select id="to" className="form-control" onChange={e=>setRoute(e.target.value)} >
+              <select value={route} id="to" className="form-control" onChange={e=>setRoute(e.target.value)} >
                 <option></option>
                 {routes.map(route => { 
                   return (
@@ -79,7 +91,12 @@ const AddTransport = () => {
                 })}
               </select>
             </div>
-            <button type="submit" className="btn btn-dark mb-5">Add Transport</button>
+            {
+              submitSpinner ?
+              <Spinner animation="border" role="status" />
+              :
+              <button type="submit" className="btn btn-dark mb-5">Add Transport</button>
+            }
           </form>
         </div>
       </div>

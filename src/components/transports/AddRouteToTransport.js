@@ -2,6 +2,8 @@ import React, { useState,useEffect } from 'react';
 import axios from "../support-components/axios";
 import { toast } from 'react-toastify';
 import {  useSelector } from 'react-redux';
+import { Spinner } from 'react-bootstrap';
+
 
 
 const AddRouteToTransport = () => {
@@ -15,6 +17,8 @@ const AddRouteToTransport = () => {
   const [fare, setFare] = useState('');
   const [destinations,setDestinations] = useState([])
   const [transports,setTransports] = useState([])
+  const [submitSpinner, setSubmitSpinner] = useState(false);
+
 
   useEffect(()=>{
     axios.get('/tripplannerdestination/')
@@ -36,6 +40,7 @@ const AddRouteToTransport = () => {
 
   const submitRoute = (e) => {
     e.preventDefault()
+    setSubmitSpinner(true)
 
     const routeObject = {
       id:id,
@@ -51,15 +56,18 @@ const AddRouteToTransport = () => {
         Authorization:`Bearer ${adminInfo.token}` //the token is a variable which holds the token
       }
      })
-    .then(res => {
+     .then(res => {
+      setSubmitSpinner(false)
       toast.success("Route Added", {
         position: toast.POSITION.TOP_CENTER
       });
+
     })
     .catch(err=>
+     { setSubmitSpinner(false)
       toast.warn(err.response.data.message, {
         position: toast.POSITION.TOP_CENTER
-      })
+      })}
       )
 
   }

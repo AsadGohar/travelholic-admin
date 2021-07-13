@@ -1,12 +1,15 @@
 import React, { useState,useEffect } from 'react';
 import axios from "../support-components/axios"
 import { toast } from 'react-toastify';
+import { Spinner } from 'react-bootstrap';
 
 
 function AddRoute() {
   const [to , setTo] = useState()
   const [from , setFrom] = useState()
   const [destinations, setDestinations] = useState([]);
+  const [submitSpinner, setSubmitSpinner] = useState(false);
+
   useEffect(()=>{
     axios.get('/tripplannerdestination/')
     .then(res => {
@@ -18,10 +21,12 @@ function AddRoute() {
   
   const addRoute = (e) => {
     e.preventDefault();
+    setSubmitSpinner(true)
     if (to===from) {
       toast.warn('To and From Destinations Cannot Match', {
         position: toast.POSITION.TOP_CENTER
       })
+      setSubmitSpinner(false)
     }
     else {
       axios.post('/routes',{to,from})
@@ -31,11 +36,14 @@ function AddRoute() {
         });
         setTo('')
         setFrom('')
+        setSubmitSpinner(false)
+
       })
       .catch(err=>{
         toast.warn(err.response.data.message, {
           position: toast.POSITION.TOP_CENTER
         })
+        setSubmitSpinner(false)
       })
     }
   }
@@ -45,7 +53,7 @@ function AddRoute() {
         <h3>Add Route</h3>
         <div className="form-group">
           <label>Destination From :</label>
-          <select id="from" className="form-control" onChange={e=>setFrom(e.target.value)} >
+          <select value={from} id="from" className="form-control" onChange={e=>setFrom(e.target.value)} >
             <option></option>
             {destinations.map(destination => { 
               return (
@@ -56,7 +64,7 @@ function AddRoute() {
         </div>
         <div className="form-group ">
           <label>Destination To :</label>
-          <select id="to" className="form-control" onChange={e=>setTo(e.target.value)} >
+          <select value={to} id="to" className="form-control" onChange={e=>setTo(e.target.value)} >
             <option></option>
             {destinations.map(destination => { 
               return (
@@ -65,7 +73,12 @@ function AddRoute() {
             })}
           </select>
         </div>
-        <button type="submit" className="btn btn-dark mb-5">Add Hotel</button>
+        {
+          submitSpinner ?
+          <Spinner animation="border" role="status" />
+          :
+          <button type="submit" className="btn btn-dark mb-5">Add Route</button>
+        }
       </form>
     </div>
   )

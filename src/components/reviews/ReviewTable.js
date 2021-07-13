@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import axios from "../support-components/axios";
 import Button from 'react-bootstrap/Button';
+import { toast } from 'react-toastify';
 
 const ReviewTable = (props) => {
     const { _id, text, reported, createdAt } = props.data
@@ -9,6 +10,9 @@ const ReviewTable = (props) => {
     const deleteReview = () => {
         axios.delete('/reviews/' + props.data._id)
             .then((res) => {
+                toast.success("Review Deleted", {
+                    position: toast.POSITION.TOP_CENTER
+                  });
                 console.log('Review successfully deleted!')
             }).catch((error) => {
                 console.log(error)

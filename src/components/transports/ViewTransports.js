@@ -21,9 +21,20 @@ const ViewTransports = () => {
             })
     }, [])
 
+    const getTransport = ()=>{
+        axios.get('/transports')
+            .then(res => {
+                // console.log(res.data);
+                setTransports(res.data);
+            })
+            .catch((error) => {
+                // console.log(error);
+            })
+    }
+
     const DataTable = () => {
         return transports.map((res, i) => {
-            return <TransportTable data={res} key={i} />;
+            return <TransportTable onDelete={getTransport} data={res} key={i} />;
         });
     }
 
@@ -50,6 +61,7 @@ const ViewTransports = () => {
                                 <th className="tableHeader-2">Name</th>
                                 <th >From</th>
                                 <th >To</th>
+                                <th >Fare</th>
                                 <th>Created At</th>
                                 <th>Updated At</th>
                                 <th>Action</th>

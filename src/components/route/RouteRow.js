@@ -1,4 +1,5 @@
 import React from 'react'
+import { toast } from 'react-toastify';
 import axios from "../support-components/axios";
 
 function RouteRow(props) {
@@ -10,6 +11,9 @@ function RouteRow(props) {
     axios.delete(`/routes/${_id}`).then((res)=>{
       console.log(res.data)
       onDelete()
+      toast.success("Route Deleted", {
+        position: toast.POSITION.TOP_CENTER
+      });
     }).catch((err)=>{
       console.log(err)
     });

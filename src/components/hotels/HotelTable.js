@@ -2,12 +2,14 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import axios from "../support-components/axios";
 import {  useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 
 
 const HotelTable = (props) => {
     const isAdminLoggedIn = useSelector(state => state.isLoggedIn)
 	const { adminInfo } = isAdminLoggedIn
     const { _id, title, luxury_rent, budget_rent, contact_number,createdAt,updatedAt } = props.data
+    const onDelete=props.onDelete
 
     const deleteHotel = () => {
         axios.delete('/hotels/' + props.data._id,{
@@ -16,6 +18,10 @@ const HotelTable = (props) => {
             }
            })
             .then((res) => {
+                toast.success("Hotel Deleted", {
+                    position: toast.POSITION.TOP_CENTER
+                  });
+                  onDelete()
                 console.log('Hotel successfully deleted!')
             }).catch((error) => {
                 console.log(error)

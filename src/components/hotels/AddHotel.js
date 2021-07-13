@@ -2,6 +2,8 @@ import React, { useState,useEffect } from 'react';
 import axios from "../support-components/axios";
 import { toast } from 'react-toastify';
 import {  useSelector } from 'react-redux';
+import { Spinner } from 'react-bootstrap';
+
 
 const AddHotel = () => {
   const isAdminLoggedIn = useSelector(state => state.isLoggedIn)
@@ -13,6 +15,8 @@ const AddHotel = () => {
   const [budgetRent,setBudgetRent] = useState('')
   const [contactNumber,setContactNumber] = useState('')
   const [destinations,setDestinations] = useState([])
+  const [submitSpinner, setSubmitSpinner] = useState(false);
+
 
   useEffect(()=>{
     axios.get('/tripplannerdestination/')
@@ -25,7 +29,7 @@ const AddHotel = () => {
 
   const submitHotel = (e) => {
     e.preventDefault()
-
+    setSubmitSpinner(true)
     const hotelObject = {
       title: title,
       destination: destination,
@@ -33,6 +37,7 @@ const AddHotel = () => {
       budget_rent:budgetRent,
       contact_number:contactNumber
     };
+    console.log(hotelObject)
 
     axios.post('/hotels', hotelObject,{
       headers: {
@@ -40,6 +45,7 @@ const AddHotel = () => {
       }
      })
     .then(res => {
+      setSubmitSpinner(false)
       toast.success("Hotel Added", {
         position: toast.POSITION.TOP_CENTER
       });
@@ -49,8 +55,12 @@ const AddHotel = () => {
       setBudgetRent('')
       setContactNumber('')
     })
-    .catch(err=>console.log(err))
-
+    .catch(err=>{
+      setSubmitSpinner(false)
+      toast.warn(err.response.data.message, {
+        position: toast.POSITION.TOP_CENTER
+      });
+      console.log(err)})
   }
 
   return (
@@ -64,13 +74,15 @@ const AddHotel = () => {
             {/* SET HOTEL NAME */}
             <div className="form-group">
               <label htmlFor="destination-title">Hotel Name</label>
-              <input type="text" className="form-control" onChange={e=>{setTitle(e.target.value)}} placeholder="Hotel Title" />
+              <input value={title} type="text" className="form-control" onChange={e=>{setTitle(e.target.value)}} placeholder="Hotel Title" />
             </div>
 
             {/* SET DESTINATION */}
             <div className="form-group">
               <label htmlFor="title-image">Destination</label><br/>
-              <select id="to" className="form-control" onChange={e=>setDestination(e.target.value)} >
+              <select value={destination} id="to" className="form-control" onChange={e=>{
+                console.log('destination',e.target.value)
+                setDestination(e.target.value)}} >
                 <option></option>
                 {destinations.map(destination => { 
                   return (
@@ -83,21 +95,26 @@ const AddHotel = () => {
             {/* SET LUXURY RENT*/}
             <div className="form-group">
               <label htmlFor="introduction">Luxury Rent</label>
-              <input type="number" min='0' className="form-control" onChange={e=>{setLuxuryRent(e.target.value)}} placeholder="Luxury Rent" />
+              <input value={luxuryRent} type="number" min='0' className="form-control" onChange={e=>{setLuxuryRent(e.target.value)}} placeholder="Luxury Rent" />
             </div>
 
             {/* SET BUDGET RENT */}
             <div className="form-group">
               <label htmlFor="introduction">Budget Rent</label>
-              <input type="number" min='0' className="form-control" onChange={e=>{setBudgetRent(e.target.value)}} placeholder="Budget Rent" />
+              <input value={budgetRent} type="number" min='0' className="form-control" onChange={e=>{setBudgetRent(e.target.value)}} placeholder="Budget Rent" />
             </div>
 
             {/* SET Contact Num */}
             <div className="form-group">
               <label htmlFor="introduction">Contact Number</label>
-              <input type="text" className="form-control" onChange={e=>{setContactNumber(e.target.value)}} placeholder="Contact Number" />
+              <input value={contactNumber} type="text" className="form-control" onChange={e=>{setContactNumber(e.target.value)}} placeholder="Contact Number" />
             </div>
-            <button type="submit" className="btn btn-dark mb-5">Add Hotel</button>
+            {
+              submitSpinner ?
+              <Spinner animation="border" role="status" />
+              :
+              <button type="submit" className="btn btn-dark mb-5">Add Hotel</button>
+            }
           </form>
         </div>
       </div>

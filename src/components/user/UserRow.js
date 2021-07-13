@@ -1,4 +1,5 @@
 import React from 'react'
+import { toast } from 'react-toastify';
 import axios, { userImagePath } from "../support-components/axios";
 
 
@@ -8,6 +9,9 @@ function UserRow(props) {
   const deleteUser = ()=>{
     axios.delete(`/users/${_id}`).then((res)=>{
       console.log(res.data)
+      toast.success("User Deleted", {
+        position: toast.POSITION.TOP_CENTER
+      });
       onDelete()
     }).catch((err)=>{
       console.log(err)
@@ -15,10 +19,10 @@ function UserRow(props) {
   }
   return (
     <tr>
-      <th className="text-center" scope="row">{_id}</th>
-      <td className="text-center" scope="row">{name}</td>
-      <td className="text-center" scope="row">{<a rel="noreferrer" href={`${userImagePath}/${display_image_name}`} target="_blank"><img alt='loading' src={`${userImagePath}/${display_image_name}`} width='70px' /></a>}</td>
-      <td className="text-center" scope="row">{email}</td>
+      <th className="text-center">{_id}</th>
+      <td className="text-center" >{name}</td>
+      <td className="text-center" >{<a rel="noreferrer" href={`${userImagePath}/${display_image_name}`} target="_blank"><img alt='loading' src={`${userImagePath}/${display_image_name}`} width='70px' /></a>}</td>
+      <td className="text-center" >{email}</td>
       <td className="text-center">{`${reported}`}</td>
       <td className="text-center">{createdAt.substring(0,10)}</td>
       <td className="text-center">{updatedAt.substring(0,10)}</td>

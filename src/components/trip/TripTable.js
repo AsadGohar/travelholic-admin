@@ -4,8 +4,7 @@ import axios from "../support-components/axios"
 import "../support-components/TableStyle.css"
 import {  useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-
-
+import { toast } from 'react-toastify';
 
 function TripTable(props) {
   const isAdminLoggedIn = useSelector(state => state.isLoggedIn)
@@ -21,6 +20,9 @@ function TripTable(props) {
      }).then((res) => {
       console.log(res.data)
       onDelete()
+      toast.success("Trip Deleted", {
+        position: toast.POSITION.TOP_CENTER
+      });
     }).catch((err) => {
       console.log(err)
     });

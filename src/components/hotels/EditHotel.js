@@ -2,6 +2,8 @@ import React, { useState,useEffect } from 'react';
 import axios from "../support-components/axios";
 import { toast } from 'react-toastify';
 import {  useSelector } from 'react-redux';
+import { Spinner } from 'react-bootstrap';
+
 
 const EditHotel = (props) => {
   const isAdminLoggedIn = useSelector(state => state.isLoggedIn)
@@ -14,6 +16,8 @@ const EditHotel = (props) => {
   const [budgetRent,setBudgetRent] = useState('')
   const [contactNumber,setContactNumber] = useState('')
   const [destinations,setDestinations] = useState([])
+  const [submitSpinner, setSubmitSpinner] = useState(false);
+
 
   useEffect(()=>{
     axios.get('/tripplannerdestination/')
@@ -39,7 +43,7 @@ const EditHotel = (props) => {
 
   const updateHotel = (e) => {
     e.preventDefault()
-
+    setSubmitSpinner(true)
     const hotelObject = {
       title: title,
       destination: destination,
@@ -54,12 +58,17 @@ const EditHotel = (props) => {
       }
      })
     .then(res => {
+      setSubmitSpinner(false)
       toast.success("Hotel Updated", {
         position: toast.POSITION.TOP_CENTER
       });
     })
-    .catch(err=>console.log(err))
-
+    .catch(err=>{console.log(err)
+      setSubmitSpinner(false)
+      toast.warn(err.response.data.message, {
+        position: toast.POSITION.TOP_CENTER
+      });
+    })
   }
 
   return (
@@ -106,7 +115,12 @@ const EditHotel = (props) => {
               <label htmlFor="introduction">Contact Number</label>
               <input value={contactNumber} type="text" className="form-control" onChange={e=>{setContactNumber(e.target.value)}} placeholder="Contact Number" />
             </div>
-            <button type="submit" className="btn btn-dark mb-5">Update Hotel</button>
+            {
+              submitSpinner ?
+              <Spinner animation="border" role="status" />
+              :
+              <button type="submit" className="btn btn-dark mb-5">Update Hotel</button>
+            }
           </form>
         </div>
       </div>

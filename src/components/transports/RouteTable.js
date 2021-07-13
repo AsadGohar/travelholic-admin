@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from "../support-components/axios";
 import {  useSelector } from 'react-redux';
-
+import { toast } from 'react-toastify';
 
 const RouteTable = (props) => {
   const isAdminLoggedIn = useSelector(state => state.isLoggedIn)
@@ -19,6 +19,9 @@ const RouteTable = (props) => {
        })
       .then((res) => {
           console.log('Route deleted!')
+          toast.success("Route Deleted", {
+            position: toast.POSITION.TOP_CENTER
+          });
           getRoutes()
       }).catch((error) => {
           console.log(error)
