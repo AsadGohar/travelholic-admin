@@ -42,7 +42,7 @@ const ViewTripReviews = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {DataTable()}
+                        {DataTable}
                     </tbody>
                 </Table>
             </div>

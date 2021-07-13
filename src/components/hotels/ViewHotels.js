@@ -19,10 +19,19 @@ const ViewHotels = () => {
 				console.log(error);
 			})
 	}, [])
-
+	const getHotels= ()=>{
+		axios.get('/hotels')
+		.then(res => {
+			// console.log(res.data);
+			setHotels(res.data);
+		})
+		.catch((error) => {
+			console.log(error);
+		})
+	}
 	const DataTable = () => {
 		return hotels.map((hotel, i) => {
-			return <HotelTable data={hotel} key={i} />;
+			return <HotelTable onDelete={getHotels} data={hotel} key={i} />;
 		});
 	}
 

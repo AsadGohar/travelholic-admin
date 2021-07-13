@@ -4,7 +4,7 @@ import Button from 'react-bootstrap/Button';
 import { toast } from 'react-toastify';
 
 const BookingTable = (props) => {
-    const { _id, user, title, name, email, city, address, phoneNo, seats, paymentMethod, totalPrice, isPaid, booking_status,startDate, endDate, createdAt } = props.data
+    const { _id, user, title, name, email, city, address, phoneNo, seats, paymentMethod, totalPrice, isPaid, booking_status, startDate, endDate, createdAt } = props.data
     const onUpdate = props.getBookings
 
     const deleteBooking = () => {
@@ -48,7 +48,11 @@ const BookingTable = (props) => {
             <td>{_id}</td>
             <td>{user}</td>
             <td style={{ fontWeight: 'bold' }}>{title}</td>
-            <td>{`${startDate.substring(0, 10)} - ${endDate.substring(0,10)}`}</td>
+            {startDate && endDate ? (
+                <td>{`${startDate.substring(0, 10)} - ${endDate.substring(0, 10)}`}</td>
+            ) : (
+                <td></td>
+            )}
             <td>{name}</td>
             <td>{email}</td>
             <td>{city}</td>

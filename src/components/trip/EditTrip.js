@@ -2,6 +2,8 @@ import React, { useState,useEffect } from 'react'
 import axios from "../support-components/axios";
 import { toast } from 'react-toastify';
 import {  useSelector } from 'react-redux';
+import { Spinner } from 'react-bootstrap';
+
 
 
 function EditTrip(props) {
@@ -20,6 +22,7 @@ function EditTrip(props) {
   const [excludes, setExcludes] = useState('')
   const [service_provided, setServicesProvided] = useState('')
   const [company, setCompany] = useState('')
+  const [submitSpinner, setSubmitSpinner] = useState(false);
 
   useEffect(()=>{
     axios.get(`/trips/${props.match.params.id}`)
@@ -58,7 +61,7 @@ function EditTrip(props) {
       list.push(
         <div key={index} className="form-group">
           <label>Day : {index}</label>
-          <input type="text" className="input-x form-control" />
+          <textarea className="input-x form-control" />
         </div>
       )
     }
@@ -92,6 +95,7 @@ function EditTrip(props) {
   const onUpdate = (e) => {
     e.preventDefault()
     //console.log(itinerary)
+    setSubmitSpinner(true)
     const tripObject = {
       itinerary: itinerary,
       title: title,
@@ -111,12 +115,18 @@ function EditTrip(props) {
       }
      })
     .then(res=>{
-      // toast.success("Trip Updated", {
-      //   position: toast.POSITION.TOP_CENTER
-      // });
+      setSubmitSpinner(false)
+      toast.success("Trip Updated", {
+        position: toast.POSITION.TOP_CENTER
+      });
       console.log(res.data)
     })
-    .catch(err=>console.log(err))
+    .catch(err=>{
+      setSubmitSpinner(false)
+      toast.warn(err.response.data.message, {
+        position: toast.POSITION.TOP_CENTER
+      });
+      console.log(err)})
   }
   return (
     <div>
@@ -174,7 +184,12 @@ function EditTrip(props) {
               </div>
               <button onClick={onSave} className="btn btn-success mt-1 mb-3">Save</button>
             </div>
-            <button onClick={onUpdate} className="mt-3 btn btn-dark mb-5">Update</button>
+            {
+              submitSpinner ?
+              <Spinner animation="border" role="status" />
+              :
+              <button onClick={onUpdate} className="mt-3 btn btn-dark mb-5">Update</button>
+            }
           </form>
         </div>
       </div>
